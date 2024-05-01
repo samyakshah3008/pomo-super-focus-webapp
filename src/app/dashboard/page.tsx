@@ -1,15 +1,14 @@
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Signin from "../../components/Signin";
+import Dashboard from "../../components/Dashboard";
 
 const Page = async () => {
   const accessToken = getCookie("accessToken", { cookies });
-  if (accessToken) {
-    redirect("/dashboard");
+  if (!accessToken) {
+    redirect("/signin");
   }
-
-  return <Signin />;
+  return <Dashboard />;
 };
 
 export default Page;
