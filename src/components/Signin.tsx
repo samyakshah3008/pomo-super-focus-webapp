@@ -1,5 +1,6 @@
 "use client";
 import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Signin = () => {
@@ -9,8 +10,27 @@ const Signin = () => {
     password: "",
   });
   const [newUserInfo, setNewUserInfo] = useState(null);
+  const router = useRouter();
 
   const createNewUser = async () => {
+    try {
+      const res: any = await fetch(
+        "http://localhost:8000/api/v1/users/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      loginUser();
+    } catch (error) {
+      console.error(error, "something went wrong");
+    }
+  };
+
+  const loginUser = async () => {
     try {
       const res: any = await fetch("http://localhost:8000/api/v1/users/login", {
         method: "POST",
@@ -19,16 +39,15 @@ const Signin = () => {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
       const { accessToken, refreshToken } = data?.data;
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       setCookie("accessToken", accessToken);
       setCookie("refreshToken", refreshToken);
-      console.log(data, "ressss");
       setNewUserInfo(data);
-
-      return data;
+      router.push("/dashboard");
     } catch (error) {
       console.error(error, "something went wrong");
     }
