@@ -1,5 +1,11 @@
 "use client";
-import { setCookie } from "cookies-next";
+import { saveAccessAndRefreshToken } from "@/lib/localstorage";
+import {
+  signUpGuestUserService,
+  verifyOTPAndSignUpUserService,
+  verifyUserAndSendOTPService,
+} from "@/services/authentication/signup";
+import { shallUserRedirectToSignin } from "@/utils/authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,54 +16,69 @@ const Signup = () => {
     lastName: "",
   });
   const [newUserInfo, setNewUserInfo] = useState(null);
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
-  const createNewUser = async () => {
+  const verifyUserAndSendOTP = async () => {
+    const payload = { userDetails: formData };
     try {
-      const res: any = await fetch(
-        "http://localhost:8000/api/v1/users/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const resJSON = await res.json();
-      console.log(resJSON);
-      if (res?.status != 409) {
-        loginUser();
+      setIsLoading(true);
+      const response = await verifyUserAndSendOTPService(payload);
+      if (shallUserRedirectToSignin(response)) {
+        router.replace("/signin");
+        setOtpSent(false);
+      } else {
+        setOtpSent(true);
+        // show otp sent success
       }
-
-      console.log(res, "res");
     } catch (error) {
       console.error(error, "something went wrong");
+      setOtpSent(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const loginUser = async () => {
+  const verifyOTPAndSignUpUser = async () => {
+    const payload = { userDetails: formData, otp };
     try {
-      const res: any = await fetch("http://localhost:8000/api/v1/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      const { accessToken, refreshToken } = data?.data;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      setCookie("accessToken", accessToken);
-      setCookie("refreshToken", refreshToken);
-      setNewUserInfo(data);
+      setIsLoading(true);
+      const {
+        data: { accessToken, refreshToken },
+      } = await verifyOTPAndSignUpUserService(payload);
+      saveAccessAndRefreshToken(accessToken, refreshToken);
       router.push("/dashboard");
     } catch (error) {
-      console.error(error, "something went wrong");
+      console.error(error, "logged error");
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const signUpGuestUser = async () => {
+    try {
+      setIsLoading(true);
+      const {
+        data: { accessToken, refreshToken },
+      } = await signUpGuestUserService();
+      saveAccessAndRefreshToken(accessToken, refreshToken);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error, "logged error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const verifyOTPAndSignUpUserClickHandler = () => {
+    verifyOTPAndSignUpUser();
+  };
+
+  const signUpGuestUserClickHandler = () => {
+    signUpGuestUser();
   };
 
   const formDataChangeHandler = (e: any) => {
@@ -65,12 +86,16 @@ const Signup = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const submitForm = () => {
+  const submitFormClickHandler = () => {
     if (!formData.email || !formData.firstName) {
       console.log("all fields are required");
     } else {
-      createNewUser();
+      verifyUserAndSendOTP();
     }
+  };
+
+  const otpInputChangeHandler = (e: any) => {
+    setOtp(e.target.value);
   };
 
   return (
@@ -100,7 +125,40 @@ const Signup = () => {
         value={formData.lastName}
         onChange={(e) => formDataChangeHandler(e)}
       />
-      <button onClick={submitForm}>Submit</button>
+
+      {otpSent ? (
+        <div>
+          <div>OTP: </div>
+          <input
+            style={{ border: "2px solid black" }}
+            name="otp"
+            placeholder="000000"
+            value={otp}
+            onChange={otpInputChangeHandler}
+          />
+        </div>
+      ) : null}
+
+      <div>
+        {!otpSent ? (
+          <button disabled={isLoading} onClick={submitFormClickHandler}>
+            Submit
+          </button>
+        ) : (
+          <button
+            disabled={isLoading}
+            onClick={verifyOTPAndSignUpUserClickHandler}
+          >
+            Verify OTP
+          </button>
+        )}
+      </div>
+
+      <div>
+        <button disabled={isLoading} onClick={signUpGuestUserClickHandler}>
+          POMO SUPER GUEST LOGIN?{" "}
+        </button>
+      </div>
     </div>
   );
 };
