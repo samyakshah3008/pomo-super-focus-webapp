@@ -1,13 +1,13 @@
 "use client";
 import { setCookie } from "cookies-next";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Signin = () => {
+const Signup = () => {
   const [formData, setFormData] = useState({
     email: "",
-    username: "",
-    password: "",
+    firstName: "",
+    lastName: "",
   });
   const [newUserInfo, setNewUserInfo] = useState(null);
   const router = useRouter();
@@ -24,7 +24,14 @@ const Signin = () => {
           body: JSON.stringify(formData),
         }
       );
-      loginUser();
+
+      const resJSON = await res.json();
+      console.log(resJSON);
+      if (res?.status != 409) {
+        loginUser();
+      }
+
+      console.log(res, "res");
     } catch (error) {
       console.error(error, "something went wrong");
     }
@@ -59,7 +66,7 @@ const Signin = () => {
   };
 
   const submitForm = () => {
-    if (!formData.email || !formData.username || !formData.password) {
+    if (!formData.email || !formData.firstName) {
       console.log("all fields are required");
     } else {
       createNewUser();
@@ -68,29 +75,29 @@ const Signin = () => {
 
   return (
     <div>
-      <div>This is a signin page</div>
+      <div>This is a signup page</div>
       <div>Email: </div>
       <input
         style={{ border: "2px solid black" }}
         name="email"
-        placeholder="Enter email"
+        placeholder="Email"
         value={formData.email}
         onChange={(e) => formDataChangeHandler(e)}
       />
-      <div>Username: </div>
+      <div>First Name: </div>
       <input
         style={{ border: "2px solid black" }}
-        name="username"
-        placeholder="Enter username"
-        value={formData.username}
+        name="firstName"
+        placeholder="First Name"
+        value={formData.firstName}
         onChange={(e) => formDataChangeHandler(e)}
       />
-      <div>Password: </div>
+      <div>Last Name: </div>
       <input
-        name="password"
         style={{ border: "2px solid black" }}
-        placeholder="Enter a strong password"
-        value={formData.password}
+        name="lastName"
+        placeholder="Last Name"
+        value={formData.lastName}
         onChange={(e) => formDataChangeHandler(e)}
       />
       <button onClick={submitForm}>Submit</button>
@@ -98,4 +105,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Signup;
