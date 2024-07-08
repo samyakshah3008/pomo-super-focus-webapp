@@ -1,9 +1,10 @@
 "use client";
 import { saveAccessAndRefreshToken } from "@/lib/localstorage";
 import {
-  sendOTPToRegisteringUserService,
   verifyOTPAndSignInUserService,
+  verifyUserAndSendOTPService,
 } from "@/services/authentication/signin";
+import { shallUserRedirectToSignup } from "@/utils/authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,40 +15,45 @@ const Signin = () => {
   const [newUserInfo, setNewUserInfo] = useState(null);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
-  const sendOtpToSigningInUser = async () => {
+  const verifyUserAndSendOTP = async () => {
     const payload = { userDetails: formData };
 
     try {
-      setOtpSent(true);
-      const response = await sendOTPToRegisteringUserService(payload);
-      console.log(response);
-      if (response?.data?.redirect && response?.data?.flow == "signin") {
+      setIsLoading(true);
+      const response = await verifyUserAndSendOTPService(payload);
+      if (shallUserRedirectToSignup(response)) {
         router.replace("/signup");
         setOtpSent(false);
       } else {
+        setOtpSent(true);
+
         // show otp sent success
       }
     } catch (error) {
       console.error(error, "logged error");
       setOtpSent(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const verifyAndRegisterUser = async () => {
+  const verifyOTPAndSignInUser = async () => {
     const payload = { userDetails: formData, otp };
     try {
+      setIsLoading(true);
       const {
-        data: {
-          data: { accessToken, refreshToken },
-        },
+        data: { accessToken, refreshToken },
       } = await verifyOTPAndSignInUserService(payload);
       saveAccessAndRefreshToken(accessToken, refreshToken);
       router.push("/dashboard");
     } catch (error) {
       console.error(error, "logged error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,7 +70,7 @@ const Signin = () => {
     if (!formData.email) {
       console.log("email is required");
     } else {
-      sendOtpToSigningInUser();
+      verifyUserAndSendOTP();
     }
   };
 
@@ -94,11 +100,13 @@ const Signin = () => {
 
       <div>
         {!otpSent ? (
-          <button disabled={otpSent} onClick={submitForm}>
+          <button disabled={isLoading} onClick={submitForm}>
             Submit
           </button>
         ) : (
-          <button onClick={verifyAndRegisterUser}>Verify OTP</button>
+          <button disabled={isLoading} onClick={verifyOTPAndSignInUser}>
+            Verify OTP
+          </button>
         )}
       </div>
     </div>

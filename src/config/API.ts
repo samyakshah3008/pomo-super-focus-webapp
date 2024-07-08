@@ -132,7 +132,7 @@ export const postWithToken = (
         },
       })
       .then((result) => {
-        resolve(result);
+        resolve(result.data);
       })
       .catch(async (error) => {
         if (error?.response?.data?.Error == "invalid or expired jwt") {

@@ -4,7 +4,7 @@ import {
   verifyOTPToSigningInUserEndpoint,
 } from "@/constants/APIEndpoints";
 
-export const sendOTPToRegisteringUserService = async (payload: {}) => {
+export const verifyUserAndSendOTPService = async (payload: {}) => {
   const response = await postWithoutToken(
     sendOTPToSigningInUserEndpoint,
     payload
