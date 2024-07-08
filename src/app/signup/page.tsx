@@ -1,14 +1,15 @@
+import Signup from "@/components/Authentication/Signup/Signup";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Dashboard from "../../components/Dashboard/Dashboard";
 
 const Page = async () => {
   const accessToken = getCookie("accessToken", { cookies });
-  if (!accessToken) {
-    redirect("/signin");
+  if (accessToken) {
+    redirect("/dashboard");
   }
-  return <Dashboard />;
+
+  return <Signup />;
 };
 
 export default Page;
