@@ -32,6 +32,10 @@ export const saveAccessAndRefreshToken = (
 ): void => {
   setLocalStorageItem("accessToken", accessToken);
   setLocalStorageItem("refreshToken", refreshToken);
-  setCookie("accessToken", accessToken);
-  setCookie("refreshToken", refreshToken);
+  setCookie("accessToken", accessToken, {
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  setCookie("refreshToken", refreshToken, {
+    maxAge: 60 * 60 * 24 * 7,
+  });
 };
