@@ -1,9 +1,10 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
 import { v4 as uuidv4 } from "uuid";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
-  setLocalStorageItem,
+  saveAccessAndRefreshToken,
 } from "../lib/localstorage";
 
 var axioInstance = axios.create();
@@ -43,7 +44,7 @@ export const get = (
     axioInstance
       .get(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie("accessToken"),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -51,12 +52,12 @@ export const get = (
       })
       .then((result) => {
         resolve({
-          data: result,
+          data: result.data,
           headers: transformHeaders(result.headers),
         });
       })
       .catch(async (error) => {
-        if (error?.response?.data.Error === "invalid or expired jwt") {
+        if (error?.response?.data?.data?.message === "jwt expired") {
           await getJwt(nodeURL, formBody, headers, get).then((res) => {
             resolve(res);
           });
@@ -223,20 +224,22 @@ export const getJwt = (
 ) =>
   new Promise((resolve, reject) => {
     var axioInstance = axios.create();
-    axioInstance.defaults.headers["refresh"] =
-      getLocalStorageItem("refreshToken");
+    // axioInstance.defaults.headers["refresh"] =
+    //   getLocalStorageItem("refreshToken");
 
     axioInstance
       .post(
-        process.env.NEXT_PUBLIC_BASE_URL + "/user/refresh-access-token",
-        { refreshToken: getLocalStorageItem("refreshToken") },
+        process.env.NEXT_PUBLIC_BASE_URL + "/users/refresh-access-token",
+        { refreshToken: getCookie("refreshToken") },
         {
           headers: { "cosmofeed-request-id": uuidv4() },
         }
       )
       .then(async (result) => {
-        setLocalStorageItem("accessToken", result.data.accessToken);
-        setLocalStorageItem("refreshToken", result.data.refreshToken);
+        saveAccessAndRefreshToken(
+          result.data?.data?.accessToken,
+          result.data?.data?.refreshToken
+        );
         if (callBack) {
           callBack(nodeURL, formBody || {}, headers || {}).then((res: any) => {
             resolve(res);
