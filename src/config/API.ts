@@ -136,7 +136,7 @@ export const postWithToken = (
         resolve(result.data);
       })
       .catch(async (error) => {
-        if (error?.response?.data?.Error == "invalid or expired jwt") {
+        if (error?.response?.data?.data?.message === "jwt expired") {
           await getJwt(
             nodeURL,
             formBody || {},
@@ -177,6 +177,36 @@ export const put = (
           );
         } else {
           reject(error);
+        }
+      });
+  });
+
+export const patch = (
+  nodeURL: string,
+  formBody?: Record<string, any>,
+  headers?: Headers,
+  props?: Props
+): Promise<Response | any> =>
+  new Promise((resolve, reject) => {
+    axioInstance
+      .patch(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
+        headers: {
+          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          "pomosuperfocus-request-id": uuidv4(),
+        },
+      })
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch(async (error) => {
+        if (error?.response?.data?.Error == "invalid or expired jwt") {
+          await getJwt(nodeURL, formBody || {}, headers || {}, put).then(
+            (res) => {
+              resolve(res);
+            }
+          );
+        } else {
+          reject(error?.response?.data);
         }
       });
   });
@@ -235,7 +265,7 @@ export const getJwt = (
           headers: { "cosmofeed-request-id": uuidv4() },
         }
       )
-      .then(async (result) => {
+      .then((result) => {
         saveAccessAndRefreshToken(
           result.data?.data?.accessToken,
           result.data?.data?.refreshToken
