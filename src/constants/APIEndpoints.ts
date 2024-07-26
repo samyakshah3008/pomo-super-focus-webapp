@@ -11,3 +11,8 @@ export const guestUserSignUpEndpoint = "/users/signup/guest";
 
 // goals CRUD
 export const goalsCRUDEndpoint = "/users/goals";
+
+// pomodoros
+
+export const logPomodoroSessionEndpoint = "/pomodoros/log-session";
+export const activePomodoroSessionEndpoint = "/pomodoros/active-pomodoro";
