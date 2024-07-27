@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import TimerWidget from "./TimerWidget";
+import DailyProgress from "./DailyProgressWidget/DailyProgressWidget";
+import TimerWidget from "./TimerWidget/TimerWidget";
 
 const SuperFocus = () => {
   const [activeState, setActiveState] = useState("Pomodoro");
@@ -27,6 +28,8 @@ const SuperFocus = () => {
         setStartNewSession={setStartNewSession}
       />
       <div>Tasks panel</div>
+
+      <DailyProgress />
     </div>
   );
 };
