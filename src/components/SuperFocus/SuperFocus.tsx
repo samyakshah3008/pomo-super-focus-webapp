@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import DailyProgress from "./DailyProgress/DailyProgress";
+import DailyProgress from "./DailyProgressWidget/DailyProgressWidget";
 import TimerWidget from "./TimerWidget/TimerWidget";
 
 const SuperFocus = () => {
