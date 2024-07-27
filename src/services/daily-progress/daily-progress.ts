@@ -1,7 +1,8 @@
-import { get } from "@/config/API";
+import { get, patch } from "@/config/API";
 import {
   dailyProgressEndpoint,
   streakDetailsEndpoint,
+  updateDailyFocusTimeGoalEndpoint,
 } from "@/constants/APIEndpoints";
 
 const getDailyProgressStatsService = async (userId: {}) => {
@@ -14,4 +15,13 @@ const getStreakDetailsService = async (userId: {}) => {
   return response;
 };
 
-export { getDailyProgressStatsService, getStreakDetailsService };
+const updateDailyFocusTimeService = async (payload: {}) => {
+  const response = await patch(updateDailyFocusTimeGoalEndpoint, payload);
+  return response;
+};
+
+export {
+  getDailyProgressStatsService,
+  getStreakDetailsService,
+  updateDailyFocusTimeService,
+};
