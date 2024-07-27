@@ -20,4 +20,7 @@ export const activePomodoroSessionEndpoint = "/pomodoros/active-pomodoro";
 // daily progress
 
 export const dailyProgressEndpoint = "/users/daily-progress";
+
+// streaks
 export const streakDetailsEndpoint = "/streaks/log-streak";
+export const updateDailyFocusTimeGoalEndpoint = "/streaks/daily-goal";

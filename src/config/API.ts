@@ -2,7 +2,6 @@ import axios from "axios";
 import { getCookie } from "cookies-next";
 import { v4 as uuidv4 } from "uuid";
 import {
-  getLocalStorageItem,
   removeLocalStorageItem,
   saveAccessAndRefreshToken,
 } from "../lib/localstorage";
@@ -122,13 +121,13 @@ export const postWithToken = (
     //     headers.headers["content-type"];
     // }
     axioInstance.defaults.headers["authorization"] =
-      "Bearer " + getLocalStorageItem("accessToken");
+      "Bearer " + getCookie("accessToken");
 
     axioInstance
       .post(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
           "pomosuperfocus-request-id": uuidv4(),
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie("accessToken"),
           ...headers,
         },
       })
@@ -161,7 +160,7 @@ export const put = (
     axioInstance
       .put(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie("accessToken"),
           "pomosuperfocus-request-id": uuidv4(),
         },
       })
@@ -191,7 +190,7 @@ export const patch = (
     axioInstance
       .patch(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie("accessToken"),
           "pomosuperfocus-request-id": uuidv4(),
         },
       })
@@ -221,7 +220,7 @@ export const deleteRequest = (
     axioInstance
       .delete(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie("accessToken"),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -266,6 +265,7 @@ export const getJwt = (
         }
       )
       .then((result) => {
+        console.log(result, "result");
         saveAccessAndRefreshToken(
           result.data?.data?.accessToken,
           result.data?.data?.refreshToken
