@@ -24,3 +24,7 @@ export const dailyProgressEndpoint = "/users/daily-progress";
 // streaks
 export const streakDetailsEndpoint = "/streaks/log-streak";
 export const updateDailyFocusTimeGoalEndpoint = "/streaks/daily-goal";
+
+// leaderboard
+
+export const getWeeklyLeaderboardEndpoint = "/leaderboard/weekly";
