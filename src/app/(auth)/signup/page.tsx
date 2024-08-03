@@ -1,7 +1,13 @@
+import Signup from "@/components/Authentication/Signup/Signup";
 import { getCookie } from "cookies-next";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Signin from "../../components/Authentication/Signin/Signin";
+
+export const metadata: Metadata = {
+  title: "Signup",
+  description: "PomoSuperFocus Signup page for new PomoSuperUsers!",
+};
 
 const Page = async () => {
   const accessToken = getCookie("accessToken", { cookies });
@@ -9,7 +15,7 @@ const Page = async () => {
     redirect("/dashboard");
   }
 
-  return <Signin />;
+  return <Signup />;
 };
 
 export default Page;
