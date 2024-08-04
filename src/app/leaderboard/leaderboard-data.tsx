@@ -3,7 +3,7 @@
 import { getWeeklyLeaderboardDetailsService } from "@/services/leaderboard/leaderboard";
 import { useEffect, useState } from "react";
 
-const Leaderboard = () => {
+const LeaderboardData = () => {
   const [leaderboardList, setLeaderboardList] = useState([]);
   const getWeeklyLeaderboardDetails = async () => {
     try {
@@ -36,4 +36,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default LeaderboardData;

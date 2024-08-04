@@ -9,7 +9,7 @@ import {
 } from "@/services/goals/goal";
 import { useEffect, useState } from "react";
 
-const MyGoal = () => {
+const UserGoals = () => {
   const [goalsList, setGoalsList] = useState([]);
   const [newGoal, setNewGoal] = useState({ title: "", description: "" });
   const [updateGoalObj, setUpdateGoalObj] = useState({
@@ -153,4 +153,4 @@ const MyGoal = () => {
   );
 };
 
-export default MyGoal;
+export default UserGoals;

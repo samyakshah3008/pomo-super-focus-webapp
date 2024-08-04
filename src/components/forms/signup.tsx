@@ -9,7 +9,7 @@ import { shallUserRedirectToSignin } from "@/utils/authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Signup = () => {
+const SignUpForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -163,4 +163,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUpForm;

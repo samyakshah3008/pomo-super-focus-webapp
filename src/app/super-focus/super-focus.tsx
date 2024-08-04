@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import DailyProgress from "./DailyProgressWidget/DailyProgressWidget";
-import TimerWidget from "./TimerWidget/TimerWidget";
+import DailyProgressWidget from "./@dailyProgress/daily-progress-widget";
+import SuperTimerWidget from "./@superTimer/super-timer-widget";
 
 const SuperFocus = () => {
   const [activeState, setActiveState] = useState("Pomodoro");
@@ -21,7 +21,7 @@ const SuperFocus = () => {
   return (
     <div style={{ height: "100vh" }} className={getClassNameBasedOnState()}>
       <div>Navbar in construction</div>
-      <TimerWidget
+      <SuperTimerWidget
         activeState={activeState}
         setActiveState={setActiveState}
         startNewSession={startNewSession}
@@ -29,7 +29,7 @@ const SuperFocus = () => {
       />
       <div>Tasks panel</div>
 
-      <DailyProgress />
+      <DailyProgressWidget />
     </div>
   );
 };
