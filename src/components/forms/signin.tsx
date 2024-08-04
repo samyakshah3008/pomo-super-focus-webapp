@@ -1,4 +1,5 @@
 "use client";
+
 import { saveAccessAndRefreshToken } from "@/lib/localstorage";
 import {
   verifyOTPAndSignInUserService,
@@ -8,7 +9,7 @@ import { shallUserRedirectToSignup } from "@/utils/authentication";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Signin = () => {
+const SignInForm = () => {
   const [formData, setFormData] = useState({
     email: "",
   });
@@ -113,4 +114,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default SignInForm;

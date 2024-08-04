@@ -1,15 +1,18 @@
-import MyGoal from "@/components/MyGoals/MyGoal";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import UserGoals from "./user-goals";
 
-const Page = () => {
+export default async function GoalsPage() {
   const accessToken = getCookie("accessToken", { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
 
-  return <MyGoal />;
-};
-
-export default Page;
+  return (
+    <div>
+      Goals Under construction
+      <UserGoals />
+    </div>
+  );
+}

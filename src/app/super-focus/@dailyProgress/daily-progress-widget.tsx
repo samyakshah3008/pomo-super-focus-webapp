@@ -6,7 +6,7 @@ import {
   getStreakDetailsService,
 } from "@/services/daily-progress/daily-progress";
 import { useEffect, useState } from "react";
-import EditDailyGoalModal from "./EditDailyGoalModal";
+import EditDailyGoalModal from "./edit-daily-goal-modal";
 
 const DailyProgressWidget = () => {
   const [dailyProgressStats, setDailyProgressStats] = useState(null);

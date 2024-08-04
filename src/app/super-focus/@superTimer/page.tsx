@@ -1,7 +1,9 @@
-import SuperFocus from "@/components/SuperFocus/SuperFocus";
+import SuperFocus from "../super-focus";
 
-const SuperTimer = () => {
-  return <SuperFocus />;
-};
-
-export default SuperTimer;
+export default async function SuperTimer() {
+  return (
+    <div>
+      <SuperFocus />
+    </div>
+  );
+}

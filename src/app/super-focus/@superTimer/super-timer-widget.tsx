@@ -11,11 +11,11 @@ import {
 } from "@/services/pomodoros/pomodoro";
 import { convertMinutesToSeconds } from "@/utils/super-timer";
 import { useEffect, useState } from "react";
-import SuperTimer from "./SuperTimer";
+import SuperTimer from "./super-timer";
 
 const states = ["Pomodoro", "Short break", "Long break"];
 
-const TimerWidget = ({ startNewSession, setStartNewSession }: any) => {
+const SuperTimerWidget = ({ startNewSession, setStartNewSession }: any) => {
   const [focusTime, setFocusTime] = useState(5);
   const [timeLeftInSeconds, setTimeLeftInSeconds] = useState(0);
   const [isSessionRunning, setIsSessionRunning] = useState(false);
@@ -181,4 +181,4 @@ const TimerWidget = ({ startNewSession, setStartNewSession }: any) => {
   );
 };
 
-export default TimerWidget;
+export default SuperTimerWidget;

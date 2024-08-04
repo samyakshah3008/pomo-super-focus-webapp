@@ -1,7 +1,9 @@
-import DailyProgressWidget from "@/components/SuperFocus/DailyProgressWidget/DailyProgressWidget";
+import DailyProgressWidget from "./daily-progress-widget";
 
-const DailyProgressDefault = () => {
-  return <DailyProgressWidget />;
-};
-
-export default DailyProgressDefault;
+export default async function DailyProgressDefault() {
+  return (
+    <div>
+      <DailyProgressWidget />
+    </div>
+  );
+}
