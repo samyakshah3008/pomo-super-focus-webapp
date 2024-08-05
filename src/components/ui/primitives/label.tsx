@@ -1,8 +1,8 @@
 // Label component extends from shadcnui - https://ui.shadcn.com/docs/components/label
 
 "use client";
-import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -21,4 +21,18 @@ const Label = React.forwardRef<
 ));
 Label.displayName = LabelPrimitive.Root.displayName;
 
-export { Label };
+const LabelInputContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
+    </div>
+  );
+};
+
+export { Label, LabelInputContainer };
