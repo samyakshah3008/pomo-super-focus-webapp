@@ -1,43 +1,23 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import "../globals.css";
-
-const navLinks = [
-  {
-    name: "Register",
-    href: "/signup",
-  },
-  {
-    name: "Login",
-    href: "/signin",
-  },
-];
-
-export default function RootLayout({
-  children,
-}: Readonly<{
+type UnauthenticatedLayoutProps = {
   children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
+};
 
+export default function UnauthenticatedLayout({
+  children,
+}: UnauthenticatedLayoutProps) {
   return (
-    <div>
-      {children}
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-12 md:p-12 lg:p-24">
+      <div>
+        <div className="absolute -inset-[min(600px,max(400px,60vw))] -z-[1] flex items-center justify-center opacity-70">
+          {/* <Image
+          src={backgroundPattern}
+          alt="background pattern"
+          className="dark:brightness-95 dark:contrast-[70%] dark:invert dark:sepia"
+        /> */}
+        </div>
 
-      {navLinks.map((link) => {
-        const isActive = pathname.startsWith(link.href);
-        return (
-          <Link
-            className={isActive ? "font-bold mr-4" : "text-blue-500 mr-4"}
-            href={link.href}
-            key={link.name}
-          >
-            {link.name}
-          </Link>
-        );
-      })}
-    </div>
+        <div className="relative w-full">{children}</div>
+      </div>
+    </main>
   );
 }
