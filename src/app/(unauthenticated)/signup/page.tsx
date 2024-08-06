@@ -2,6 +2,7 @@ import SignUpForm from "@/components/forms/signup";
 import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -27,6 +28,15 @@ export default async function SignUpPage({}) {
         </p>
         <hr className="-mx-6 my-4" />
         <SignUpForm />
+        <p className="text-muted-foreground mt-6 text-center text-sm">
+          Already have an account?{" "}
+          <Link
+            href="/signin"
+            className="text-documenso-700 duration-200 hover:opacity-70"
+          >
+            Sign In
+          </Link>
+        </p>
       </div>
     </div>
   );
