@@ -1,51 +1,127 @@
 "use client";
 import { saveAccessAndRefreshToken } from "@/lib/localstorage";
+import { cn } from "@/lib/utils";
 import {
-  signUpGuestUserService,
   verifyOTPAndSignUpUserService,
   verifyUserAndSendOTPService,
 } from "@/services/authentication/signup";
 import { shallUserRedirectToSignin } from "@/utils/authentication";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import GuestLoginConfirmDialog from "../(unauthenticated)/guest-login-confirm-dialog";
+import TwoFactorAuthDialog from "../(unauthenticated)/two-factor-auth-dialog";
+import { GuestLoginButton } from "../ui/components/button/guest-login-button";
+import { ORLineSeperator } from "../ui/components/helpers/line-seperator";
+import { Button } from "../ui/primitives/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/primitives/form/form";
+import { Input } from "../ui/primitives/input";
+import { toast } from "../ui/primitives/use-toast";
 
-const SignUpForm = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    firstName: "",
-    lastName: "",
-  });
-  const [newUserInfo, setNewUserInfo] = useState(null);
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+export const ZSignInFormSchema = z.object({
+  email: z.string().email(),
+  firstName: z.string().min(1, { message: "Required" }),
+  lastName: z.string().optional(),
+  otpCode: z.string().optional(),
+});
+
+export type TSignUpFormSchema = z.infer<typeof ZSignInFormSchema>;
+
+export type SignUpFormProps = {
+  className?: string;
+};
+
+const SignUpForm = ({ className }: SignUpFormProps) => {
+  const [
+    isTwoFactorAuthenticationDialogOpen,
+    setIsTwoFactorAuthenticationDialogOpen,
+  ] = useState(false);
+
+  const [isGuestLoginDialogOpen, setIsGuestLoginDialogOpen] = useState(false);
 
   const router = useRouter();
 
-  const verifyUserAndSendOTP = async () => {
-    const payload = { userDetails: formData };
+  const searchParams = useSearchParams();
+
+  const form = useForm<TSignUpFormSchema>({
+    values: {
+      email: "",
+      firstName: "",
+      lastName: "",
+    },
+    resolver: zodResolver(ZSignInFormSchema),
+  });
+
+  const isSubmitting = form.formState.isSubmitting;
+
+  const onCloseTwoFactorAuthenticationDialog = () => {
+    setIsTwoFactorAuthenticationDialogOpen(false);
+  };
+
+  const onCloseGuestLoginDialog = () => {
+    setIsGuestLoginDialogOpen(false);
+  };
+
+  const onFormSubmit = async ({
+    email,
+    firstName,
+    lastName,
+  }: TSignUpFormSchema) => {
+    const credentials: Record<string, string> | any = {
+      email,
+      firstName,
+      lastName,
+    };
+    if (!lastName?.length) {
+      form.setValue("lastName", "");
+    }
+    const payload = { userDetails: credentials };
     try {
-      setIsLoading(true);
       const response = await verifyUserAndSendOTPService(payload);
       if (shallUserRedirectToSignin(response)) {
-        router.replace("/signin");
-        setOtpSent(false);
+        router.replace(`/signin?email=${email}`);
       } else {
-        setOtpSent(true);
-        // show otp sent success
+        setIsTwoFactorAuthenticationDialogOpen(true);
+        toast({
+          variant: "default",
+          title: "Check your inbox",
+          description: `We've sent One Time Password to ${email} .`,
+        });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error, "something went wrong");
-      setOtpSent(false);
-    } finally {
-      setIsLoading(false);
+      toast({
+        variant: "destructive",
+        title: "Unable to send otp",
+        description:
+          error?.message ??
+          "Uh oh! Something is wrong with our server, please try again later.",
+      });
     }
   };
 
-  const verifyOTPAndSignUpUser = async () => {
-    const payload = { userDetails: formData, otp };
+  const onConfirmOTP = async ({
+    email,
+    firstName,
+    lastName,
+    otpCode,
+  }: TSignUpFormSchema) => {
+    const payload = {
+      userDetails: { email, firstName, lastName },
+      otp: otpCode,
+    };
+
     try {
-      setIsLoading(true);
       const {
         data: { accessToken, refreshToken },
       } = await verifyOTPAndSignUpUserService(payload);
@@ -53,113 +129,133 @@ const SignUpForm = () => {
       router.push("/dashboard");
     } catch (error) {
       console.error(error, "logged error");
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const signUpGuestUser = async () => {
-    try {
-      setIsLoading(true);
-      const {
-        data: { accessToken, refreshToken },
-      } = await signUpGuestUserService();
-      saveAccessAndRefreshToken(accessToken, refreshToken);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error, "logged error");
-    } finally {
-      setIsLoading(false);
+  const onGuestLoginSubmit = () => {
+    setIsGuestLoginDialogOpen(true);
+  };
+
+  const preFillForm = () => {
+    const email: any = searchParams.get("email");
+
+    if (email?.length) {
+      form.setValue("email", email);
+      toast({
+        variant: "default",
+        title: "Account Doesn't exists",
+        description: `Create a new account instead, chief!`,
+      });
     }
   };
 
-  const verifyOTPAndSignUpUserClickHandler = () => {
-    verifyOTPAndSignUpUser();
-  };
-
-  const signUpGuestUserClickHandler = () => {
-    signUpGuestUser();
-  };
-
-  const formDataChangeHandler = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const submitFormClickHandler = () => {
-    if (!formData.email || !formData.firstName) {
-      console.log("all fields are required");
-    } else {
-      verifyUserAndSendOTP();
-    }
-  };
-
-  const otpInputChangeHandler = (e: any) => {
-    setOtp(e.target.value);
-  };
+  useEffect(() => {
+    preFillForm();
+  }, []);
 
   return (
-    <div>
-      <div>This is a signup page</div>
-      <div>Email: </div>
-      <input
-        style={{ border: "2px solid black" }}
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => formDataChangeHandler(e)}
-      />
-      <div>First Name: </div>
-      <input
-        style={{ border: "2px solid black" }}
-        name="firstName"
-        placeholder="First Name"
-        value={formData.firstName}
-        onChange={(e) => formDataChangeHandler(e)}
-      />
-      <div>Last Name: </div>
-      <input
-        style={{ border: "2px solid black" }}
-        name="lastName"
-        placeholder="Last Name"
-        value={formData.lastName}
-        onChange={(e) => formDataChangeHandler(e)}
-      />
+    <Form {...form}>
+      <form
+        className={cn("flex w-full flex-col gap-y-4", className)}
+        onSubmit={form.handleSubmit(onFormSubmit)}
+      >
+        <fieldset
+          className="flex w-full flex-col gap-y-4"
+          disabled={isSubmitting}
+        >
+          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First name</FormLabel>
 
-      {otpSent ? (
-        <div>
-          <div>OTP: </div>
-          <input
-            style={{ border: "2px solid black" }}
-            name="otp"
-            placeholder="000000"
-            value={otp}
-            onChange={otpInputChangeHandler}
+                  <FormControl>
+                    <Input type="string" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last name</FormLabel>
+
+                  <FormControl>
+                    <Input type="string" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-      ) : null}
 
-      <div>
-        {!otpSent ? (
-          <button disabled={isLoading} onClick={submitFormClickHandler}>
-            Submit
-          </button>
-        ) : (
-          <button
-            disabled={isLoading}
-            onClick={verifyOTPAndSignUpUserClickHandler}
+          <Button
+            type="submit"
+            size="lg"
+            disabled={isSubmitting}
+            className="dark:hover:opacity-90"
           >
-            Verify OTP
-          </button>
-        )}
-      </div>
+            {isSubmitting ? (
+              <Loader className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
+            {isSubmitting
+              ? "True Potential Unlocking"
+              : "Ready to unlock true potential"}
+          </Button>
 
-      <div>
-        <button disabled={isLoading} onClick={signUpGuestUserClickHandler}>
-          POMO SUPER GUEST LOGIN?{" "}
-        </button>
-      </div>
-    </div>
+          <ORLineSeperator />
+
+          <div className="flex flex-col space-y-4">
+            <GuestLoginButton
+              disabled={isSubmitting}
+              onClick={onGuestLoginSubmit}
+            />
+          </div>
+        </fieldset>
+      </form>
+
+      <TwoFactorAuthDialog
+        isTwoFactorAuthenticationDialogOpen={
+          isTwoFactorAuthenticationDialogOpen
+        }
+        isSubmitting={isSubmitting}
+        form={form}
+        onCloseTwoFactorAuthenticationDialog={
+          onCloseTwoFactorAuthenticationDialog
+        }
+        onConfirmOTP={onConfirmOTP}
+      />
+
+      <GuestLoginConfirmDialog
+        isGuestLoginDialogOpen={isGuestLoginDialogOpen}
+        onCloseGuestLoginDialog={onCloseGuestLoginDialog}
+        onSignUpFlow={true}
+      />
+    </Form>
   );
 };
 
