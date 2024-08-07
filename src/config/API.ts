@@ -63,7 +63,7 @@ export const get = (
         } else {
           reject(error);
         }
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -86,7 +86,7 @@ export const getWithoutToken = (
         resolve(result);
       })
       .catch(async (error) => {
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -105,7 +105,7 @@ export const postWithoutToken = (
         resolve(result.data);
       })
       .catch((error) => {
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -145,7 +145,7 @@ export const postWithToken = (
             resolve(res);
           });
         } else {
-          reject(error);
+          reject(error?.response?.data);
         }
       });
   });
@@ -175,7 +175,7 @@ export const put = (
             }
           );
         } else {
-          reject(error);
+          reject(error?.response?.data);
         }
       });
   });
@@ -240,7 +240,7 @@ export const deleteRequest = (
             resolve(res);
           });
         } else {
-          reject(error);
+          reject(error?.response?.data);
         }
       });
   });
