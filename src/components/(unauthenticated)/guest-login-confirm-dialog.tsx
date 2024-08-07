@@ -12,16 +12,18 @@ import {
   DialogTitle,
 } from "../ui/primitives/dialog";
 
+type FlowType = "signin" | "signup";
+
 type GuestLoginConfirmDialogProps = {
   isGuestLoginDialogOpen: boolean;
   onCloseGuestLoginDialog: () => void;
-  onSignUpFlow: boolean;
+  flow: FlowType;
 };
 
 const GuestLoginConfirmDialog = ({
   isGuestLoginDialogOpen,
   onCloseGuestLoginDialog,
-  onSignUpFlow = false,
+  flow,
 }: GuestLoginConfirmDialogProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -56,7 +58,7 @@ const GuestLoginConfirmDialog = ({
           <DialogTitle>Confirm Guest Login</DialogTitle>
         </DialogHeader>
 
-        <div>
+        <div className="text-sm">
           You are about to Login as Guest, please note that being a guest you
           won't be getting full access like for a verified account.
         </div>
@@ -64,7 +66,7 @@ const GuestLoginConfirmDialog = ({
         <DialogFooter className="mt-4">
           <Button
             onClick={
-              onSignUpFlow ? onCloseGuestLoginDialog : onCreateNewAccount
+              flow == "signup" ? onCloseGuestLoginDialog : onCreateNewAccount
             }
           >
             Create New Account
