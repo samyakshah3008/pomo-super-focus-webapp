@@ -1,10 +1,6 @@
 "use client";
-import { saveAccessAndRefreshToken } from "@/lib/localstorage";
 import { cn } from "@/lib/utils";
-import {
-  verifyOTPAndSignUpUserService,
-  verifyUserAndSendOTPService,
-} from "@/services/authentication/signup";
+import { verifyNewUserAndSendOTPService } from "@/services/authentication/signup";
 import { shallUserRedirectToSignin } from "@/utils/authentication";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -87,7 +83,7 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
     }
     const payload = { userDetails: credentials };
     try {
-      const response = await verifyUserAndSendOTPService(payload);
+      const response = await verifyNewUserAndSendOTPService(payload);
       if (shallUserRedirectToSignin(response)) {
         router.replace(`/signin?email=${email}`);
       } else {
@@ -107,28 +103,6 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           error?.message ??
           "Uh oh! Something is wrong with our server, please try again later.",
       });
-    }
-  };
-
-  const onConfirmOTP = async ({
-    email,
-    firstName,
-    lastName,
-    otpCode,
-  }: TSignUpFormSchema) => {
-    const payload = {
-      userDetails: { email, firstName, lastName },
-      otp: otpCode,
-    };
-
-    try {
-      const {
-        data: { accessToken, refreshToken },
-      } = await verifyOTPAndSignUpUserService(payload);
-      saveAccessAndRefreshToken(accessToken, refreshToken);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error, "logged error");
     }
   };
 
@@ -242,18 +216,21 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
         isTwoFactorAuthenticationDialogOpen={
           isTwoFactorAuthenticationDialogOpen
         }
-        isSubmitting={isSubmitting}
-        form={form}
         onCloseTwoFactorAuthenticationDialog={
           onCloseTwoFactorAuthenticationDialog
         }
-        onConfirmOTP={onConfirmOTP}
+        credentials={{
+          email: form.getValues("email"),
+          firstName: form.getValues("firstName"),
+          lastName: form.getValues("lastName"),
+        }}
+        flow="signup"
       />
 
       <GuestLoginConfirmDialog
         isGuestLoginDialogOpen={isGuestLoginDialogOpen}
         onCloseGuestLoginDialog={onCloseGuestLoginDialog}
-        onSignUpFlow={true}
+        flow="signin"
       />
     </Form>
   );

@@ -1,11 +1,7 @@
 "use client";
 
-import { saveAccessAndRefreshToken } from "@/lib/localstorage";
 import { cn } from "@/lib/utils";
-import {
-  verifyOTPAndSignInUserService,
-  verifyUserAndSendOTPService,
-} from "@/services/authentication/signin";
+import { verifyExistingUserAndSendOTPService } from "@/services/authentication/signin";
 import { shallUserRedirectToSignup } from "@/utils/authentication";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -31,7 +27,6 @@ import { useToast } from "../ui/primitives/use-toast";
 
 export const ZSignInFormSchema = z.object({
   email: z.string().trim().email(),
-  otpCode: z.string().trim().optional(),
 });
 
 export type TSignInFormSchema = z.infer<typeof ZSignInFormSchema>;
@@ -63,8 +58,6 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
   const isSubmitting = form.formState.isSubmitting;
 
   const onCloseTwoFactorAuthenticationDialog = () => {
-    form.setValue("otpCode", "");
-
     setIsTwoFactorAuthenticationDialogOpen(false);
   };
 
@@ -79,7 +72,7 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
       };
 
       const payload = { userDetails: credentials };
-      const response = await verifyUserAndSendOTPService(payload);
+      const response = await verifyExistingUserAndSendOTPService(payload);
 
       if (shallUserRedirectToSignup(response)) {
         router.replace(`/signup?email=${email}`);
@@ -100,19 +93,6 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
           error?.message ??
           "Uh oh! Something is wrong with our server, please try again later.",
       });
-    }
-  };
-
-  const onConfirmOTP = async ({ email, otpCode }: TSignInFormSchema) => {
-    const payload = { userDetails: { email }, otp: otpCode };
-    try {
-      const {
-        data: { accessToken, refreshToken },
-      } = await verifyOTPAndSignInUserService(payload);
-      saveAccessAndRefreshToken(accessToken, refreshToken);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error, "logged error");
     }
   };
 
@@ -194,18 +174,17 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
         isTwoFactorAuthenticationDialogOpen={
           isTwoFactorAuthenticationDialogOpen
         }
-        isSubmitting={isSubmitting}
-        form={form}
+        credentials={{ email: form.getValues("email") }}
         onCloseTwoFactorAuthenticationDialog={
           onCloseTwoFactorAuthenticationDialog
         }
-        onConfirmOTP={onConfirmOTP}
+        flow="signin"
       />
 
       <GuestLoginConfirmDialog
         isGuestLoginDialogOpen={isGuestLoginDialogOpen}
         onCloseGuestLoginDialog={onCloseGuestLoginDialog}
-        onSignUpFlow={false}
+        flow="signin"
       />
     </Form>
   );
