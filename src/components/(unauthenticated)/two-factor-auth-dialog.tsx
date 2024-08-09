@@ -1,4 +1,4 @@
-import { saveAccessAndRefreshToken } from "@/lib/localstorage";
+import { saveCredentialsToBrowserStorage } from "@/lib/browser-storage";
 import {
   verifyExistingUserAndSendOTPService,
   verifyOTPAndSignInUserService,
@@ -62,14 +62,14 @@ const TwoFactorAuthDialog = ({
       setIsSubmitting(true);
       if (flow == "signup") {
         const {
-          data: { accessToken, refreshToken },
+          data: { accessToken, refreshToken, user },
         } = await verifyOTPAndSignUpUserService(payload);
-        saveAccessAndRefreshToken(accessToken, refreshToken);
+        saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
       } else {
         const {
-          data: { accessToken, refreshToken },
+          data: { accessToken, refreshToken, user },
         } = await verifyOTPAndSignInUserService(payload);
-        saveAccessAndRefreshToken(accessToken, refreshToken);
+        saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
       }
 
       router.push("/dashboard");
