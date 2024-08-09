@@ -1,7 +1,7 @@
-import SuperFocus from "@/components/SuperFocus/SuperFocus";
+import SuperTimerWidget from "./super-timer-widget";
 
 const SuperTimerDefault = () => {
-  return <SuperFocus />;
+  return <SuperTimerWidget />;
 };
 
 export default SuperTimerDefault;

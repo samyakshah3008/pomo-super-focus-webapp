@@ -1,4 +1,5 @@
 import SignUpForm from "@/components/forms/signup";
+import { accessTokenKeyBrowserStorage } from "@/constants/browser-storage";
 import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignUpPage({}) {
-  const accessToken = getCookie("accessToken", { cookies });
+  const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (accessToken) {
     redirect("/dashboard");
   }
