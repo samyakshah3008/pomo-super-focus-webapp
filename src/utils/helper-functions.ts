@@ -11,4 +11,10 @@ const getFormattedTodaysDate = () => {
 
 const getFormattedDate = (date: any) => date.toISOString().split("T")[0];
 
-export { getFormattedDate, getFormattedTodaysDate };
+const getProgressPercentage = (totalHours: any, completedMinutes: any) => {
+  const convertMinutes = totalHours * 60;
+  const percentage = (completedMinutes * 100) / convertMinutes;
+  return percentage;
+};
+
+export { getFormattedDate, getFormattedTodaysDate, getProgressPercentage };
