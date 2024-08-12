@@ -9,5 +9,5 @@ export default async function SuperFocusPage() {
     redirect("/signin");
   }
 
-  return <div>Get ready for Super Focus</div>;
+  return <div></div>;
 }
