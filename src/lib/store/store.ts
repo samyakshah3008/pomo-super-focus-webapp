@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./features/auth/authSlice";
 import { dailyProgressReducer } from "./features/daily-progress/dailyProgressSlice";
 import { streakDetailsReducer } from "./features/streaks/streakSlice";
 import { userReducer } from "./features/user/userSlice";
@@ -7,7 +6,6 @@ import { userReducer } from "./features/user/userSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      auth: authReducer,
       user: userReducer,
       dailyProgress: dailyProgressReducer,
       streakDetails: streakDetailsReducer,
