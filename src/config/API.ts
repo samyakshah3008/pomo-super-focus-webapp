@@ -1,10 +1,14 @@
+import {
+  accessTokenKeyBrowserStorage,
+  refreshTokenKeyBrowserStorage,
+} from "@/constants/browser-storage";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { v4 as uuidv4 } from "uuid";
 import {
   removeLocalStorageItem,
-  saveAccessAndRefreshToken,
-} from "../lib/localstorage";
+  saveCredentialsToBrowserStorage,
+} from "../lib/browser-storage";
 
 var axioInstance = axios.create();
 
@@ -43,7 +47,7 @@ export const get = (
     axioInstance
       .get(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -121,13 +125,13 @@ export const postWithToken = (
     //     headers.headers["content-type"];
     // }
     axioInstance.defaults.headers["authorization"] =
-      "Bearer " + getCookie("accessToken");
+      "Bearer " + getCookie(accessTokenKeyBrowserStorage);
 
     axioInstance
       .post(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
           "pomosuperfocus-request-id": uuidv4(),
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           ...headers,
         },
       })
@@ -160,7 +164,7 @@ export const put = (
     axioInstance
       .put(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
         },
       })
@@ -190,7 +194,7 @@ export const patch = (
     axioInstance
       .patch(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
         },
       })
@@ -220,7 +224,7 @@ export const deleteRequest = (
     axioInstance
       .delete(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -253,22 +257,20 @@ export const getJwt = (
 ) =>
   new Promise((resolve, reject) => {
     var axioInstance = axios.create();
-    // axioInstance.defaults.headers["refresh"] =
-    //   getLocalStorageItem("refreshToken");
 
     axioInstance
       .post(
         process.env.NEXT_PUBLIC_BASE_URL + "/users/refresh-access-token",
-        { refreshToken: getCookie("refreshToken") },
+        { refreshToken: getCookie(refreshTokenKeyBrowserStorage) },
         {
           headers: { "cosmofeed-request-id": uuidv4() },
         }
       )
       .then((result) => {
-        console.log(result, "result");
-        saveAccessAndRefreshToken(
+        saveCredentialsToBrowserStorage(
           result.data?.data?.accessToken,
-          result.data?.data?.refreshToken
+          result.data?.data?.refreshToken,
+          result.data?.data?.user?._id
         );
         if (callBack) {
           callBack(nodeURL, formBody || {}, headers || {}).then((res: any) => {
@@ -277,7 +279,7 @@ export const getJwt = (
         }
       })
       .catch((error) => {
-        removeLocalStorageItem("accessToken");
-        removeLocalStorageItem("refreshToken");
+        removeLocalStorageItem(accessTokenKeyBrowserStorage);
+        removeLocalStorageItem(refreshTokenKeyBrowserStorage);
       });
   });

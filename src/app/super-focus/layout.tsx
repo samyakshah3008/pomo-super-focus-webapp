@@ -1,3 +1,4 @@
+import { accessTokenKeyBrowserStorage } from "@/constants/browser-storage";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -14,7 +15,7 @@ const SuperFocusLayout = ({
   superTasks: React.ReactNode;
   superTimer: React.ReactNode;
 }) => {
-  const accessToken = getCookie("accessToken", { cookies });
+  const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
@@ -22,9 +23,13 @@ const SuperFocusLayout = ({
   return (
     <div>
       <div>{children}</div>
-      <div> {dailyProgress} </div>
-      <div> {superTasks} </div>
-      <div> {superTimer} </div>
+      <div className="m-auto w-10/12 flex flex-col items-start justify-center">
+        <div className="flex flex-row gap-4">
+          <div> {dailyProgress} </div>
+        </div>
+        <div> {superTasks} </div>
+        <div> {superTimer} </div>
+      </div>
     </div>
   );
 };
