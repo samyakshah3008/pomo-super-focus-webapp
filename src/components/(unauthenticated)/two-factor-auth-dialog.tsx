@@ -15,6 +15,7 @@ import { Button } from "../ui/primitives/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -64,12 +65,12 @@ const TwoFactorAuthDialog = ({
         const {
           data: { accessToken, refreshToken, user },
         } = await verifyOTPAndSignUpUserService(payload);
-        saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
+        saveCredentialsToBrowserStorage(accessToken, refreshToken, user?._id);
       } else {
         const {
           data: { accessToken, refreshToken, user },
         } = await verifyOTPAndSignInUserService(payload);
-        saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
+        saveCredentialsToBrowserStorage(accessToken, refreshToken, user?._id);
       }
 
       router.push("/dashboard");
@@ -141,6 +142,8 @@ const TwoFactorAuthDialog = ({
       onOpenChange={onCloseTwoFactorAuthenticationDialog}
     >
       <DialogContent>
+        <DialogDescription />
+
         <DialogHeader>
           <DialogTitle>Two-Factor Authentication</DialogTitle>
         </DialogHeader>
