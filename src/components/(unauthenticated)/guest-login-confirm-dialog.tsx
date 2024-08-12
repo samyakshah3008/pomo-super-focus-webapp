@@ -1,4 +1,4 @@
-import { saveAccessAndRefreshToken } from "@/lib/localstorage";
+import { saveCredentialsToBrowserStorage } from "@/lib/browser-storage";
 import { signUpGuestUserService } from "@/services/authentication/signup";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -33,9 +33,9 @@ const GuestLoginConfirmDialog = ({
     try {
       setIsSubmitting(true);
       const {
-        data: { accessToken, refreshToken },
+        data: { accessToken, refreshToken, user },
       } = await signUpGuestUserService();
-      saveAccessAndRefreshToken(accessToken, refreshToken);
+      saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
       router.push("/dashboard");
     } catch (error) {
       console.error(error, "logged error");
