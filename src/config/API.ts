@@ -270,7 +270,7 @@ export const getJwt = (
         saveCredentialsToBrowserStorage(
           result.data?.data?.accessToken,
           result.data?.data?.refreshToken,
-          result.data?.data?.user
+          result.data?.data?.user?._id
         );
         if (callBack) {
           callBack(nodeURL, formBody || {}, headers || {}).then((res: any) => {
