@@ -1,7 +1,7 @@
 import {
   accessTokenKeyBrowserStorage,
   refreshTokenKeyBrowserStorage,
-  userKeyBrowserStorage,
+  userIdKeyBrowserStorage,
 } from "@/constants/browser-storage";
 import { setCookie } from "cookies-next";
 
@@ -34,20 +34,18 @@ export const removeLocalStorageItem = (key: string): void => {
 export const saveCredentialsToBrowserStorage = (
   accessToken: string,
   refreshToken: string,
-  user: any
+  userId: any
 ): void => {
-  const userObj = JSON.stringify(user);
-
   setLocalStorageItem(accessTokenKeyBrowserStorage, accessToken);
   setLocalStorageItem(refreshTokenKeyBrowserStorage, refreshToken);
-  setLocalStorageItem(userKeyBrowserStorage, userObj);
+  setLocalStorageItem(userIdKeyBrowserStorage, userId);
   setCookie(accessTokenKeyBrowserStorage, accessToken, {
     maxAge: 60 * 60 * 24 * 7,
   });
   setCookie(refreshTokenKeyBrowserStorage, refreshToken, {
     maxAge: 60 * 60 * 24 * 7,
   });
-  setCookie(userKeyBrowserStorage, userObj, {
+  setCookie(userIdKeyBrowserStorage, userId, {
     maxAge: 60 * 60 * 24 * 7,
   });
 };
