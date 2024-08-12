@@ -1,15 +1,21 @@
 import {
   accessTokenKeyBrowserStorage,
+  userIdKeyBrowserStorage,
   userKeyBrowserStorage,
 } from "@/constants/browser-storage";
 import { cookies } from "next/headers";
 
 const cookieStore = cookies();
 
-const getUserIdFromBrowserStorage = () => {
+const getUserFromBrowserStorage = () => {
   const currentUser = cookieStore.get(userKeyBrowserStorage)?.value;
   const user = currentUser ? JSON.parse(currentUser) : null;
   return user ? user._id : null;
+};
+
+const getUserIdFromBrowserStorage = () => {
+  const currentUserId = cookieStore.get(userIdKeyBrowserStorage)?.value;
+  return currentUserId;
 };
 
 const fetchWithToken = async (url: string, options = {}) => {
