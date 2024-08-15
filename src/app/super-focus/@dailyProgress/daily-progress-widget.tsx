@@ -51,8 +51,8 @@ const DailyProgressWidget = () => {
   }
 
   const progressPercentage = getProgressPercentage(
-    streakDetails?.dailyGoalInHours,
-    dailyProgressDetails?.today?.totalTime
+    streakDetails?.streakDetails?.dailyGoalInHours,
+    dailyProgressDetails?.dailyProgressDetails.today?.totalTime
   );
 
   return (
@@ -74,7 +74,9 @@ const DailyProgressWidget = () => {
         </div>
 
         <div className="flex flex-col gap-2 items-center">
-          <ProgressWrapper progress={progressPercentage}>
+          <ProgressWrapper
+            progress={progressPercentage > 100 ? 100 : progressPercentage}
+          >
             <div className="text-sm text-muted-foreground">Daily goal</div>
             <div className="text-3xl font-bold tracking-tighter">
               {streakDetails?.streakDetails?.dailyGoalInHours}
