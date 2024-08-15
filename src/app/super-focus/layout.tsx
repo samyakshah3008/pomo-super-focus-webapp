@@ -23,12 +23,12 @@ const SuperFocusLayout = ({
   return (
     <div>
       <div>{children}</div>
-      <div className="m-auto w-10/12 flex flex-col items-start justify-center">
-        <div className="flex flex-row gap-4">
+      <div className="m-auto w-10/12 flex flex-col items-start justify-center mt-36">
+        <div className="flex flex-row justify-around items-center w-full">
+          <div> {superTimer} </div>
           <div> {dailyProgress} </div>
         </div>
         <div> {superTasks} </div>
-        <div> {superTimer} </div>
       </div>
     </div>
   );

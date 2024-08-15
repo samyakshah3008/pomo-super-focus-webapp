@@ -1,9 +1,5 @@
-import SuperFocus from "../super-focus";
+import SuperTimerWidget from "./super-timer-widget";
 
 export default async function SuperTimer() {
-  return (
-    <div>
-      <SuperFocus />
-    </div>
-  );
+  return <SuperTimerWidget />;
 }

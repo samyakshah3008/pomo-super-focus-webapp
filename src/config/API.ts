@@ -1,11 +1,14 @@
+import { refreshAccessTokenEndpoint } from "@/constants/APIEndpoints";
 import {
   accessTokenKeyBrowserStorage,
   refreshTokenKeyBrowserStorage,
+  userIdKeyBrowserStorage,
 } from "@/constants/browser-storage";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { v4 as uuidv4 } from "uuid";
 import {
+  getLocalStorageItem,
   removeLocalStorageItem,
   saveCredentialsToBrowserStorage,
 } from "../lib/browser-storage";
@@ -257,10 +260,10 @@ export const getJwt = (
 ) =>
   new Promise((resolve, reject) => {
     var axioInstance = axios.create();
-
+    const userId = getLocalStorageItem(userIdKeyBrowserStorage);
     axioInstance
       .post(
-        process.env.NEXT_PUBLIC_BASE_URL + "/users/refresh-access-token",
+        process.env.NEXT_PUBLIC_BASE_URL + refreshAccessTokenEndpoint,
         { refreshToken: getCookie(refreshTokenKeyBrowserStorage) },
         {
           headers: { "cosmofeed-request-id": uuidv4() },
@@ -270,7 +273,7 @@ export const getJwt = (
         saveCredentialsToBrowserStorage(
           result.data?.data?.accessToken,
           result.data?.data?.refreshToken,
-          result.data?.data?.user?._id
+          userId
         );
         if (callBack) {
           callBack(nodeURL, formBody || {}, headers || {}).then((res: any) => {
