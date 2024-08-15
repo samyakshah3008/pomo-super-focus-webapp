@@ -33,7 +33,6 @@ export const fetchUserData = createAsyncThunk<FetchUserDataResponse, void>(
       const userId = getLocalStorageItem(userIdKeyBrowserStorage);
 
       const response = await get(userDetailsEndpoint, { userId });
-      console.log(response);
       return { userDetails: response?.data?.data?.currentUser };
     }
     throw new Error("User is not logged in.");
