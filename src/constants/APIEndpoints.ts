@@ -9,6 +9,9 @@ export const verifyOTPTOSigningUpUserEndpoint = "/users/signup/verify-otp";
 // authentication - guest signup
 export const guestUserSignUpEndpoint = "/users/signup/guest";
 
+// refresh access token
+
+export const refreshAccessTokenEndpoint = "/users/refresh-access-token";
 // user details endpoint
 
 export const userDetailsEndpoint = "/users";
