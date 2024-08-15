@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchActivePomodoroSession } from "@/lib/store/features/active-pomodoro-session/activePomodoroSession";
+import { fetchActivePomodoroSession } from "@/lib/store/features/active-pomodoro-session/activePomodoroSessionSlice";
 import { fetchDailyProgress } from "@/lib/store/features/daily-progress/dailyProgressSlice";
 import { fetchStreakDetails } from "@/lib/store/features/streaks/streakSlice";
 import { fetchUserData } from "@/lib/store/features/user/userSlice";
