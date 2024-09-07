@@ -1,11 +1,17 @@
+import { refreshAccessTokenEndpoint } from "@/constants/APIEndpoints";
+import {
+  accessTokenKeyBrowserStorage,
+  refreshTokenKeyBrowserStorage,
+  userIdKeyBrowserStorage,
+} from "@/constants/browser-storage";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { v4 as uuidv4 } from "uuid";
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
-  saveAccessAndRefreshToken,
-} from "../lib/localstorage";
+  saveCredentialsToBrowserStorage,
+} from "../lib/browser-storage";
 
 var axioInstance = axios.create();
 
@@ -44,7 +50,7 @@ export const get = (
     axioInstance
       .get(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getCookie("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -64,7 +70,7 @@ export const get = (
         } else {
           reject(error);
         }
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -87,7 +93,7 @@ export const getWithoutToken = (
         resolve(result);
       })
       .catch(async (error) => {
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -106,7 +112,7 @@ export const postWithoutToken = (
         resolve(result.data);
       })
       .catch((error) => {
-        reject(error);
+        reject(error?.response?.data);
       });
   });
 
@@ -122,13 +128,13 @@ export const postWithToken = (
     //     headers.headers["content-type"];
     // }
     axioInstance.defaults.headers["authorization"] =
-      "Bearer " + getLocalStorageItem("accessToken");
+      "Bearer " + getCookie(accessTokenKeyBrowserStorage);
 
     axioInstance
       .post(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
           "pomosuperfocus-request-id": uuidv4(),
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           ...headers,
         },
       })
@@ -136,7 +142,7 @@ export const postWithToken = (
         resolve(result.data);
       })
       .catch(async (error) => {
-        if (error?.response?.data?.Error == "invalid or expired jwt") {
+        if (error?.response?.data?.data?.message === "jwt expired") {
           await getJwt(
             nodeURL,
             formBody || {},
@@ -146,7 +152,7 @@ export const postWithToken = (
             resolve(res);
           });
         } else {
-          reject(error);
+          reject(error?.response?.data);
         }
       });
   });
@@ -161,7 +167,7 @@ export const put = (
     axioInstance
       .put(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
         },
       })
@@ -176,7 +182,37 @@ export const put = (
             }
           );
         } else {
-          reject(error);
+          reject(error?.response?.data);
+        }
+      });
+  });
+
+export const patch = (
+  nodeURL: string,
+  formBody?: Record<string, any>,
+  headers?: Headers,
+  props?: Props
+): Promise<Response | any> =>
+  new Promise((resolve, reject) => {
+    axioInstance
+      .patch(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, formBody, {
+        headers: {
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
+          "pomosuperfocus-request-id": uuidv4(),
+        },
+      })
+      .then((result) => {
+        resolve(result.data);
+      })
+      .catch(async (error) => {
+        if (error?.response?.data?.Error == "invalid or expired jwt") {
+          await getJwt(nodeURL, formBody || {}, headers || {}, put).then(
+            (res) => {
+              resolve(res);
+            }
+          );
+        } else {
+          reject(error?.response?.data);
         }
       });
   });
@@ -191,7 +227,7 @@ export const deleteRequest = (
     axioInstance
       .delete(process.env.NEXT_PUBLIC_BASE_URL + nodeURL, {
         headers: {
-          authorization: "Bearer " + getLocalStorageItem("accessToken"),
+          authorization: "Bearer " + getCookie(accessTokenKeyBrowserStorage),
           "pomosuperfocus-request-id": uuidv4(),
           ...headers,
         },
@@ -211,7 +247,7 @@ export const deleteRequest = (
             resolve(res);
           });
         } else {
-          reject(error);
+          reject(error?.response?.data);
         }
       });
   });
@@ -224,21 +260,20 @@ export const getJwt = (
 ) =>
   new Promise((resolve, reject) => {
     var axioInstance = axios.create();
-    // axioInstance.defaults.headers["refresh"] =
-    //   getLocalStorageItem("refreshToken");
-
+    const userId = getLocalStorageItem(userIdKeyBrowserStorage);
     axioInstance
       .post(
-        process.env.NEXT_PUBLIC_BASE_URL + "/users/refresh-access-token",
-        { refreshToken: getCookie("refreshToken") },
+        process.env.NEXT_PUBLIC_BASE_URL + refreshAccessTokenEndpoint,
+        { refreshToken: getCookie(refreshTokenKeyBrowserStorage) },
         {
           headers: { "cosmofeed-request-id": uuidv4() },
         }
       )
-      .then(async (result) => {
-        saveAccessAndRefreshToken(
+      .then((result) => {
+        saveCredentialsToBrowserStorage(
           result.data?.data?.accessToken,
-          result.data?.data?.refreshToken
+          result.data?.data?.refreshToken,
+          userId
         );
         if (callBack) {
           callBack(nodeURL, formBody || {}, headers || {}).then((res: any) => {
@@ -247,7 +282,7 @@ export const getJwt = (
         }
       })
       .catch((error) => {
-        removeLocalStorageItem("accessToken");
-        removeLocalStorageItem("refreshToken");
+        removeLocalStorageItem(accessTokenKeyBrowserStorage);
+        removeLocalStorageItem(refreshTokenKeyBrowserStorage);
       });
   });

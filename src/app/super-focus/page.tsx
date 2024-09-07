@@ -1,14 +1,13 @@
-import SuperFocus from "@/components/SuperFocus/SuperFocus";
+import { accessTokenKeyBrowserStorage } from "@/constants/browser-storage";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const Page = () => {
-  const accessToken = getCookie("accessToken", { cookies });
+export default async function SuperFocusPage() {
+  const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
-  return <SuperFocus />;
-};
 
-export default Page;
+  return <div></div>;
+}

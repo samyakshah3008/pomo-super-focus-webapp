@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./features/auth/authSlice";
+import { activePomodoroReducer } from "./features/active-pomodoro-session/activePomodoroSessionSlice";
+import { dailyProgressReducer } from "./features/daily-progress/dailyProgressSlice";
+import { streakDetailsReducer } from "./features/streaks/streakSlice";
+import { userReducer } from "./features/user/userSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      auth: authReducer,
+      user: userReducer,
+      dailyProgress: dailyProgressReducer,
+      streakDetails: streakDetailsReducer,
+      activePomodoro: activePomodoroReducer,
     },
   });
 };
