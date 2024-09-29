@@ -13,7 +13,7 @@ const initialState: any = {
   isActive: false,
 };
 
-export const fetchActivePomodoroSession = createAsyncThunk<any>(
+export const fetchActivePomodoroSession: any = createAsyncThunk<any>(
   "pomoSuperUser/activePomodoro",
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
@@ -28,7 +28,7 @@ export const fetchActivePomodoroSession = createAsyncThunk<any>(
   }
 );
 
-export const activePomodoroSessionSlice = createSlice({
+export const activePomodoroSessionSlice: any = createSlice({
   name: "activePomodoroSession",
   initialState,
   reducers: {
