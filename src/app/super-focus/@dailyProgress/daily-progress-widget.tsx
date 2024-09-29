@@ -52,7 +52,7 @@ const DailyProgressWidget = () => {
 
   const progressPercentage = getProgressPercentage(
     streakDetails?.streakDetails?.dailyGoalInHours,
-    dailyProgressDetails?.dailyProgressDetails.today?.totalTime
+    dailyProgressDetails?.dailyProgressDetails?.today?.totalTime
   );
 
   return (

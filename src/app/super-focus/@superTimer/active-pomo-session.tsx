@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/primitives/button";
 import { userIdKeyBrowserStorage } from "@/constants/browser-storage";
 import { getLocalStorageItem } from "@/lib/browser-storage";
 import {
@@ -9,19 +8,25 @@ import {
 import { fetchDailyProgress } from "@/lib/store/features/daily-progress/dailyProgressSlice";
 import { fetchStreakDetails } from "@/lib/store/features/streaks/streakSlice";
 import {
-  deleteActivePomodoroSessionService,
   pausePomodoroSessionService,
   resumePomodoroSessionService,
   saveCompletedPomodoroSessionService,
 } from "@/services/pomodoros/pomodoro";
 import { displayTimeLeft } from "@/utils/super-timer";
+import {
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconTrash,
+} from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from "react-redux";
+import ConfirmDeleteSessionDialog from "./confirm-delete-session";
 
 const ActivePomoSession = () => {
   const [timeLeft, setTimeLeft] = useState(-1);
   const [isPaused, setIsPaused] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const activePomodoro = useSelector((state: any) => state.activePomodoro);
   const dispatch = useDispatch();
@@ -57,19 +62,6 @@ const ActivePomoSession = () => {
     }
   };
 
-  const deletePomodoroSession = async () => {
-    const queryParam = {
-      userId,
-    };
-
-    try {
-      await deleteActivePomodoroSessionService(queryParam);
-      dispatch(fetchActivePomodoroSession());
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const saveCompletedPomodoroSession = async () => {
     const payload = {
       userId: userId,
@@ -96,10 +88,6 @@ const ActivePomoSession = () => {
       });
     }
   };
-
-  if (activePomodoro?.status == "pending") {
-    return <div>Loading...</div>;
-  }
 
   if (!activePomodoro?.activePomodoroObj) return null;
 
@@ -137,13 +125,28 @@ const ActivePomoSession = () => {
       </CountdownCircleTimer>
       <div className="text-sm">Start focus sesssion</div>
       {isPaused ? (
-        <div>
-          <Button onClick={resumePomodoroSession}>Resume</Button>
-          <Button onClick={deletePomodoroSession}>Delete</Button>
+        <div className="flex gap-2">
+          <IconPlayerPlay
+            className="cursor-pointer"
+            onClick={resumePomodoroSession}
+          />
+          <IconTrash
+            className="cursor-pointer"
+            onClick={() => setShowConfirmDialog(true)}
+          />
         </div>
       ) : (
-        <Button onClick={pausePomodoroSession}>Pause</Button>
+        <IconPlayerPause
+          className="cursor-pointer"
+          onClick={pausePomodoroSession}
+        />
       )}
+
+      <ConfirmDeleteSessionDialog
+        showConfirmDialog={showConfirmDialog}
+        setShowConfirmDialog={setShowConfirmDialog}
+        userId={userId}
+      />
     </>
   );
 };

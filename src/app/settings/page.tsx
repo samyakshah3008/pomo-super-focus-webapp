@@ -5,14 +5,14 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard for Pomo Super Focus Users.",
+  title: "Settings",
+  description: "Settings for Pomo Super Focus Users.",
 };
 
-export default async function DashboardPage({}) {
+export default async function SettingsPage({}) {
   const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Dashboard</div>;
+  return <div>Settings</div>;
 }

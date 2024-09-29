@@ -8,7 +8,6 @@ const LeaderboardData = () => {
   const getWeeklyLeaderboardDetails = async () => {
     try {
       const response = await getWeeklyLeaderboardDetailsService();
-      console.log(response, "response");
       setLeaderboardList(response?.data?.data?.leaderboardList || []);
     } catch (error) {
       console.log(error);
@@ -23,7 +22,7 @@ const LeaderboardData = () => {
     <div>
       This is leaderboard page
       {leaderboardList?.length
-        ? leaderboardList.map((user) => {
+        ? leaderboardList.map((user: any) => {
             return (
               <div key={user?.userId}>
                 <div>{user?.userDetails?.email}</div>
