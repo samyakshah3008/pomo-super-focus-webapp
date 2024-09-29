@@ -39,10 +39,6 @@ const SuperTimerWidget = () => {
     }
   }, []);
 
-  if (activePomodoro?.status == "pending") {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex flex-col items-center gap-3 p-4 w-[500px]">
       {!activePomodoro?.isActive ? <StartPomoSession /> : <ActivePomoSession />}

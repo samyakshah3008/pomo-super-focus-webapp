@@ -89,10 +89,6 @@ const ActivePomoSession = () => {
     }
   };
 
-  if (activePomodoro?.status == "pending") {
-    return <div>Loading...</div>;
-  }
-
   if (!activePomodoro?.activePomodoroObj) return null;
 
   useEffect(() => {
