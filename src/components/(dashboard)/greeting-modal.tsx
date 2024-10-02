@@ -20,7 +20,7 @@ import {
   ModalFooter,
 } from "../ui/animated-modal";
 
-const GreetingModal = () => {
+const GreetingModal = ({ setShowConfetti }: any) => {
   const images = [Cat1.src, Cat2.src, Cat3.src, Cat4.src];
   const [show, setShow] = useState(false);
 
@@ -33,6 +33,7 @@ const GreetingModal = () => {
     try {
       await updateUserDetailsService(userId);
       dispatch(fetchUserData());
+      setShowConfetti(true);
     } catch (error) {
       console.log(error);
     } finally {
