@@ -1,4 +1,7 @@
+"use client";
+
 import { saveCredentialsToBrowserStorage } from "@/lib/browser-storage";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
 import {
   verifyExistingUserAndSendOTPService,
   verifyOTPAndSignInUserService,
@@ -10,6 +13,7 @@ import {
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import Timer from "../common/timer";
 import { Button } from "../ui/primitives/button";
 import {
@@ -52,6 +56,7 @@ const TwoFactorAuthDialog = ({
 
   const router = useRouter();
   const { toast } = useToast();
+  const dispatch = useDispatch();
 
   const handleTimerEnd = () => {
     setDisableResendOTP(false);
@@ -73,6 +78,7 @@ const TwoFactorAuthDialog = ({
         saveCredentialsToBrowserStorage(accessToken, refreshToken, user?._id);
       }
 
+      dispatch(fetchUserData());
       router.push("/dashboard");
     } catch (error: any) {
       console.log(error?.data?.error, "logged error");

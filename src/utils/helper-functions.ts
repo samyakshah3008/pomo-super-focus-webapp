@@ -17,4 +17,35 @@ const getProgressPercentage = (totalHours: any, completedMinutes: any) => {
   return percentage;
 };
 
-export { getFormattedDate, getFormattedTodaysDate, getProgressPercentage };
+const getTimeOfDay = (): string => {
+  const currentHour = new Date().getHours();
+
+  if (currentHour >= 5 && currentHour < 12) {
+    return "Morning";
+  } else if (currentHour >= 12 && currentHour < 17) {
+    return "Afternoon";
+  } else {
+    return "Evening";
+  }
+};
+
+const getDaysUntilYearEnd = (): number => {
+  const today = new Date();
+  const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st of the current year
+  const diffInTime = endOfYear.getTime() - today.getTime();
+  const diffInDays = Math.ceil(diffInTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+  return diffInDays;
+};
+
+const getCurrentYear = (): number => {
+  return new Date().getFullYear(); // Returns the current year
+};
+
+export {
+  getCurrentYear,
+  getDaysUntilYearEnd,
+  getFormattedDate,
+  getFormattedTodaysDate,
+  getProgressPercentage,
+  getTimeOfDay,
+};
