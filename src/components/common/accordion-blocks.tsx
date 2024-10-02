@@ -15,7 +15,16 @@ export function AccordionBlocks({ accordionItems }: any) {
       {accordionItems?.map((item: any, id: any) => {
         return (
           <AccordionItem value={`item-${id}`} key={id}>
-            <AccordionTrigger>{item?.title}</AccordionTrigger>
+            <AccordionTrigger>
+              <div className="flex gap-2">
+                <div className="text-sm">{id + 1}. </div>
+                <div
+                  className={`text-sm ${item?.completed ? "line-through" : ""}`}
+                >
+                  {item?.title}
+                </div>
+              </div>
+            </AccordionTrigger>
             <AccordionContent>{item?.content}</AccordionContent>
           </AccordionItem>
         );
