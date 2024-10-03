@@ -25,13 +25,13 @@ const Header = () => {
     if (!currentUser?.pomoSuperUser) return;
     setWords([
       {
-        text: "Good",
+        text: "Witchy",
       },
       {
-        text: getTimeOfDay(),
+        text: `${getTimeOfDay()},`,
       },
       {
-        text: `${currentUser?.pomoSuperUser?.firstName}`,
+        text: `${currentUser?.pomoSuperUser?.firstName}!`,
         className: "text-blue-500 dark:text-blue-500",
       },
     ]);
