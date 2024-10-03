@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const getFormattedTodaysDate = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -41,11 +43,30 @@ const getCurrentYear = (): number => {
   return new Date().getFullYear(); // Returns the current year
 };
 
+const getWeekTimeline = () => {
+  const today = moment().startOf("day");
+  const dayOfWeek = today.isoWeekday(); // ISO weekday: 1 (Monday) to 7 (Sunday)
+  const startOfWeek = today.clone().subtract(dayOfWeek - 1, "days");
+  const endOfWeek = startOfWeek.clone().add(6, "days");
+
+  return {
+    startOfWeek: startOfWeek.toDate(),
+    endOfWeek: endOfWeek.toDate(),
+  };
+};
+
+const convertMinutesToHour = (minutes: number) => {
+  let convertedValue = Math.round(minutes / 60);
+  return convertedValue;
+};
+
 export {
+  convertMinutesToHour,
   getCurrentYear,
   getDaysUntilYearEnd,
   getFormattedDate,
   getFormattedTodaysDate,
   getProgressPercentage,
   getTimeOfDay,
+  getWeekTimeline,
 };

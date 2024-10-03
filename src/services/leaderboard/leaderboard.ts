@@ -6,4 +6,9 @@ const getWeeklyLeaderboardDetailsService = async () => {
   return response;
 };
 
-export { getWeeklyLeaderboardDetailsService };
+const getUserRankOfTheWeekService = async (userId: any) => {
+  const response = await get(`${getWeeklyLeaderboardEndpoint}/${userId}`);
+  return response;
+};
+
+export { getUserRankOfTheWeekService, getWeeklyLeaderboardDetailsService };
