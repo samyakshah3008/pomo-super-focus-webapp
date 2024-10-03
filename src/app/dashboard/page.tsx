@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import DashboardLayout from "./dashboard-layout";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -14,5 +15,6 @@ export default async function DashboardPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Dashboard under construction</div>;
+
+  return <DashboardLayout />;
 }

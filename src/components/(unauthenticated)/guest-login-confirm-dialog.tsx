@@ -1,8 +1,12 @@
+"use client";
+
 import { saveCredentialsToBrowserStorage } from "@/lib/browser-storage";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
 import { signUpGuestUserService } from "@/services/authentication/signup";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "../ui/primitives/button";
 import {
   Dialog,
@@ -26,6 +30,7 @@ const GuestLoginConfirmDialog = ({
   flow,
 }: GuestLoginConfirmDialogProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -36,6 +41,7 @@ const GuestLoginConfirmDialog = ({
         data: { accessToken, refreshToken, user },
       } = await signUpGuestUserService();
       saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
+      dispatch(fetchUserData());
       router.push("/dashboard");
     } catch (error) {
       console.error(error, "logged error");

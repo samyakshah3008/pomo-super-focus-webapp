@@ -13,7 +13,7 @@ const initialState: any = {
   error: null,
 };
 
-export const fetchStreakDetails = createAsyncThunk<any>(
+export const fetchStreakDetails: any = createAsyncThunk<any>(
   "pomoSuperUser/streakDetails",
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
@@ -31,7 +31,7 @@ export const fetchStreakDetails = createAsyncThunk<any>(
   }
 );
 
-export const streakSlice = createSlice({
+export const streakSlice: any = createSlice({
   name: "streakDetails",
   initialState,
   reducers: {

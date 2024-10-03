@@ -29,7 +29,7 @@ const initialState: any = {
   error: null,
 };
 
-export const fetchDailyProgress = createAsyncThunk<any>(
+export const fetchDailyProgress: any = createAsyncThunk<any>(
   "pomoSuperUser/dailyProgress",
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
@@ -43,7 +43,7 @@ export const fetchDailyProgress = createAsyncThunk<any>(
   }
 );
 
-export const dailyProgressSlice = createSlice({
+export const dailyProgressSlice: any = createSlice({
   name: "dailyProgress",
   initialState,
   reducers: {},

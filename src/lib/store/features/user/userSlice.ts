@@ -25,7 +25,7 @@ interface FetchUserDataResponse {
   userDetails: UserDetails;
 }
 
-export const fetchUserData = createAsyncThunk<FetchUserDataResponse, void>(
+export const fetchUserData: any = createAsyncThunk<FetchUserDataResponse, void>(
   "pomoSuperUser/fetchUser",
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);

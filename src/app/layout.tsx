@@ -24,7 +24,6 @@ export default function RootLayout({
       <StoreProvider>
         <body className={inter.className}>
           {children}
-
           <Toaster />
         </body>
       </StoreProvider>
