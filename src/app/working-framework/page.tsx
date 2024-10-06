@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import WorkingFrameworkLayout from "./working-framework-layout";
 
 export const metadata: Metadata = {
   title: "Working Framework",
@@ -14,5 +15,5 @@ export default async function WorkingFrameworkPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Working Framework</div>;
+  return <WorkingFrameworkLayout />;
 }
