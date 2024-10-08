@@ -8,13 +8,13 @@ const WorkingFrameworkLayout = () => {
   const sections = [<Header />, <Templates />, <CustomTemplate />];
   return (
     <div>
-      <DotBackground>
+      <DotBackground widthFull={true}>
         <div className="flex flex-col w-[80%] gap-10 ">
           {sections.map((section: any, id: any) => {
             return (
               <>
                 {section}
-                {sections?.length !== id ? <Separator /> : null}
+                {sections?.length !== id + 1 ? <Separator /> : null}
               </>
             );
           })}
