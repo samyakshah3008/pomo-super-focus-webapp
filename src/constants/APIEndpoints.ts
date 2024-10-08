@@ -39,3 +39,7 @@ export const getWeeklyLeaderboardEndpoint = "/leaderboard/weekly";
 // working framework
 
 export const getWorkingFrameworkTemplatesEndpoint = "/working-framework";
+
+// habits scorecard
+
+export const getHabitsEndpoint = "/habits";
