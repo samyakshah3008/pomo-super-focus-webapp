@@ -8,6 +8,7 @@ import {
   IconCircle,
   IconPlus,
 } from "@tabler/icons-react";
+import moment from "moment";
 import Image from "next/image";
 import { useState } from "react";
 import EmptyStateCatPumpkin from "../../../../public/empty-state-cat-pumpkin.png";
@@ -16,6 +17,22 @@ import PopoverHabitActions from "./popover-habit-actions";
 
 const TodayOverview = ({ habits, fetchHabits }: any) => {
   const [showNewHabitDialog, setShowNewHabitDialog] = useState<boolean>(false);
+
+  const [currentDate, setCurrentDate] = useState(moment());
+
+  // Navigate to the previous day
+  const goToPreviousDay = () => {
+    setCurrentDate(currentDate.clone().subtract(1, "days"));
+  };
+
+  // Navigate to the next day
+  const goToNextDay = () => {
+    setCurrentDate(currentDate.clone().add(1, "days"));
+  };
+
+  // Format the day and date dynamically
+  const formattedDay = currentDate.format("dddd");
+  const formattedDate = currentDate.format("Do MMMM YYYY");
 
   const onCloseCreateNewHabitDialog = () => {
     setShowNewHabitDialog(false);
@@ -40,14 +57,24 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
           <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center">
               <div>
-                <div className="font-bold">Sunday</div>
-                <div className="text-sm text-gray-700">17th May 2024</div>
+                <div className="font-bold">{formattedDay}</div>
+                <div className="text-sm text-gray-700">{formattedDate}</div>
               </div>
+
               <div className="flex gap-2">
-                <IconArrowLeft size={20} cursor="pointer" />
-                <IconArrowRight size={20} cursor="pointer" />
+                <IconArrowLeft
+                  size={20}
+                  cursor="pointer"
+                  onClick={goToPreviousDay}
+                />
+                <IconArrowRight
+                  size={20}
+                  cursor="pointer"
+                  onClick={goToNextDay}
+                />
               </div>
             </div>
+
             <Button size="sm" onClick={() => setShowNewHabitDialog(true)}>
               <div className="flex gap-2 items-center">
                 <IconPlus size={20} /> New Habit
@@ -55,6 +82,7 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
             </Button>
           </div>
         </div>
+
         <div className="w-[90%] m-auto flex flex-col gap-10">
           {habits?.length !== 0 ? (
             habits?.map((habit: any, index: any) => {
