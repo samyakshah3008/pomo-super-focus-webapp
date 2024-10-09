@@ -1,11 +1,11 @@
+"use client";
+
 import { DotBackground } from "@/components/common/grid-and-dot-background";
 import { Separator } from "@/components/ui/primitives/separator";
-import CustomTemplate from "./custom-template";
 import Header from "./header";
-import Templates from "./templates";
 
-const WorkingFrameworkLayout = () => {
-  const sections = [<Header />, <Templates />, <CustomTemplate />];
+const HabitsScorecard = () => {
+  const sections = [<Header />];
   return (
     <div>
       <DotBackground widthFull={true}>
@@ -24,4 +24,4 @@ const WorkingFrameworkLayout = () => {
   );
 };
 
-export default WorkingFrameworkLayout;
+export default HabitsScorecard;

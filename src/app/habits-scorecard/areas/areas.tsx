@@ -1,15 +1,12 @@
 import { DotBackground } from "@/components/common/grid-and-dot-background";
 import { Separator } from "@/components/ui/primitives/separator";
-import CustomTemplate from "./custom-template";
-import Header from "./header";
-import Templates from "./templates";
 
-const WorkingFrameworkLayout = () => {
-  const sections = [<Header />, <Templates />, <CustomTemplate />];
+const Areas = () => {
+  const sections = [""];
   return (
     <div>
       <DotBackground widthFull={true}>
-        <div className="flex flex-col w-[80%] gap-10 ">
+        <div className="flex flex-col w-[100%] gap-10">
           {sections.map((section: any, id: any) => {
             return (
               <>
@@ -24,4 +21,4 @@ const WorkingFrameworkLayout = () => {
   );
 };
 
-export default WorkingFrameworkLayout;
+export default Areas;

@@ -3,7 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import HabitsScorecard from "./habits-scorecard";
+import Statistics from "./statistics";
 
 export const metadata: Metadata = {
   title: "Habits Scorecard",
@@ -15,5 +15,5 @@ export default async function HabitsScorecardPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <HabitsScorecard />;
+  return <Statistics />;
 }

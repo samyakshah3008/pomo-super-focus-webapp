@@ -24,7 +24,7 @@ const DashboardLayout = () => {
   return (
     <div>
       <GreetingModal setShowConfetti={setShowConfetti} />
-      <DotBackground>
+      <DotBackground widthFull={true}>
         {showConfetti ? <Confetti /> : null}
         <div className="flex flex-col w-[80%] gap-10 ">
           {sections.map((section, id) => {
