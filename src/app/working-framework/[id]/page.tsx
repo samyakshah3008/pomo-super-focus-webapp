@@ -3,17 +3,26 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import WorkingFrameworkLayout from "./working-framework-layout";
+import EditCustomFramework from "./edit-custom-framework";
 
 export const metadata: Metadata = {
-  title: "Working Framework",
+  title: "Edit Working Framework",
   description: "Working Framework for Pomo Super Focus Users.",
 };
 
-export default async function WorkingFrameworkPage({}) {
+interface Params {
+  params: {
+    id: string;
+  };
+}
+
+export default async function EditWorkingFrameworkPage({ params }: Params) {
   const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
-  return <WorkingFrameworkLayout />;
+
+  const { id } = params;
+
+  return <EditCustomFramework id={id} />;
 }

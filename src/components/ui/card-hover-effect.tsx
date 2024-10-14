@@ -1,5 +1,7 @@
 "use client";
 
+import CustomWorkingFrameworkSidesheet from "@/app/working-framework/custom-working-framework-sidesheet";
+import StarterTemplateSidesheet from "@/app/working-framework/starter-template-sidesheet";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -8,6 +10,8 @@ import { useState } from "react";
 export const HoverEffect = ({
   items,
   className,
+  type,
+  getCustomWorkingFrameworkTemplates,
 }: {
   items: {
     title: string;
@@ -15,8 +19,123 @@ export const HoverEffect = ({
     link: string;
   }[];
   className?: string;
+  type?: string;
+  getCustomWorkingFrameworkTemplates?: any;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const renderItems = () => {
+    switch (type) {
+      case "working-framework-sidesheet":
+        return items.map((item, idx) => (
+          <StarterTemplateSidesheet item={item}>
+            <div
+              key={idx}
+              className="relative group  block p-2 h-full w-full cursor-pointer"
+              onMouseEnter={() => setHoveredIndex(idx)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <AnimatePresence>
+                {hoveredIndex === idx && (
+                  <motion.span
+                    className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                    layoutId="hoverBackground"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: 1,
+                      transition: { duration: 0.15 },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      transition: { duration: 0.15, delay: 0.2 },
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+              <Card>
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+              </Card>
+            </div>
+          </StarterTemplateSidesheet>
+        ));
+
+      case "custom-work-framework-sidesheet":
+        return items.map((item: any, idx) => (
+          <CustomWorkingFrameworkSidesheet
+            item={item?.template?.[0]}
+            workingFrameworkObj={item}
+            getCustomWorkingFrameworkTemplates={
+              getCustomWorkingFrameworkTemplates
+            }
+          >
+            <div
+              key={idx}
+              className="relative group  block p-2 h-full w-full cursor-pointer"
+              onMouseEnter={() => setHoveredIndex(idx)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              <AnimatePresence>
+                {hoveredIndex === idx && (
+                  <motion.span
+                    className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                    layoutId="hoverBackground"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: 1,
+                      transition: { duration: 0.15 },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      transition: { duration: 0.15, delay: 0.2 },
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+              <Card>
+                <CardTitle>{item?.template[0]?.title}</CardTitle>
+                <CardDescription>
+                  {item?.template[0]?.description}
+                </CardDescription>
+              </Card>
+            </div>
+          </CustomWorkingFrameworkSidesheet>
+        ));
+
+      default:
+        return items.map((item, idx) => (
+          <Link
+            href={item?.link}
+            key={idx}
+            className="relative group  block p-2 h-full w-full"
+            onMouseEnter={() => setHoveredIndex(idx)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <AnimatePresence>
+              {hoveredIndex === idx && (
+                <motion.span
+                  className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
+                  layoutId="hoverBackground"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: { duration: 0.15 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.15, delay: 0.2 },
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <Card>
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </Card>
+          </Link>
+        ));
+    }
+  };
 
   return (
     <div
@@ -25,37 +144,7 @@ export const HoverEffect = ({
         className
       )}
     >
-      {items.map((item, idx) => (
-        <Link
-          href={item?.link}
-          key={item?.link}
-          className="relative group  block p-2 h-full w-full"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block  rounded-3xl"
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
-              />
-            )}
-          </AnimatePresence>
-          <Card>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
-          </Card>
-        </Link>
-      ))}
+      {renderItems()}
     </div>
   );
 };

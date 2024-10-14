@@ -3,10 +3,10 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import WorkingFrameworkLayout from "./working-framework-layout";
+import CreateFramework from "./create-framework";
 
 export const metadata: Metadata = {
-  title: "Working Framework",
+  title: "Create Working Framework",
   description: "Working Framework for Pomo Super Focus Users.",
 };
 
@@ -15,5 +15,5 @@ export default async function WorkingFrameworkPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <WorkingFrameworkLayout />;
+  return <CreateFramework />;
 }

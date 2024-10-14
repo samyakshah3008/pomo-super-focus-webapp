@@ -1,9 +1,17 @@
 import { HoverEffect } from "../ui/card-hover-effect";
 
-const CardHoverEffect = ({ cardItems }: { cardItems: any }) => {
+const CardHoverEffect = ({
+  cardItems,
+  type,
+  getCustomWorkingFrameworkTemplates,
+}: any) => {
   return (
     <div className="max-w-5xl mx-auto px-8">
-      <HoverEffect items={cardItems} />
+      <HoverEffect
+        getCustomWorkingFrameworkTemplates={getCustomWorkingFrameworkTemplates}
+        items={cardItems}
+        type={type}
+      />
     </div>
   );
 };

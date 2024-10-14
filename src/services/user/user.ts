@@ -1,5 +1,8 @@
 import { postWithToken } from "@/config/API";
-import { userDetailsEndpoint } from "@/constants/APIEndpoints";
+import {
+  activateWorkingFrameworkEndpoint,
+  userDetailsEndpoint,
+} from "@/constants/APIEndpoints";
 
 const updateUserDetailsService = async (userId: string | null) => {
   const response = await postWithToken(userDetailsEndpoint, {
@@ -9,4 +12,15 @@ const updateUserDetailsService = async (userId: string | null) => {
   return response;
 };
 
-export { updateUserDetailsService };
+const activateWorkFrameworkService = async (
+  userId: string,
+  workingFramework: any
+) => {
+  const response = await postWithToken(activateWorkingFrameworkEndpoint, {
+    userId,
+    workingFramework,
+  });
+  return response;
+};
+
+export { activateWorkFrameworkService, updateUserDetailsService };
