@@ -43,3 +43,21 @@ export const getWorkingFrameworkTemplatesEndpoint = "/working-framework";
 // habits scorecard
 
 export const getHabitsEndpoint = "/habits";
+// user working framework endpoint
+
+export const activateWorkingFrameworkEndpoint =
+  "/users/activate-working-framework";
+
+// custom working framework endpoint
+
+export const customWorkingFrameworkTemplatesEndpoint =
+  "/custom-working-framework";
+
+export const deleteWorkingFrameworkTemplateEndpoint =
+  "/custom-working-framework/delete";
+
+export const getCustomFrameworkByIdEndpoint =
+  "/custom-working-framework/get-framework-by-id";
+
+export const updateCustomFrameworkByIdEndpoint =
+  "/custom-working-framework/update";
