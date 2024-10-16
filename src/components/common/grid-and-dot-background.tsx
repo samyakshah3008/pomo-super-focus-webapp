@@ -21,9 +21,19 @@ export function GridSmallBackground({
   );
 }
 
-export function DotBackground({ children }: { children: React.ReactNode }) {
+export function DotBackground({
+  children,
+  widthFull = true,
+}: {
+  children: React.ReactNode;
+  widthFull: boolean;
+}) {
   return (
-    <div className="w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex justify-center">
+    <div
+      className={`dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex justify-center ${
+        widthFull ? "w-full" : ""
+      } `}
+    >
       {/* Radial gradient for the container to give a faded look */}
       {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div> */}
       {children}

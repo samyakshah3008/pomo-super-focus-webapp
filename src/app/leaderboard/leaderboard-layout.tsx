@@ -57,7 +57,7 @@ const LeaderboardLayout = () => {
             return (
               <>
                 {section}
-                {sections?.length !== id ? <Separator /> : null}
+                {sections?.length !== id + 1 ? <Separator /> : null}
               </>
             );
           })}
