@@ -128,6 +128,9 @@ const config = {
         "16": "16px",
         "24": "24px",
       },
+      backgroundImage: {
+        "pomosuperfocus-gradient": "linear-gradient(140deg, #13171f, #1e1e2e)",
+      },
     },
   },
   plugins: [
