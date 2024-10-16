@@ -40,6 +40,9 @@ export const getWeeklyLeaderboardEndpoint = "/leaderboard/weekly";
 
 export const getWorkingFrameworkTemplatesEndpoint = "/working-framework";
 
+// habits scorecard
+
+export const getHabitsEndpoint = "/habits";
 // user working framework endpoint
 
 export const activateWorkingFrameworkEndpoint =

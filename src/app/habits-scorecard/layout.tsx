@@ -1,4 +1,6 @@
 import SideNav from "@/components/layouts/side-nav";
+import Navbar from "./navbar";
+import RightSidebar from "./right-sidebar";
 
 export default function Layout({
   children,
@@ -10,7 +12,11 @@ export default function Layout({
       <div>
         <SideNav />
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 border-r-2">
+        <Navbar />
+        {children}
+      </div>
+      <RightSidebar />
     </div>
   );
 }

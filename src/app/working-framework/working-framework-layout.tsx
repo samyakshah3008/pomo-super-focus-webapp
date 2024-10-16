@@ -49,7 +49,7 @@ const WorkingFrameworkLayout = () => {
 
   return (
     <>
-      <DotBackground>
+      <DotBackground widthFull={true}>
         <div className="flex flex-col w-[80%] gap-10 ">
           {sections.map((section: any, id: any) => {
             return (
