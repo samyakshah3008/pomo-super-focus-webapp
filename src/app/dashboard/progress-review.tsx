@@ -2,7 +2,7 @@
 
 import Lottie from "lottie-react";
 import DashboardProgressReview from "../../../public/progress-dashboard.json";
-import DailyProgressWidget from "../super-focus/@dailyProgress/daily-progress-widget";
+import DailyProgressWidget from "./(daily-progress)/daily-progress-widget";
 
 const ProgressReview = () => {
   return (
