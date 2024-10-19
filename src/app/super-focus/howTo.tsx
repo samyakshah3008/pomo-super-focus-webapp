@@ -3,6 +3,8 @@
 import { getColorClass } from "@/components/(super-focus)/helper";
 import { useSuperFocus } from "@/context/super-focus";
 import { cn } from "@/lib/utils";
+import Lottie from "lottie-react";
+import TomatoLottie from "../../../public/tomato-lottie.json";
 import { pomoSuperFocusTimerFeatures, themeColors } from "./constants";
 
 const GetThemeColorText = (text: string, themeColor: string = "emerald") => {
@@ -10,13 +12,22 @@ const GetThemeColorText = (text: string, themeColor: string = "emerald") => {
   return <span className={cn(`${colorClass} font-semibold`)}>{text}</span>;
 };
 
-const DescriptionContainer = () => {
+const HowTo = () => {
   const { getColor } = useSuperFocus();
   let themeColor = getColor();
 
   return (
-    <main className="flex flex-col items-center p-40">
+    <main className="flex flex-col items-center">
       <article className="flex flex-col items-center gap-16 max-w-[600px]">
+        {/* Lottie  */}
+        <div className="w-[250px] h-[200px] mt-5">
+          <Lottie
+            animationData={TomatoLottie}
+            loop={true}
+            width={250}
+            height={200}
+          />
+        </div>
         {/* Section 1 */}
         <div className="flex flex-col gap-5">
           <h1 className="text-4xl  font-bold">
@@ -97,4 +108,4 @@ const DescriptionContainer = () => {
   );
 };
 
-export default DescriptionContainer;
+export default HowTo;
