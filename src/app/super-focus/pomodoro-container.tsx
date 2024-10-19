@@ -1,7 +1,11 @@
+import MusicWidget from "./music-widget";
+import SuperFocusTimer from "./super-focus-timer";
+
 const PomodoroContainer = () => {
   return (
-    <div className="h-screen border-2 border-solid border-black bg-pomosuperfocus-gradient">
-      Pomodoro container
+    <div className="w-[620px] flex flex-col gap-5 m-auto">
+      <SuperFocusTimer />
+      <MusicWidget studySource="spotify" />
     </div>
   );
 };

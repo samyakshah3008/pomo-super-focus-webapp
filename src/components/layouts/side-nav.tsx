@@ -2,11 +2,14 @@
 import { cn } from "@/lib/utils";
 import {
   IconBug,
+  IconCat,
   IconChartBar,
   IconChecklist,
   IconFocus2,
   IconGhostOff,
   IconGolf,
+  IconHeart,
+  IconHeartbeat,
   IconHome,
   IconSettingsAutomation,
   IconStairsUp,
@@ -66,6 +69,27 @@ const SideNav = () => {
       href: "/habits-scorecard",
       icon: (
         <IconChecklist className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "You vs You",
+      href: "/self-review",
+      icon: (
+        <IconHeart className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "My gratitude list",
+      href: "/habits-scorecard",
+      icon: (
+        <IconHeartbeat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "My life",
+      href: "/my-life",
+      icon: (
+        <IconCat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
