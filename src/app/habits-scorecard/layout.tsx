@@ -1,6 +1,5 @@
 import SideNav from "@/components/layouts/side-nav";
 import Navbar from "./navbar";
-import RightSidebar from "./right-sidebar";
 
 export default function Layout({
   children,
@@ -16,7 +15,6 @@ export default function Layout({
         <Navbar />
         {children}
       </div>
-      <RightSidebar />
     </div>
   );
 }
