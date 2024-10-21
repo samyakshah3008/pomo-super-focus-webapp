@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import {
+  IconBucket,
   IconBug,
   IconCat,
   IconChartBar,
@@ -83,6 +84,13 @@ const SideNav = () => {
       href: "/habits-scorecard",
       icon: (
         <IconHeartbeat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "My bucket list",
+      href: "/habits-scorecard",
+      icon: (
+        <IconBucket className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
