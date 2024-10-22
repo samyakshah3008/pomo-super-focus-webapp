@@ -3,17 +3,18 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Areas from "./areas";
+import GratitudeList from "./gratitude-list";
 
 export const metadata: Metadata = {
-  title: "Habits Scorecard",
-  description: "Habits Scorecard for Pomo Super Focus Users.",
+  title: "Dashboard",
+  description: "Dashboard for Pomo Super Focus Users.",
 };
 
-export default async function HabitsScorecardPage({}) {
+export default async function DashboardPage({}) {
   const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
   }
-  return <Areas />;
+
+  return <GratitudeList />;
 }
