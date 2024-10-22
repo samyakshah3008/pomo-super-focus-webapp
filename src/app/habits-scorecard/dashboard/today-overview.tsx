@@ -2,12 +2,7 @@
 
 import { Button } from "@/components/ui/primitives/button";
 import { patch } from "@/config/API";
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconCircle,
-  IconPlus,
-} from "@tabler/icons-react";
+import { IconCircle, IconPlus } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import { useState } from "react";
@@ -51,8 +46,11 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
   };
 
   return (
-    <>
-      <div className="mt-8 flex flex-col gap-10">
+    <div className="flex flex-col gap-4 mt-4">
+      <div className="text-xl underline font-bold text-center">
+        Have a look at your today's habits:
+      </div>
+      <div className="flex flex-col gap-10">
         <div className="p-4 flex flex-col gap-5">
           <div className="flex justify-between items-center">
             <div className="flex gap-4 items-center">
@@ -61,7 +59,7 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
                 <div className="text-sm text-gray-700">{formattedDate}</div>
               </div>
 
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <IconArrowLeft
                   size={20}
                   cursor="pointer"
@@ -72,7 +70,7 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
                   cursor="pointer"
                   onClick={goToNextDay}
                 />
-              </div>
+              </div> */}
             </div>
 
             <Button size="sm" onClick={() => setShowNewHabitDialog(true)}>
@@ -134,7 +132,7 @@ const TodayOverview = ({ habits, fetchHabits }: any) => {
         onCloseCreateNewHabitDialog={onCloseCreateNewHabitDialog}
         fetchHabits={fetchHabits}
       />
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,10 @@
 "use client";
 
-import { DotBackground } from "@/components/common/grid-and-dot-background";
-import { Separator } from "@/components/ui/primitives/separator";
 import { fetchHabitsService } from "@/services/habits-scorecard/habits-scorecard";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import HabitsCompleted from "./habits-completed";
-import TodayOverview from "./today-overview";
+import Header from "./header";
+import Today from "./today";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState<[] | any>([]);
@@ -33,25 +31,14 @@ const Dashboard = () => {
     return null;
   }
 
-  const sections = [
-    <TodayOverview habits={habits?.incomplete} fetchHabits={fetchHabits} />,
-    <HabitsCompleted habits={habits?.complete} />,
-  ];
-
   return (
     <div>
-      <DotBackground widthFull={true}>
-        <div className="flex flex-col w-[90%] gap-10 pb-5">
-          {sections.map((section: any, id: any) => {
-            return (
-              <>
-                {section}
-                {sections?.length !== id + 1 ? <Separator /> : null}
-              </>
-            );
-          })}
-        </div>
-      </DotBackground>
+      <div className="flex flex-col gap-5 w-[70%] m-auto">
+        {/* <TodayOverview habits={habits?.incomplete} fetchHabits={fetchHabits} />, */}
+        <Header />
+        <Today />
+        {/* <HabitsCompleted habits={habits?.complete} />, */}
+      </div>
     </div>
   );
 };
