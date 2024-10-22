@@ -81,14 +81,14 @@ const SideNav = () => {
     },
     {
       label: "My gratitude list",
-      href: "/habits-scorecard",
+      href: "/gratitude-list",
       icon: (
         <IconHeartbeat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "My bucket list",
-      href: "/habits-scorecard",
+      href: "/bucket-list",
       icon: (
         <IconBucket className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
