@@ -36,7 +36,6 @@ type GoalObj = {
 };
 
 const UpdateGoalSidesheet = ({
-  children,
   goalObj,
   open,
   onOpenChange,
