@@ -13,7 +13,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDown, MoreHorizontal } from "lucide-react";
-import * as React from "react";
+import { useState } from "react";
 
 import {
   Table,
@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import ReusableDialog from "../common/reusable-dialog";
 import { Button } from "../ui/primitives/button";
 import {
   DropdownMenu,
@@ -35,6 +36,7 @@ import {
 } from "../ui/primitives/dropdown-menu";
 import { Input } from "../ui/primitives/input";
 import CreateGoalSidesheet from "./create-goal-sidesheet";
+import UpdateGoalSidesheet from "./update-goal-sidesheet";
 import ViewGoalSidesheet from "./view-goal-sidesheet";
 
 export type Goal = {
@@ -47,15 +49,16 @@ export type Goal = {
 };
 
 export function DataTable({ data }: any) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [openViewGoalSidesheet, setOpenViewGoalSidesheet] =
-    React.useState(false);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [openViewGoalSidesheet, setOpenViewGoalSidesheet] = useState(false);
+  const [openUpdateGoalSidesheet, setOpenUpdateGoalSidesheet] = useState(false);
+  const [isConfirmDeleteGoalDialogOpen, setIsConfirmDeleteGoalDialogOpen] =
+    useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedGoalObj, setSelectedGoalObj] = useState<any>(null);
 
   const columns: ColumnDef<Goal>[] = [
     {
@@ -117,13 +120,32 @@ export function DataTable({ data }: any) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>{" "}
-              <DropdownMenuItem onClick={() => setOpenViewGoalSidesheet(true)}>
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenViewGoalSidesheet(true);
+                  setSelectedGoalObj(row.original);
+                }}
+              >
                 {" "}
                 View Goal
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Delete Goal</DropdownMenuItem>{" "}
-              <DropdownMenuItem>Update Goal</DropdownMenuItem>{" "}
+              <DropdownMenuItem
+                onClick={() => {
+                  setIsConfirmDeleteGoalDialogOpen(true);
+                  setSelectedGoalObj(row.original);
+                }}
+              >
+                Delete Goal
+              </DropdownMenuItem>{" "}
+              <DropdownMenuItem
+                onClick={() => {
+                  setSelectedGoalObj(row.original);
+                  setOpenUpdateGoalSidesheet(true);
+                }}
+              >
+                Update Goal
+              </DropdownMenuItem>{" "}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -153,6 +175,16 @@ export function DataTable({ data }: any) {
   const onOpenChangeViewGoalSidesheet = () => {
     setOpenViewGoalSidesheet(false);
   };
+
+  const onOpenChangeUpdateGoalSidesheet: any = () => {
+    setOpenUpdateGoalSidesheet(false);
+  };
+
+  const onCloseConfirmDeleteGoalDialog = () => {
+    setIsConfirmDeleteGoalDialogOpen(false);
+  };
+
+  const onConfirmDelete = () => {};
 
   return (
     <>
@@ -272,6 +304,24 @@ export function DataTable({ data }: any) {
       <ViewGoalSidesheet
         open={openViewGoalSidesheet}
         onOpenChangeViewGoalSidesheet={onOpenChangeViewGoalSidesheet}
+        goalObj={selectedGoalObj}
+      />
+      <UpdateGoalSidesheet
+        open={openUpdateGoalSidesheet}
+        onOpenChange={onOpenChangeUpdateGoalSidesheet}
+        goalObj={selectedGoalObj}
+        setSelectedGoalObj={setSelectedGoalObj}
+      />
+      <ReusableDialog
+        isOpen={isConfirmDeleteGoalDialogOpen}
+        onClose={onCloseConfirmDeleteGoalDialog}
+        onConfirm={onConfirmDelete}
+        isProcessing={isDeleting}
+        title="Confirm Delete?"
+        description={`You are about to delete this goal. This action is irreversible. Are you sure you want to delete it?`}
+        confirmText="Yes, I want to delete!"
+        cancelText="Cancel"
+        variant="destructive"
       />
     </>
   );
