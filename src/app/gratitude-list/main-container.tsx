@@ -1,13 +1,10 @@
 "use client";
 
+import { DataTable } from "@/components/(gratitude-list)/data-table";
 import GratitudeListDialog from "@/components/(gratitude-list)/dialog";
-import { CardStackUsage, Highlight } from "@/components/common/card-stack";
-import { Button } from "@/components/ui/primitives/button";
-import Image from "next/image";
+import { Highlight } from "@/components/common/card-stack";
 import { useState } from "react";
-import ThinkingFace from "../../../public/thinking-face.png";
-import EmptyState from "./empty-state";
-import GratitudeListCard from "./gratitude-list-card";
+import { dummyGratitudeList } from "./constants";
 
 const gratitudeItems = [
   {
@@ -64,28 +61,8 @@ const MainContainer = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-4 p-5 items-center">
-        {isEmpty ? (
-          <EmptyState />
-        ) : (
-          <div className="flex flex-col gap-10 justify-center">
-            <CardStackUsage className="mt-10" items={gratitudeItems} />
-            <GratitudeListCard />
-          </div>
-        )}
-
-        <div className="flex flex-col gap-4 items-center">
-          <Image src={ThinkingFace} alt="thinking" className="w-64 h-52" />
-          <div className="text-xl underline">
-            Want to add more items to your gratitude list?
-          </div>
-          <Button
-            onClick={() => setIsAddNewItemDialogOpen(true)}
-            className="w-full"
-          >
-            Add Item!
-          </Button>
-        </div>
+      <div className="w-[80%]">
+        <DataTable data={dummyGratitudeList} />
       </div>
       <GratitudeListDialog
         isOpen={isAddNewItemDialogOpen}
