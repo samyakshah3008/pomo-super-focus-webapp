@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Settings from "./settings";
 
 export const metadata: Metadata = {
   title: "Settings",
@@ -14,5 +15,5 @@ export default async function SettingsPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Settings</div>;
+  return <Settings />;
 }
