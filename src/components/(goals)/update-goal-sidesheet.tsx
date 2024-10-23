@@ -10,9 +10,9 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/primitives/sheet";
 import { useState } from "react";
+import ReusableDialog from "../common/reusable-dialog";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
 import { Label } from "../ui/primitives/label";
@@ -28,11 +28,6 @@ import {
 import { Textarea } from "../ui/primitives/textarea";
 import { CalendarForm } from "./calendar";
 
-type GoalsSidesheetProps = {
-  children: React.ReactNode;
-  item?: any;
-};
-
 type GoalObj = {
   title: string;
   actions: string;
@@ -40,21 +35,27 @@ type GoalObj = {
   isAchieved: boolean;
 };
 
-const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
+const UpdateGoalSidesheet = ({
+  children,
+  goalObj,
+  open,
+  onOpenChange,
+  setSelectedGoalObj,
+}: any) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [goalObj, setGoalObj] = useState<GoalObj>({
-    title: "",
-    actions: "",
-    category: "",
-    isAchieved: false,
-  });
+  const [showConfirmUpdateGoalDialog, setShowConfirmUpdateGoalDialog] =
+    useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  console.log(item, "item");
+  const onCloseConfirmUpdateGoalDialog = () => {
+    setShowConfirmUpdateGoalDialog(false);
+  };
+
+  const onConfirmUpdate = () => {};
 
   return (
     <>
-      <Sheet>
-        <SheetTrigger asChild>{children}</SheetTrigger>
+      <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-y-auto w-full sm:w-full md:max-w-[500px] flex flex-col gap-4">
           <SheetHeader>
             <SheetTitle className="text-2xl font-semibold text-gray-800">
@@ -68,9 +69,9 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
             <div className="flex flex-col gap-2">
               <div className="text-sm text-black">Title of your Goal</div>
               <Input
-                value={goalObj.title}
+                value={goalObj?.goals}
                 onChange={(e: any) =>
-                  setGoalObj({ ...goalObj, title: e.target.value })
+                  setSelectedGoalObj({ ...goalObj, goals: e.target.value })
                 }
               />
             </div>
@@ -81,9 +82,9 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
               </div>
 
               <Textarea
-                value={goalObj.actions}
+                value={goalObj?.steps}
                 onChange={(e: any) =>
-                  setGoalObj({ ...goalObj, actions: e.target.value })
+                  setSelectedGoalObj({ ...goalObj, steps: e.target.value })
                 }
               />
             </div>
@@ -112,7 +113,10 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
                         key={category.value}
                         value={category.value}
                         onChange={() =>
-                          setGoalObj({ ...goalObj, category: category.value })
+                          setSelectedGoalObj({
+                            ...goalObj,
+                            category: category.value,
+                          })
                         }
                       >
                         {category.label}
@@ -126,9 +130,15 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
             <div className="flex gap-1 items-center">
               <Checkbox
                 id="item-completed"
-                checked={goalObj.isAchieved}
+                checked={goalObj?.status == "achieved" ? true : false}
                 onCheckedChange={() =>
-                  setGoalObj({ ...goalObj, isAchieved: !goalObj.isAchieved })
+                  setSelectedGoalObj({
+                    ...goalObj,
+                    status:
+                      goalObj?.status == "achieved"
+                        ? "yet to achieve"
+                        : "achieved",
+                  })
                 }
               />
               <Label htmlFor="item-completed" className="text-sm">
@@ -139,11 +149,7 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
           <SheetFooter className="flex-1 items-end">
             <SheetClose asChild>
               <Button
-                disabled={
-                  !goalObj?.title?.length ||
-                  !goalObj?.actions?.length ||
-                  !goalObj?.category?.length
-                }
+                onClick={() => setShowConfirmUpdateGoalDialog(true)}
                 className="w-full"
               >
                 Update
@@ -152,6 +158,17 @@ const UpdateGoalSidesheet = ({ children, item }: GoalsSidesheetProps) => {
           </SheetFooter>
         </SheetContent>
       </Sheet>
+      <ReusableDialog
+        isOpen={showConfirmUpdateGoalDialog}
+        onClose={onCloseConfirmUpdateGoalDialog}
+        onConfirm={onConfirmUpdate}
+        isProcessing={isUpdating}
+        title="Confirm Update?"
+        description={`You are about to update this goal. Please confirm!`}
+        confirmText="Yes, I want to update!"
+        cancelText="I'll update later"
+        variant="destructive"
+      />
     </>
   );
 };

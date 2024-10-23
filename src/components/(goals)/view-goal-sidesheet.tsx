@@ -20,22 +20,15 @@ type GoalObj = {
 };
 
 const ViewGoalSidesheet = ({
-  item,
+  goalObj,
   open,
   onOpenChangeViewGoalSidesheet,
 }: any) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [goalObj, setGoalObj] = useState<GoalObj>({
-    title: "",
-    actions: "",
-    category: "",
-    isAchieved: false,
-  });
 
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChangeViewGoalSidesheet}>
-        {/* <SheetTrigger asChild>{children}</SheetTrigger> */}
         <SheetContent className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-y-auto w-full sm:w-full md:max-w-[500px] flex flex-col gap-4">
           <SheetHeader>
             <SheetTitle className="text-2xl font-semibold text-gray-800">
@@ -45,32 +38,36 @@ const ViewGoalSidesheet = ({
           </SheetHeader>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-black">My Goal</div>
-              <div className="text-sm text-black">{goalObj.title}</div>
+              <div className="text-sm font-semibold text-black">My Goal:</div>
+              <div className="text-sm text-black">{goalObj?.goals}</div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-black">
+              <div className="text-sm font-semibold text-black">
                 My do-able actions which I have to take to complete it:
               </div>
-              <div className="text-sm text-black">{goalObj.actions}</div>
+              <div className="text-sm text-black">{goalObj?.steps}</div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-black">
+              <div className="text-sm font-semibold text-black">
                 My measurable deadline which I'll take to complete my goal!
               </div>
 
-              <div className="text-sm text-black">date</div>
+              <div className="text-sm text-black">{goalObj?.time}</div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-black">My goal's category</div>
-              <div className="text-sm text-black">{goalObj.category}</div>
+              <div className="text-sm font-semibold text-black">
+                My goal's category
+              </div>
+              <div className="text-sm text-black">{goalObj?.category}</div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-black">Have I achieved my goal?</div>
-              <div className="text-sm text-black">{goalObj.isAchieved}</div>
+              <div className="text-sm font-semibold text-black">
+                Have I achieved my goal?
+              </div>
+              <div className="text-sm text-black">{goalObj?.status}</div>
             </div>
           </div>
           <SheetFooter className="flex-1 items-end">
