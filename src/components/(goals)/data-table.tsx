@@ -74,7 +74,7 @@ export function DataTable({ data }: any) {
       accessorKey: "goals",
       header: "Goals",
       cell: ({ row }) => (
-        <div className="lowercase text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
+        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
           {row.getValue("goals")}
         </div>
       ),
