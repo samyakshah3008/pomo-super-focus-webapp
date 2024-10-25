@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import SelfReview from "./self-review";
 
 export const metadata: Metadata = {
   title: "Self Review",
@@ -14,5 +15,5 @@ export default async function SelfReviewPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Self Review</div>;
+  return <SelfReview />;
 }
