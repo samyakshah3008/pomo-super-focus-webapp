@@ -4,15 +4,15 @@ import HowToModal from "@/components/common/how-to-modal";
 import Lottie from "lottie-react";
 import { useState } from "react";
 import Bulb from "../../../public/bulb.json";
-import { howToModalBucketListObj } from "./constants";
+import { howToModalSelfReviewListObj } from "./constants";
 import Header from "./header";
 import MainContainer from "./main-container";
 
-const BucketList = () => {
+const SelfReview = () => {
   const [showHowToModal, setShowHowToModal] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center p-4">
       <Header />
       <MainContainer />
       <div className="absolute top-10 right-40">
@@ -28,10 +28,10 @@ const BucketList = () => {
         showHowToModal={showHowToModal}
         setShowHowToModal={setShowHowToModal}
         showExplodingHeart={false}
-        {...howToModalBucketListObj}
+        {...howToModalSelfReviewListObj}
       />
     </div>
   );
 };
 
-export default BucketList;
+export default SelfReview;
