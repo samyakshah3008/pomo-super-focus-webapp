@@ -41,30 +41,6 @@ const MyLife = () => {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (
-      !currentUser?.pomoSuperUser?._id ||
-      !currentUser.pomoSuperUser.isMyLifeOnboardingComplete
-    )
-      return;
-
-    const { birthDate, estimateLifeSpan } = currentUser.pomoSuperUser;
-
-    const id = setInterval(() => {
-      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
-      if (timeLeft) {
-        setLifeLeftObj(timeLeft);
-        if (timeLeft.isLifeSpanCompleted) {
-          clearInterval(id);
-        }
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(id);
-    };
-  }, [currentUser]);
-
   if (!currentUser?.pomoSuperUser) {
     return null;
   }
@@ -78,15 +54,15 @@ const MyLife = () => {
     );
   }
   return (
-    <div className="flex flex-col gap-4 pl-10 pr-10 pb-5 w-[85%] m-auto ">
+    <div className="flex flex-col gap-4 pl-10 pr-10 pb-5 lg:w-[85%] m-auto ">
       <Header lifeLeftObj={lifeLeftObj} />
-      <TimeLeftGrid lifeLeftObj={lifeLeftObj} />
+      <TimeLeftGrid />
       <YearsGrid lifeLeftObj={lifeLeftObj} />
 
-      <div className="absolute top-10 right-40">
+      <div className="absolute top-10 right-0 lg:right-40">
         <IconBulbFilled
           onClick={() => setShowHowToModal(true)}
-          className="cursor-pointer text-yellow-400 w-20 h-20"
+          className="cursor-pointer text-yellow-400 w-10 h-10 sm:w-16 lg:h-16"
         />
       </div>
       <HowToModal

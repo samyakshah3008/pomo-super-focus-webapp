@@ -40,13 +40,13 @@ const YearsGrid = ({ lifeLeftObj }: any) => {
           remaining.
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8 px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-8 px-4">
         {[...Array(currentUser?.pomoSuperUser?.estimateLifeSpan)].map(
           (_, yearIdx) => (
-            <div key={yearIdx} className="flex flex-col justify-center">
-              <div className="text-center underline">Year {yearIdx + 1} </div>
+            <div key={yearIdx} className="flex flex-col items-center">
+              <div className="text-center underline">Year {yearIdx + 1}</div>
 
-              <div className="bg-white shadow-md rounded-lg p-6 grid grid-cols-6 sm:grid-cols-8 md:grid-cols-13 gap-1">
+              <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 grid grid-cols-6 sm:grid-cols-8 md:grid-cols-13 gap-1">
                 {[...Array(52)].map((_, weekIdx) => (
                   <div
                     key={weekIdx}
@@ -54,7 +54,7 @@ const YearsGrid = ({ lifeLeftObj }: any) => {
                       isThisWeekCompleted(yearIdx + 1, weekIdx + 1)
                         ? "bg-red-400"
                         : "bg-green-300"
-                    } `}
+                    }`}
                   ></div>
                 ))}
               </div>
