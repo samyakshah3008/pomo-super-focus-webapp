@@ -1,12 +1,45 @@
 "use client";
 
 import { Progress } from "@/components/ui/primitives/progress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import EditDetailsDialog from "./edit-details-dialog";
+import { calculateLifeLeft } from "./helper";
 
-const TimeLeftGrid = ({ lifeLeftObj }: any) => {
+const TimeLeftGrid = () => {
   const [isEditLifeDetailsDialogOpen, setIsEditLifeDetailsDialogOpen] =
     useState(false);
+  const [lifeLeftObj, setLifeLeftObj] = useState<any>(null);
+
+  const currentUser = useSelector((state: any) => state?.user);
+
+  useEffect(() => {
+    if (
+      !currentUser?.pomoSuperUser?._id ||
+      !currentUser.pomoSuperUser.isMyLifeOnboardingComplete
+    )
+      return;
+
+    const { birthDate, estimateLifeSpan } = currentUser.pomoSuperUser;
+
+    const id = setInterval(() => {
+      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+      if (timeLeft) {
+        setLifeLeftObj(timeLeft);
+        if (timeLeft.isLifeSpanCompleted) {
+          clearInterval(id);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [currentUser]);
+
+  if (!currentUser?.pomoSuperUser?._id) {
+    return null;
+  }
 
   return (
     <>
