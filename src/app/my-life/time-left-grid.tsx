@@ -1,12 +1,45 @@
 "use client";
 
 import { Progress } from "@/components/ui/primitives/progress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import EditDetailsDialog from "./edit-details-dialog";
+import { calculateLifeLeft } from "./helper";
 
-const TimeLeftGrid = ({ lifeLeftObj }: any) => {
+const TimeLeftGrid = () => {
   const [isEditLifeDetailsDialogOpen, setIsEditLifeDetailsDialogOpen] =
     useState(false);
+  const [lifeLeftObj, setLifeLeftObj] = useState<any>(null);
+
+  const currentUser = useSelector((state: any) => state?.user);
+
+  useEffect(() => {
+    if (
+      !currentUser?.pomoSuperUser?._id ||
+      !currentUser.pomoSuperUser.isMyLifeOnboardingComplete
+    )
+      return;
+
+    const { birthDate, estimateLifeSpan } = currentUser.pomoSuperUser;
+
+    const id = setInterval(() => {
+      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+      if (timeLeft) {
+        setLifeLeftObj(timeLeft);
+        if (timeLeft.isLifeSpanCompleted) {
+          clearInterval(id);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [currentUser]);
+
+  if (!currentUser?.pomoSuperUser?._id) {
+    return null;
+  }
 
   return (
     <>
@@ -16,7 +49,9 @@ const TimeLeftGrid = ({ lifeLeftObj }: any) => {
         </div>
         <Progress value={35} />
         <div className="text-center">
-          We count based on your birth date and life span you entered,{" "}
+          {lifeLeftObj?.isLifeSpanCompleted
+            ? "Your estimated life span is completed, please choose a new estimate life span!"
+            : " We count based on your birth date and life span you entered,"}{" "}
           <span
             className="underline cursor-pointer"
             onClick={() => setIsEditLifeDetailsDialogOpen(true)}

@@ -61,3 +61,7 @@ export const getCustomFrameworkByIdEndpoint =
 
 export const updateCustomFrameworkByIdEndpoint =
   "/custom-working-framework/update";
+
+// my life endpoints:
+
+export const updateMyLifeDetailsEndpoint = "/users/my-life";

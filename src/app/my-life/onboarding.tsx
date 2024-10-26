@@ -2,28 +2,69 @@
 
 import { Button } from "@/components/ui/primitives/button";
 import { Input } from "@/components/ui/primitives/input";
+import { useToast } from "@/components/ui/primitives/use-toast";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
+import { completeMyLifeOnboardingFlowService } from "@/services/user/user";
 import { format } from "date-fns";
 import Lottie from "lottie-react";
+import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GemBox from "../../../public/skull-reward.json";
+import { validateBirthDateAndEstimateTimeLeft } from "./helper";
 
 type Word = {
   text: string;
   className?: string;
 };
 
-const Onboarding = ({ setIsOnboardingCompleted }: any) => {
+const Onboarding = ({
+  setIsOnboardingCompleted,
+  showSuccessOnboarding,
+}: any) => {
   const today = format(new Date(), "yyyy-MM-dd");
 
   const currentUser = useSelector((state: any) => state?.user);
   const [words, setWords] = useState<Word[]>([]);
-  const [birthDate, setBirthDate] = useState<any>();
-  const [lifeSpan, setLifeSpan] = useState();
+  const [birthDate, setBirthDate] = useState<any>("");
+  const [lifeSpan, setLifeSpan] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+
+  const completeMyLifeOnboardingFlow = async () => {
+    setIsLoading(true);
+    try {
+      await completeMyLifeOnboardingFlowService(birthDate, lifeSpan);
+      setIsOnboardingCompleted(true);
+      dispatch(fetchUserData());
+      showSuccessOnboarding();
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Unable to complete my life onboarding",
+        description:
+          "Uh oh! We are extremely sorry but we are not able to complete your my life onboarding, please try again later.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const completeOnboardingHandler = () => {
-    setIsOnboardingCompleted(true);
+    const validateValuesCheck = validateBirthDateAndEstimateTimeLeft(
+      birthDate,
+      lifeSpan
+    );
+    if (!validateValuesCheck.validationPass) {
+      setErrorMessage(validateValuesCheck.errorMessage);
+    } else {
+      completeMyLifeOnboardingFlow();
+    }
   };
 
   useEffect(() => {
@@ -84,11 +125,19 @@ const Onboarding = ({ setIsOnboardingCompleted }: any) => {
             />{" "}
           </div>
         </div>
+        {errorMessage?.length !== 0 ? (
+          <div className="text-sm text-red-500 font-semibold">
+            {errorMessage}
+          </div>
+        ) : null}
         <Button
           onClick={completeOnboardingHandler}
-          disabled={!birthDate || !lifeSpan}
+          disabled={!birthDate || !lifeSpan || isLoading}
         >
-          Take me to precious time tracker!
+          {isLoading ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : null}
+          {isLoading
+            ? "Taking you to precious time tracker..."
+            : "Take me to precious time tracker!"}
         </Button>
       </div>
     </div>

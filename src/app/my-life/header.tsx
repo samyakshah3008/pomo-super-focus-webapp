@@ -46,11 +46,15 @@ const Header = ({ lifeLeftObj }: any) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-64 flex m-auto">
-        <Lottie animationData={HeartPulse} loop={true} />
+      <div className="flex m-auto">
+        <Lottie
+          className="w-48 lg:w-52 xl:w-64"
+          animationData={HeartPulse}
+          loop={true}
+        />
       </div>
       <TypewriterEffectSmooth words={words} />
-      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base">
+      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center">
         Your life is too precious, don't waste a single second towards
         meaningless things. 👀
       </p>
