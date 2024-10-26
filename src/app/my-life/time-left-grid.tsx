@@ -16,7 +16,9 @@ const TimeLeftGrid = ({ lifeLeftObj }: any) => {
         </div>
         <Progress value={35} />
         <div className="text-center">
-          We count based on your birth date and life span you entered,{" "}
+          {lifeLeftObj?.isLifeSpanCompleted
+            ? "Your estimated life span is completed, please choose a new estimate life span!"
+            : " We count based on your birth date and life span you entered,"}{" "}
           <span
             className="underline cursor-pointer"
             onClick={() => setIsEditLifeDetailsDialogOpen(true)}
