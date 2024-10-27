@@ -65,3 +65,7 @@ export const updateCustomFrameworkByIdEndpoint =
 // my life endpoints:
 
 export const updateMyLifeDetailsEndpoint = "/users/my-life";
+
+// bucket list endpoints:
+
+export const bucketListEndpoint = "/bucket-list";

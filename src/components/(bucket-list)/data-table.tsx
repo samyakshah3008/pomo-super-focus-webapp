@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteItemFromUserBucketService } from "@/services/bucket-list/bucket-list";
 import ReusableDialog from "../common/reusable-dialog";
 import { Button } from "../ui/primitives/button";
 import {
@@ -35,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/primitives/dropdown-menu";
 import { Input } from "../ui/primitives/input";
+import { useToast } from "../ui/primitives/use-toast";
 import CreateBucketItemSidesheet from "./create-bucket-item-sidesheet";
 import UpdateBucketItemSidesheet from "./update-bucket-item-sidesheet";
 import ViewBucketItemSidesheet from "./view-bucket-item-sidesheet";
@@ -46,7 +48,7 @@ export type BucketItem = {
   isCompleted: boolean;
 };
 
-export function DataTable({ data }: any) {
+export function DataTable({ data, fetchBucketItems }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -57,6 +59,8 @@ export function DataTable({ data }: any) {
     useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedItemObj, setSelectedItemObj] = useState<any>(null);
+
+  const { toast } = useToast();
 
   const columns: ColumnDef<BucketItem>[] = [
     {
@@ -72,7 +76,7 @@ export function DataTable({ data }: any) {
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => (
-        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
+        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[600px]">
           {row.getValue("description")}
         </div>
       ),
@@ -82,9 +86,7 @@ export function DataTable({ data }: any) {
       header: "Did I check off?",
       cell: ({ row }) => (
         <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("isCompleted") == true
-            ? "Yess"
-            : "I'll soon check off!"}
+          {row.getValue("isCompleted") == true ? "✅😻" : "❌⌛"}
         </div>
       ),
     },
@@ -167,7 +169,29 @@ export function DataTable({ data }: any) {
     setIsConfirmDeleteItemDialogOpen(false);
   };
 
-  const onConfirmDelete = () => {};
+  const onConfirmDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteItemFromUserBucketService(selectedItemObj?._id);
+      toast({
+        variant: "default",
+        title: "Item deleted from your Bucket List ✅",
+        description:
+          "Yay! we have successfully deleted your item from your bucket list!",
+      });
+      fetchBucketItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to delete your item from bucket list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsConfirmDeleteItemDialogOpen(false);
+    }
+  };
 
   return (
     <>
@@ -207,7 +231,7 @@ export function DataTable({ data }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateBucketItemSidesheet>
+          <CreateBucketItemSidesheet fetchBucketItems={fetchBucketItems}>
             <Button size="sm" className="ml-2">
               Add new item to my bucket! 🚀
             </Button>
@@ -294,6 +318,7 @@ export function DataTable({ data }: any) {
         onOpenChange={onOpenChangeUpdateBucketItemSidesheet}
         itemObj={selectedItemObj}
         setSelectedItemObj={setSelectedItemObj}
+        fetchBucketItems={fetchBucketItems}
       />
       <ReusableDialog
         isOpen={isConfirmDeleteItemDialogOpen}
