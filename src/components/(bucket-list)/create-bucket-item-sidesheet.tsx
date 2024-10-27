@@ -11,14 +11,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/primitives/sheet";
+import { addNewItemToUserBucketService } from "@/services/bucket-list/bucket-list";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
 import { Label } from "../ui/primitives/label";
 import { Textarea } from "../ui/primitives/textarea";
+import { useToast } from "../ui/primitives/use-toast";
 
 type BucketSidesheetProps = {
   children: React.ReactNode;
+  fetchBucketItems: any;
 };
 
 type BucketItem = {
@@ -27,16 +31,55 @@ type BucketItem = {
   isCompleted: boolean;
 };
 
-const CreateBucketItemSidesheet = ({ children }: BucketSidesheetProps) => {
+const CreateBucketItemSidesheet = ({
+  children,
+  fetchBucketItems,
+}: BucketSidesheetProps) => {
   const [itemObj, setItemObj] = useState<BucketItem>({
     title: "",
     description: "",
     isCompleted: false,
   });
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+
+  const onOpenChangeHandler = () => {
+    setItemObj({
+      title: "",
+      description: "",
+      isCompleted: false,
+    });
+    setLoading(false);
+  };
+
+  const addNewItemToUserBucket = async () => {
+    setLoading(true);
+
+    try {
+      await addNewItemToUserBucketService(itemObj);
+      toast({
+        variant: "default",
+        title: "Item added to Bucket List ✅",
+        description:
+          "Yay! we have successfully added your new item to your bucket list!",
+      });
+      fetchBucketItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to add your item to bucket list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <Sheet>
+      <Sheet onOpenChange={onOpenChangeHandler}>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-y-auto w-full sm:w-full md:max-w-[500px] flex flex-col gap-4">
           <SheetHeader>
@@ -85,7 +128,21 @@ const CreateBucketItemSidesheet = ({ children }: BucketSidesheetProps) => {
           </div>
           <SheetFooter className="flex-1 items-end">
             <SheetClose asChild>
-              <Button className="w-full">Add Item!</Button>
+              <Button
+                disabled={
+                  loading ||
+                  !itemObj?.title?.length ||
+                  !itemObj?.description?.length ||
+                  typeof itemObj?.isCompleted != "boolean"
+                }
+                onClick={addNewItemToUserBucket}
+                className="w-full"
+              >
+                {loading ? (
+                  <Loader className="mr-2 h-8 w-8 animate-spin" />
+                ) : null}
+                {loading ? "Adding your item..." : "Add Item!"}
+              </Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>
