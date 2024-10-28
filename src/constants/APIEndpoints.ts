@@ -73,3 +73,7 @@ export const bucketListEndpoint = "/bucket-list";
 // goals list endpoints:
 
 export const goalListEndpoint = "/goals";
+
+// gratitude list endpoints:
+
+export const gratitudeListEndpoint = "/gratitude";

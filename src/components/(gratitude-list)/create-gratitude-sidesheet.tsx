@@ -11,12 +11,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/primitives/sheet";
+import { addNewItemToUserGratitudeService } from "@/services/gratitude-list/gratitude-list";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import { Input } from "../ui/primitives/input";
 import { Textarea } from "../ui/primitives/textarea";
+import { useToast } from "../ui/primitives/use-toast";
 
 type CreateGratitudeSidesheetProps = {
   children: React.ReactNode;
+  fetchGratitudeItems: any;
 };
 
 type GratitudeItem = {
@@ -26,15 +30,52 @@ type GratitudeItem = {
 
 const CreateGratitudeSidesheet = ({
   children,
+  fetchGratitudeItems,
 }: CreateGratitudeSidesheetProps) => {
   const [itemObj, setItemObj] = useState<GratitudeItem>({
     title: "",
     description: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+
+  const onOpenChangeHandler = () => {
+    setItemObj({
+      title: "",
+      description: "",
+    });
+    setLoading(false);
+  };
+
+  const addNewItemToUserGratitude = async () => {
+    setLoading(true);
+
+    try {
+      await addNewItemToUserGratitudeService(itemObj);
+      toast({
+        variant: "default",
+        title: "Item added to Gratitude List ✅",
+        description:
+          "Yay! we have successfully added your new item to your gratitude list!",
+      });
+      fetchGratitudeItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to add your item to gratitude list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <Sheet>
+      <Sheet onOpenChange={onOpenChangeHandler}>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-y-auto w-full sm:w-full md:max-w-[500px] flex flex-col gap-4">
           <SheetHeader>
@@ -68,7 +109,20 @@ const CreateGratitudeSidesheet = ({
           </div>
           <SheetFooter className="flex-1 items-end">
             <SheetClose asChild>
-              <Button className="w-full">Add Item!</Button>
+              <Button
+                disabled={
+                  loading ||
+                  !itemObj?.title?.length ||
+                  !itemObj?.description?.length
+                }
+                onClick={addNewItemToUserGratitude}
+                className="w-full"
+              >
+                {loading ? (
+                  <Loader className="mr-2 h-8 w-8 animate-spin" />
+                ) : null}
+                {loading ? "Adding your gratitude.." : "Add Gratitude!"}
+              </Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

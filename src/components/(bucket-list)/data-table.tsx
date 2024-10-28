@@ -76,7 +76,7 @@ export function DataTable({ data, fetchBucketItems }: any) {
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => (
-        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[600px]">
+        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-96 xl:max-w-[600px]">
           {row.getValue("description")}
         </div>
       ),
@@ -85,7 +85,7 @@ export function DataTable({ data, fetchBucketItems }: any) {
       accessorKey: "isCompleted",
       header: "Did I check off?",
       cell: ({ row }) => (
-        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
+        <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-96">
           {row.getValue("isCompleted") == true ? "✅😻" : "❌⌛"}
         </div>
       ),

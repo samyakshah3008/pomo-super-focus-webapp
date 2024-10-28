@@ -52,7 +52,9 @@ const ViewGratitudeItemSidesheet = ({
               <div className="text-sm font-semibold text-black">
                 Date of creation:
               </div>
-              <div className="text-sm text-black">{itemObj?.date}</div>
+              <div className="text-sm text-black">
+                {itemObj?.dateOfCreation}
+              </div>
             </div>
           </div>
           <SheetFooter className="flex-1 items-end">
