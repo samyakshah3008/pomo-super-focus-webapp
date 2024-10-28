@@ -12,6 +12,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/primitives/sheet";
+import { addNewItemToUserGoalService } from "@/services/goals/goal";
+import { Loader } from "lucide-react";
+import moment from "moment";
 import { useState } from "react";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
@@ -26,31 +29,75 @@ import {
   SelectValue,
 } from "../ui/primitives/select";
 import { Textarea } from "../ui/primitives/textarea";
+import { useToast } from "../ui/primitives/use-toast";
 import { CalendarForm } from "./calendar";
 
 type GoalsSidesheetProps = {
   children: React.ReactNode;
+  fetchGoalItems: any;
 };
 
 type GoalObj = {
   title: string;
-  actions: string;
+  doAbleActions: string;
   category: string;
-  isAchieved: boolean;
+  status: boolean;
 };
 
-const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
+const CreateGoalSidesheet = ({
+  children,
+  fetchGoalItems,
+}: GoalsSidesheetProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [goalObj, setGoalObj] = useState<GoalObj>({
     title: "",
-    actions: "",
+    doAbleActions: "",
     category: "",
-    isAchieved: false,
+    status: false,
   });
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+
+  const onOpenChangeHandler = () => {
+    setGoalObj({
+      title: "",
+      doAbleActions: "",
+      category: "",
+      status: false,
+    });
+    setDate(new Date());
+    setLoading(false);
+  };
+
+  const addNewItemToUserGoals = async () => {
+    setLoading(true);
+    let formattedDate = moment(date).format("DD-MM-YYYY");
+
+    try {
+      await addNewItemToUserGoalService(goalObj, formattedDate);
+      toast({
+        variant: "default",
+        title: "Item added to Goals List ✅",
+        description:
+          "Yay! we have successfully added your new item to your goal list!",
+      });
+      fetchGoalItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to add your item to goal list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <Sheet>
+      <Sheet onOpenChange={onOpenChangeHandler}>
         <SheetTrigger asChild>{children}</SheetTrigger>
         <SheetContent className="p-6 bg-gray-50 rounded-lg shadow-lg overflow-y-auto w-full sm:w-full md:max-w-[500px] flex flex-col gap-4">
           <SheetHeader>
@@ -79,9 +126,9 @@ const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
               </div>
 
               <Textarea
-                value={goalObj.actions}
+                value={goalObj.doAbleActions}
                 onChange={(e: any) =>
-                  setGoalObj({ ...goalObj, actions: e.target.value })
+                  setGoalObj({ ...goalObj, doAbleActions: e.target.value })
                 }
               />
             </div>
@@ -98,7 +145,12 @@ const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
               <div className="text-sm text-black">
                 Set a category for your goal.
               </div>
-              <Select>
+              <Select
+                value={goalObj.category}
+                onValueChange={(value) => {
+                  setGoalObj({ ...goalObj, category: value });
+                }}
+              >
                 <SelectTrigger className="w-60">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
@@ -106,13 +158,7 @@ const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
                   <SelectGroup>
                     <SelectLabel>Goal Categories</SelectLabel>
                     {goalCategories.map((category) => (
-                      <SelectItem
-                        key={category.value}
-                        value={category.value}
-                        onChange={() =>
-                          setGoalObj({ ...goalObj, category: category.value })
-                        }
-                      >
+                      <SelectItem key={category.value} value={category.value}>
                         {category.label}
                       </SelectItem>
                     ))}
@@ -124,9 +170,9 @@ const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
             <div className="flex gap-1 items-center">
               <Checkbox
                 id="item-completed"
-                checked={goalObj.isAchieved}
+                checked={goalObj.status}
                 onCheckedChange={() =>
-                  setGoalObj({ ...goalObj, isAchieved: !goalObj.isAchieved })
+                  setGoalObj({ ...goalObj, status: !goalObj.status })
                 }
               />
               <Label htmlFor="item-completed" className="text-sm">
@@ -137,14 +183,19 @@ const CreateGoalSidesheet = ({ children }: GoalsSidesheetProps) => {
           <SheetFooter className="flex-1 items-end">
             <SheetClose asChild>
               <Button
+                onClick={addNewItemToUserGoals}
                 disabled={
+                  loading ||
                   !goalObj?.title?.length ||
-                  !goalObj?.actions?.length ||
+                  !goalObj?.doAbleActions?.length ||
                   !goalObj?.category?.length
                 }
                 className="w-full"
               >
-                Create
+                {loading ? (
+                  <Loader className="mr-2 h-8 w-8 animate-spin" />
+                ) : null}
+                {loading ? "Launching your goal..." : "Launch goal!"}
               </Button>
             </SheetClose>
           </SheetFooter>

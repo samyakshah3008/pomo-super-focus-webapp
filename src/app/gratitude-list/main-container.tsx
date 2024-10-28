@@ -1,80 +1,74 @@
 "use client";
 
+import CreateGratitudeSidesheet from "@/components/(gratitude-list)/create-gratitude-sidesheet";
 import { DataTable } from "@/components/(gratitude-list)/data-table";
-import GratitudeListDialog from "@/components/(gratitude-list)/dialog";
-import { Highlight } from "@/components/common/card-stack";
-import { useState } from "react";
-import { dummyGratitudeList } from "./constants";
-
-const gratitudeItems = [
-  {
-    id: 0,
-    name: "Samyak Shah",
-    designation: "22nd October 2024",
-    content: (
-      <p>
-        I am immensely grateful for my <Highlight>best health</Highlight> 🙏,
-        2024 made me realized what bad health mean and the importance of taking
-        care of health asset.
-      </p>
-    ),
-  },
-  {
-    id: 1,
-    name: "Samyak Shah",
-    designation: "22nd October 2024",
-    content: (
-      <p>
-        I am immensely grateful for
-        <Highlight>Cosmofeed, ProCred and Dicot</Highlight> where I did
-        internships during my <Highlight>College</Highlight> which will help me
-        later in my career.
-      </p>
-    ),
-  },
-  {
-    id: 2,
-    name: "Samyak Shah",
-    designation: "22nd October 2024",
-    content: (
-      <p>
-        I am immensely grateful for
-        <Highlight>Open source communities</Highlight> where I am involved which
-        is responsible for my blazing growth in software engineering career.
-      </p>
-    ),
-  },
-];
+import { Button } from "@/components/ui/primitives/button";
+import { useToast } from "@/components/ui/primitives/use-toast";
+import { fetchGratitudeListService } from "@/services/gratitude-list/gratitude-list";
+import { Loader } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import NotFoundItem from "../../../public/empty-state-box.png";
 
 const MainContainer = () => {
-  let isEmpty = false;
+  const [gratitudeItems, setGratitudeItems] = useState<any>([]);
+  const [fetchingGratitudeItems, setFetchingGratitudeItems] = useState(true);
 
-  const [isAddNewItemDialogOpen, setIsAddNewItemDialogOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const { toast } = useToast();
 
-  const onConfirm = () => {};
-
-  const onClose = () => {
-    setIsAddNewItemDialogOpen(false);
+  const fetchGratitudeItems = async () => {
+    try {
+      const response = await fetchGratitudeListService();
+      let gratitudeItems = response?.data?.data?.gratitudeItems;
+      let reversedGratitudeItems = [...gratitudeItems].reverse();
+      setGratitudeItems(reversedGratitudeItems || []);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to fetch your gratitude list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setFetchingGratitudeItems(false);
+    }
   };
+
+  useEffect(() => {
+    fetchGratitudeItems();
+  }, []);
+
+  if (fetchingGratitudeItems) {
+    return (
+      <div className="h-96 flex items-center">
+        <Loader className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!gratitudeItems?.length) {
+    return (
+      <div className="h-96 flex flex-col gap-2 justify-center items-center">
+        <Image src={NotFoundItem} alt="Not Found" className="w-40 h-40" />
+        <h1 className="text-2xl font-bold">Start your gratitude list today!</h1>
+        <p className="text-gray-600">
+          You haven't added any items to your gratitude list. Add one today! 😻
+        </p>
+        <CreateGratitudeSidesheet fetchGratitudeItems={fetchGratitudeItems}>
+          <Button size="sm">Add a new gratitude item! 🚀</Button>
+        </CreateGratitudeSidesheet>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="w-[80%]">
-        <DataTable data={dummyGratitudeList} />
+        <DataTable
+          data={gratitudeItems}
+          fetchGratitudeItems={fetchGratitudeItems}
+        />
       </div>
-      <GratitudeListDialog
-        isOpen={isAddNewItemDialogOpen}
-        isLoading={isLoading}
-        isProcessing={isProcessing}
-        onClose={onClose}
-        onConfirm={onConfirm}
-        title="Add new gratitude"
-        cancelText="I'll add later"
-        confirmText="Add to my gratitude list!"
-        showDeleteOption={false}
-      />
     </>
   );
 };

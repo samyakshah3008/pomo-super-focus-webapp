@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteItemFromUserGratitudeService } from "@/services/gratitude-list/gratitude-list";
 import ReusableDialog from "../common/reusable-dialog";
 import { Button } from "../ui/primitives/button";
 import {
@@ -35,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/primitives/dropdown-menu";
 import { Input } from "../ui/primitives/input";
+import { useToast } from "../ui/primitives/use-toast";
 import CreateGratitudeSidesheet from "./create-gratitude-sidesheet";
 import UpdateGratitudeItemSidesheet from "./update-gratitude-sidesheet";
 import ViewGratitudeItemSidesheet from "./view-gratitude-sidesheet";
@@ -46,7 +48,7 @@ export type GratitudeItem = {
   date: string;
 };
 
-export function DataTable({ data }: any) {
+export function DataTable({ data, fetchGratitudeItems }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -54,10 +56,12 @@ export function DataTable({ data }: any) {
   const [openViewGratitudeSidesheet, setopenViewGratitudeSidesheet] =
     useState(false);
   const [openUpdateGoalSidesheet, setOpenUpdateGoalSidesheet] = useState(false);
-  const [isConfirmDeleteItemDialogOpen, setIsConfirmDeleteGoalDialogOpen] =
+  const [isConfirmDeleteItemDialogOpen, setIsConfirmDeleteItemDialogOpen] =
     useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedItemObj, setSelectedItemObj] = useState<any>(null);
+
+  const { toast } = useToast();
 
   const columns: ColumnDef<GratitudeItem>[] = [
     {
@@ -79,11 +83,11 @@ export function DataTable({ data }: any) {
       ),
     },
     {
-      accessorKey: "date",
+      accessorKey: "dateOfCreation",
       header: "Date of creation",
       cell: ({ row }) => (
         <div className="lowercase text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("date")}
+          {row.getValue("dateOfCreation")}
         </div>
       ),
     },
@@ -114,7 +118,7 @@ export function DataTable({ data }: any) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  setIsConfirmDeleteGoalDialogOpen(true);
+                  setIsConfirmDeleteItemDialogOpen(true);
                   setSelectedItemObj(row.original);
                 }}
               >
@@ -163,10 +167,32 @@ export function DataTable({ data }: any) {
   };
 
   const onCloseConfirmDeleteItemDialog = () => {
-    setIsConfirmDeleteGoalDialogOpen(false);
+    setIsConfirmDeleteItemDialogOpen(false);
   };
 
-  const onConfirmDelete = () => {};
+  const onConfirmDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteItemFromUserGratitudeService(selectedItemObj?._id);
+      toast({
+        variant: "default",
+        title: "Item deleted from your Gratitude List ✅",
+        description:
+          "Yay! We have successfully deleted your item from your gratitude list!",
+      });
+      fetchGratitudeItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to delete your item from gratitude list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience while we fix this!",
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsConfirmDeleteItemDialogOpen(false);
+    }
+  };
 
   return (
     <>
@@ -206,7 +232,7 @@ export function DataTable({ data }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateGratitudeSidesheet>
+          <CreateGratitudeSidesheet fetchGratitudeItems={fetchGratitudeItems}>
             <Button size="sm" className="ml-2">
               Add New Gratitude 🙏
             </Button>
@@ -293,6 +319,7 @@ export function DataTable({ data }: any) {
         onOpenChange={onOpenChangeUpdateGoalSidesheet}
         itemObj={selectedItemObj}
         setItemObj={setSelectedItemObj}
+        fetchGratitudeItems={fetchGratitudeItems}
       />
       <ReusableDialog
         isOpen={isConfirmDeleteItemDialogOpen}

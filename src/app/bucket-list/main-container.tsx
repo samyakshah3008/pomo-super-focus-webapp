@@ -49,7 +49,7 @@ const MainContainer = () => {
   if (!bucketItems?.length) {
     return (
       <div className="h-96 flex flex-col gap-2 justify-center items-center">
-        <Image src={NotFoundItem} alt="Not Found" className="w-64 h-64" />
+        <Image src={NotFoundItem} alt="Not Found" className="w-40 h-40" />
         <h1 className="text-2xl font-bold ">Fill your bucket list today!</h1>
         <p className="text-gray-600">
           You haven't added any item to your unlimited storage bucket, add one

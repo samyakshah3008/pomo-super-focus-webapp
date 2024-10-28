@@ -1,29 +1,38 @@
 import { deleteRequest, get, postWithToken, put } from "@/config/API";
-import { goalsCRUDEndpoint } from "@/constants/APIEndpoints";
+import { goalListEndpoint } from "@/constants/APIEndpoints";
 
-const getGoalsService = async (payload: {}) => {
-  const response = await get(goalsCRUDEndpoint, payload);
+const fetchGoalListService = async () => {
+  const response = await get(goalListEndpoint);
   return response;
 };
 
-const createGoalService = async (payload: {}) => {
-  const response = await postWithToken(goalsCRUDEndpoint, payload);
+const addNewItemToUserGoalService = async (itemObj: any, date: any) => {
+  const response = await postWithToken(goalListEndpoint, {
+    goalItem: { ...itemObj, estimatedTimeToComplete: date },
+  });
   return response;
 };
 
-const updateGoalService = async (payload: {}) => {
-  const response = await put(goalsCRUDEndpoint, payload);
+const updateItemToUserGoalService = async (
+  itemObj: any,
+  formattedDate: string,
+  itemId: string
+) => {
+  const response = await put(goalListEndpoint, {
+    goalItem: { ...itemObj, estimatedTimeToComplete: formattedDate },
+    goalId: itemId,
+  });
   return response;
 };
 
-const deleteGoalService = async (payload: {}) => {
-  const response = await deleteRequest(goalsCRUDEndpoint, payload);
+const deleteItemFromUserGoalService = async (itemId: string) => {
+  const response = await deleteRequest(`${goalListEndpoint}?goalId=${itemId}`);
   return response;
 };
 
 export {
-  createGoalService,
-  deleteGoalService,
-  getGoalsService,
-  updateGoalService,
+  addNewItemToUserGoalService,
+  deleteItemFromUserGoalService,
+  fetchGoalListService,
+  updateItemToUserGoalService,
 };
