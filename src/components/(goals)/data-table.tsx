@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteItemFromUserGoalService } from "@/services/goals/goal";
 import ReusableDialog from "../common/reusable-dialog";
 import { Button } from "../ui/primitives/button";
 import {
@@ -35,20 +36,21 @@ import {
   DropdownMenuTrigger,
 } from "../ui/primitives/dropdown-menu";
 import { Input } from "../ui/primitives/input";
+import { useToast } from "../ui/primitives/use-toast";
 import CreateGoalSidesheet from "./create-goal-sidesheet";
 import UpdateGoalSidesheet from "./update-goal-sidesheet";
 import ViewGoalSidesheet from "./view-goal-sidesheet";
 
 export type Goal = {
   id: string;
-  time: string;
+  estimatedTimeToComplete: string;
   category: string;
-  goals: string;
-  steps: string;
+  title: string;
+  doAbleActions: string;
   status: "achieved" | "yet to achieve";
 };
 
-export function DataTable({ data }: any) {
+export function DataTable({ data, fetchGoalItems }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -59,6 +61,8 @@ export function DataTable({ data }: any) {
     useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedGoalObj, setSelectedGoalObj] = useState<any>(null);
+
+  const { toast } = useToast();
 
   const columns: ColumnDef<Goal>[] = [
     {
@@ -71,38 +75,38 @@ export function DataTable({ data }: any) {
       ),
     },
     {
-      accessorKey: "goals",
+      accessorKey: "title",
       header: "Goals",
       cell: ({ row }) => (
         <div className="text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("goals")}
+          {row.getValue("title")}
         </div>
       ),
     },
     {
-      accessorKey: "time",
+      accessorKey: "estimatedTimeToComplete",
       header: "Estimate time to achieve",
       cell: ({ row }) => (
         <div className="lowercase text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("time")}
+          {row.getValue("estimatedTimeToComplete")}
         </div>
       ),
     },
     {
-      accessorKey: "steps",
+      accessorKey: "doAbleActions",
       header: "Actions",
       cell: ({ row }) => (
         <div className="capitalize text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("steps")}
+          {row.getValue("doAbleActions")}
         </div>
       ),
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Achieved",
       cell: ({ row }) => (
         <div className="capitalize text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("status")}
+          {row.getValue("status") == false ? "❌⏳" : "✅😻"}
         </div>
       ),
     },
@@ -184,7 +188,29 @@ export function DataTable({ data }: any) {
     setIsConfirmDeleteGoalDialogOpen(false);
   };
 
-  const onConfirmDelete = () => {};
+  const onConfirmDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteItemFromUserGoalService(selectedGoalObj?._id);
+      toast({
+        variant: "default",
+        title: "Item deleted from your Goal List ✅",
+        description:
+          "Yay! we have successfully deleted your item from your goal list!",
+      });
+      fetchGoalItems();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oops, failed to delete your item from goal list! ⚠️",
+        description:
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsConfirmDeleteGoalDialogOpen(false);
+    }
+  };
 
   return (
     <>
@@ -224,7 +250,7 @@ export function DataTable({ data }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateGoalSidesheet>
+          <CreateGoalSidesheet fetchGoalItems={fetchGoalItems}>
             <Button size="sm" className="ml-2">
               Create New Goal
             </Button>
@@ -311,6 +337,7 @@ export function DataTable({ data }: any) {
         onOpenChange={onOpenChangeUpdateGoalSidesheet}
         goalObj={selectedGoalObj}
         setSelectedGoalObj={setSelectedGoalObj}
+        fetchGoalItems={fetchGoalItems}
       />
       <ReusableDialog
         isOpen={isConfirmDeleteGoalDialogOpen}

@@ -69,3 +69,7 @@ export const updateMyLifeDetailsEndpoint = "/users/my-life";
 // bucket list endpoints:
 
 export const bucketListEndpoint = "/bucket-list";
+
+// goals list endpoints:
+
+export const goalListEndpoint = "/goals";
