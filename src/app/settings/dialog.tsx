@@ -11,21 +11,27 @@ import {
 } from "@/components/ui/primitives/dialog";
 import { Input } from "@/components/ui/primitives/input";
 import { Loader } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Timer from "@/components/common/timer";
+import { useToast } from "@/components/ui/primitives/use-toast";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
+import {
+  verifyOTPAndUpdateEmailService,
+  verifyUpdatingEmailAndSendOTPService,
+} from "@/services/user/user";
+import { useDispatch } from "react-redux";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
 } from "../../components/ui/primitives/input-otp";
+import { emailRegex } from "./constants";
 
 const EditEmailDialog = ({
   isOpen,
   onClose,
-  email,
-  setEmail,
   confirmEdit,
   setIsConfirmEdit,
   otpSent,
@@ -44,12 +50,44 @@ const EditEmailDialog = ({
   setIsResendingOTP,
 }: any) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const { toast } = useToast();
+  const dispatch = useDispatch();
 
   const handleTimerEnd = () => {
     setDisableResendOTP(false);
   };
 
-  const onConfirmOTP = async () => {};
+  const onConfirmOTP = async () => {
+    setIsSubmitting(true);
+    try {
+      await verifyOTPAndUpdateEmailService(email, otp);
+      toast({
+        variant: "default",
+        title: "Email changed successfully ✅🎉",
+        description: `We have successfully changed your email to ${email}`,
+      });
+      dispatch(fetchUserData());
+      onClose();
+      resetValues();
+      setEmail("");
+    } catch (error: any) {
+      setOtpError(
+        error?.data?.error ??
+          "Something went wrong with our servers, please try again later."
+      );
+      toast({
+        variant: "destructive",
+        title: "OTP Verification failed",
+        description:
+          error?.data?.error ??
+          "Something went wrong with our servers, please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const resetValues = () => {
     setDisableResendOTP(true);
@@ -57,7 +95,30 @@ const EditEmailDialog = ({
     setOtpError("");
     setOtp("");
   };
-  const onResendOTP = async () => {};
+
+  const onResendOTP = async () => {
+    try {
+      setIsResendingOTP(true);
+      await verifyUpdatingEmailAndSendOTPService(email);
+      toast({
+        variant: "default",
+        title: "OTP Resent to your inbox",
+        description: `We've re-sent One Time Password to ${email}`,
+      });
+      resetValues();
+    } catch (error: any) {
+      console.error(error, "logged error");
+      toast({
+        variant: "destructive",
+        title: "Unable to send otp",
+        description:
+          error?.message ??
+          "Uh oh! Something is wrong with our server, please try again later.",
+      });
+    } finally {
+      setIsResendingOTP(false);
+    }
+  };
 
   const onOTPChange = (otp: any) => {
     setOtp(otp);
@@ -65,6 +126,38 @@ const EditEmailDialog = ({
       setOtpError("");
     }
   };
+
+  const isEmailInvalid = () => {
+    return emailRegex.test(email);
+  };
+
+  const verifyUpdatingEmailAndSendOTP = async () => {
+    setIsLoading(true);
+    try {
+      await verifyUpdatingEmailAndSendOTPService(email);
+      setOtpSent(true);
+      toast({
+        variant: "default",
+        title: "Check your inbox",
+        description: `We've sent One Time Password to ${email} .`,
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Unable to send otp",
+        description:
+          error?.data?.message ??
+          "Uh oh! Something is wrong with our server, please try again later.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) return;
+    setEmail("");
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -161,6 +254,7 @@ const EditEmailDialog = ({
                     <Input
                       type="email"
                       value={email}
+                      placeholder="catscancode@witch.com"
                       onChange={(e: any) => setEmail(e.target.value)}
                     />
                   </div>
@@ -181,8 +275,8 @@ const EditEmailDialog = ({
                     Cancel
                   </Button>
                   <Button
-                    onClick={() => setOtpSent(true)}
-                    disabled={isLoading || !email?.length}
+                    onClick={verifyUpdatingEmailAndSendOTP}
+                    disabled={isLoading || !email?.length || !isEmailInvalid()}
                   >
                     {isLoading ? (
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
