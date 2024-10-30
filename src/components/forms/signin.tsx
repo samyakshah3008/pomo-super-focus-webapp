@@ -137,7 +137,7 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="catscancode@gmail.com"
+                    placeholder="catscancode@witch.com"
                     {...field}
                   />
                 </FormControl>
