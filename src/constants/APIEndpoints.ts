@@ -77,3 +77,12 @@ export const goalListEndpoint = "/goals";
 // gratitude list endpoints:
 
 export const gratitudeListEndpoint = "/gratitude";
+
+// update basic information endpoint:
+
+export const updateBasicInformationEndpoint = "/users/update-basic-information";
+
+// update email endpoint:
+
+export const updateEmailEndpoint = "/users/update-email";
+export const verifyOTPAndUpdateEmailEndpoint = "/users/update-email/verify";
