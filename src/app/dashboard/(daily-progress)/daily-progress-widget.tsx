@@ -3,11 +3,14 @@
 import ProgressWrapper from "@/components/(super-focus)/progress-wrapper";
 import { useToast } from "@/components/ui/primitives/use-toast";
 import { getProgressPercentage } from "@/utils/helper-functions";
-import { useEffect } from "react";
+import { Loader } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import EditGoalButton from "./edit-goal-btn";
 
 const DailyProgressWidget = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const dailyProgressDetails = useSelector(
     (state: any) => state?.dailyProgress
   );
@@ -40,14 +43,16 @@ const DailyProgressWidget = () => {
       streakDetails?.status == "pending"
     )
       return;
+    setIsLoading(false);
     checkForErrors();
   }, [dailyProgressDetails, streakDetails]);
 
-  if (
-    dailyProgressDetails?.status == "pending" ||
-    streakDetails?.status == "pending"
-  ) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="h-96 flex items-center justify-center">
+        <Loader className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   const progressPercentage = getProgressPercentage(

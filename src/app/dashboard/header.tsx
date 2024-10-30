@@ -8,6 +8,7 @@ import {
   getDaysUntilYearEnd,
   getTimeOfDay,
 } from "@/utils/helper-functions";
+import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { TypewriterEffectSmooth } from "../../components/ui/typewriter-effect";
@@ -20,6 +21,7 @@ type Word = {
 const Header = () => {
   const currentUser = useSelector((state: any) => state?.user);
   const [words, setWords] = useState<Word[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!currentUser?.pomoSuperUser) return;
@@ -35,10 +37,15 @@ const Header = () => {
         className: "text-blue-500 dark:text-blue-500",
       },
     ]);
+    setIsLoading(false);
   }, [currentUser?.pomoSuperUser]);
 
-  if (!currentUser?.pomoSuperUser || !words?.length) {
-    return null;
+  if (!words?.length || isLoading) {
+    return (
+      <div className="h-96 flex items-center justify-center">
+        <Loader className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
