@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Tasks from "./tasks";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -14,5 +15,5 @@ export default async function TasksPage({}) {
   if (!accessToken) {
     redirect("/signin");
   }
-  return <div>Tasks</div>;
+  return <Tasks />;
 }

@@ -86,3 +86,9 @@ export const updateBasicInformationEndpoint = "/users/update-basic-information";
 
 export const updateEmailEndpoint = "/users/update-email";
 export const verifyOTPAndUpdateEmailEndpoint = "/users/update-email/verify";
+
+// tasks endpoints:
+
+export const taskListEndpoint = "/tasks";
+export const onChangeStatusEndpoint = "/tasks/change-status";
+export const onChangePriorityEndpoint = "/tasks/change-priority";
