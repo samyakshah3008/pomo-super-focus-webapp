@@ -150,7 +150,7 @@ const SideNav = () => {
               <SidebarLink
                 link={{
                   label: "Report a bug",
-                  href: "#",
+                  href: "/report-bug",
                   icon: (
                     <IconBug className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
                   ),
