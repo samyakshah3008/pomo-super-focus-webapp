@@ -2,10 +2,15 @@ import { get } from "@/config/API";
 import { userDetailsEndpoint } from "@/constants/APIEndpoints";
 import {
   accessTokenKeyBrowserStorage,
+  refreshTokenKeyBrowserStorage,
   userIdKeyBrowserStorage,
 } from "@/constants/browser-storage";
-import { getLocalStorageItem } from "@/lib/browser-storage";
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+} from "@/lib/browser-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { deleteCookie } from "cookies-next";
 
 interface UserState {
   pomoSuperUser: UserDetails | null;
@@ -36,6 +41,19 @@ export const fetchUserData: any = createAsyncThunk<FetchUserDataResponse, void>(
       return { userDetails: response?.data?.data?.currentUser };
     }
     throw new Error("User is not logged in.");
+  }
+);
+
+export const logoutUser: any = createAsyncThunk(
+  "pomoSuperUser/logoutUser",
+  async () => {
+    removeLocalStorageItem(accessTokenKeyBrowserStorage);
+    removeLocalStorageItem(userIdKeyBrowserStorage);
+    removeLocalStorageItem(refreshTokenKeyBrowserStorage);
+
+    deleteCookie(accessTokenKeyBrowserStorage);
+    deleteCookie(userIdKeyBrowserStorage);
+    deleteCookie(refreshTokenKeyBrowserStorage);
   }
 );
 

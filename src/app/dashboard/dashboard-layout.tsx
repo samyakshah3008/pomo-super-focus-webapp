@@ -8,8 +8,7 @@ import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti
 import { DotBackground } from "@/components/common/grid-and-dot-background";
 import HowToModal from "@/components/common/how-to-modal";
 import { Separator } from "@/components/ui/primitives/separator";
-import Lottie from "lottie-react";
-import Bulb from "../../../public/bulb.json";
+import { IconBulbFilled } from "@tabler/icons-react";
 import Checklist from "./checklist";
 import { howToModalDashboardObj } from "./constants";
 import Header from "./header";
@@ -52,13 +51,10 @@ const DashboardLayout = () => {
           })}
         </div>
       </DotBackground>
-      <div className="fixed top-10 right-40">
-        {" "}
-        <Lottie
+      <div className="absolute top-10 right-0 lg:right-40">
+        <IconBulbFilled
           onClick={() => setShowHowToModal(true)}
-          className="cursor-pointer w-24 h-24"
-          animationData={Bulb}
-          loop={true}
+          className="cursor-pointer text-yellow-400 w-10 h-10 sm:w-16 lg:h-16"
         />
       </div>
       <HowToModal

@@ -5,10 +5,9 @@ import { IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
 import EditEmailDialog from "./dialog";
 
-const CredentialInformation = () => {
+const CredentialInformation = ({ email, setEmail }: any) => {
   const [isEditEmailDialogOpen, setIsEditEmailDialogOpen] = useState(false);
   const [confirmEdit, setIsConfirmEdit] = useState(false);
-  const [email, setEmail] = useState("samyakshah3008@gmail.com");
   const [otpSent, setOtpSent] = useState(false);
 
   const [disableResendOTP, setDisableResendOTP] = useState(true);
@@ -51,8 +50,6 @@ const CredentialInformation = () => {
       <EditEmailDialog
         isOpen={isEditEmailDialogOpen}
         onClose={onClose}
-        email={email}
-        setEmail={setEmail}
         confirmEdit={confirmEdit}
         setIsConfirmEdit={setIsConfirmEdit}
         otpSent={otpSent}

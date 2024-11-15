@@ -40,12 +40,12 @@ export const saveCredentialsToBrowserStorage = (
   setLocalStorageItem(refreshTokenKeyBrowserStorage, refreshToken);
   setLocalStorageItem(userIdKeyBrowserStorage, userId);
   setCookie(accessTokenKeyBrowserStorage, accessToken, {
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 365 * 10,
   });
   setCookie(refreshTokenKeyBrowserStorage, refreshToken, {
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 365 * 10,
   });
   setCookie(userIdKeyBrowserStorage, userId, {
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24 * 365 * 10,
   });
 };

@@ -2,16 +2,57 @@
 
 import { Button } from "@/components/ui/primitives/button";
 import { Input } from "@/components/ui/primitives/input";
+import { useToast } from "@/components/ui/primitives/use-toast";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
+import { updateBasicInformationService } from "@/services/user/user";
 import { IconEdit } from "@tabler/icons-react";
+import { Loader } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const BasicInformation = () => {
+const BasicInformation = ({
+  basicInformationObj,
+  setBasicInformationObj,
+}: any) => {
   const [isBasicInformationEditing, setIsBasicInformationEditing] =
     useState(false);
-  const [basicInformationObj, setBasicInformationObj] = useState({
-    firstName: "Samyak",
-    lastName: "Shah",
-  });
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const { toast } = useToast();
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
+
+  const updateBasicInformation = async () => {
+    if (
+      currentUser?.firstName?.toLowerCase() ==
+        basicInformationObj?.firstName?.toLowerCase() &&
+      currentUser?.lastName?.toLowerCase() ==
+        basicInformationObj?.lastName?.toLowerCase()
+    ) {
+      setIsBasicInformationEditing(false);
+    } else {
+      setIsUpdating(true);
+      try {
+        await updateBasicInformationService(basicInformationObj);
+        toast({
+          variant: "default",
+          title: "Basic information updated successfully! ✅",
+          description: `We have successfully updated your basic information!`,
+        });
+        dispatch(fetchUserData());
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Failed to update your basic information! 😵",
+          description:
+            "Uh oh! We are extremely sorry but something is wrong with our server, please try again later.",
+        });
+      } finally {
+        setIsUpdating(false);
+        setIsBasicInformationEditing(false);
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md p-4">
@@ -27,11 +68,15 @@ const BasicInformation = () => {
               Cancel
             </Button>{" "}
             <Button
-              onClick={() => setIsBasicInformationEditing(false)}
+              onClick={updateBasicInformation}
               size="sm"
               variant="destructive"
+              disabled={isUpdating || !basicInformationObj?.firstName?.length}
             >
-              Save
+              {isUpdating ? (
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              {isUpdating ? "Saving..." : "Save"}
             </Button>{" "}
           </div>
         ) : (
@@ -66,7 +111,7 @@ const BasicInformation = () => {
             onChange={(e: any) =>
               setBasicInformationObj({
                 ...basicInformationObj,
-                firstName: e.target.value,
+                lastName: e.target.value,
               })
             }
           />

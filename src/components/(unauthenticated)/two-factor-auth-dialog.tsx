@@ -81,7 +81,6 @@ const TwoFactorAuthDialog = ({
       dispatch(fetchUserData());
       router.push("/dashboard");
     } catch (error: any) {
-      console.log(error?.data?.error, "logged error");
       setOtpError(
         error?.data?.error ??
           "Something went wrong with our servers, please try again later."

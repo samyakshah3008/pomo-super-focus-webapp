@@ -1,5 +1,3 @@
-import { Goal } from "@/components/(goals)/data-table";
-
 const goalCategories = [
   { value: "health", label: "Health & Fitness" },
   { value: "career", label: "Career & Professional" },
@@ -13,7 +11,7 @@ const goalCategories = [
   { value: "spirituality", label: "Spirituality & Mindfulness" },
 ];
 
-const goalsDummyData: Goal[] = [
+const goalsDummyData: any = [
   {
     id: "m5gr84i9",
     time: "31st October 2024",
