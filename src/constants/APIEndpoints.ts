@@ -22,7 +22,6 @@ export const goalsCRUDEndpoint = "/users/goals";
 // pomodoros
 
 export const logPomodoroSessionEndpoint = "/pomodoros/log-session";
-export const activePomodoroSessionEndpoint = "/pomodoros/active-pomodoro";
 
 // daily progress
 
@@ -92,3 +91,18 @@ export const verifyOTPAndUpdateEmailEndpoint = "/users/update-email/verify";
 export const taskListEndpoint = "/tasks";
 export const onChangeStatusEndpoint = "/tasks/change-status";
 export const onChangePriorityEndpoint = "/tasks/change-priority";
+
+// self review endpoints:
+
+export const selfReviewListEndpoint = "/self-review";
+
+// super focus endpoints
+
+export const fetchSuperFocusDetailsEndpoint = "/super-focus";
+export const updateSuperFocusSettingsEndpoint = "/super-focus/update-settings";
+export const addPomodoroEndpoint = "/super-focus/add-pomodoro";
+export const fetchActivePomodoroDetailsEndpoint =
+  "/super-focus/active-pomodoro";
+export const initializeActivePomodoroSessionEndpoint =
+  "/super-focus/initialize-active-pomodoro";
+export const activePomodoroSessionEndpoint = "/super-focus/active-pomodoro";
