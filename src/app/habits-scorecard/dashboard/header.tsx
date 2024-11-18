@@ -1,50 +1,26 @@
 "use client";
 
-import { useSelector } from "react-redux";
-
-// type Word = {
-//   text: string;
-//   className?: string;
-// };
+import Image from "next/image";
+import AtomicHabits from "../../../../public/james-clear-atomic-habits.webp";
 
 const Header = () => {
-  const currentUser = useSelector((state: any) => state?.user);
-  //   const [words, setWords] = useState<Word[]>([]);
-
-  //   useEffect(() => {
-  //     if (!currentUser?.pomoSuperUser) return;
-  //     setWords([
-  //       {
-  //         text: "Hi",
-  //       },
-  //       {
-  //         text: `Chief,`,
-  //         className: "text-blue-500 dark:text-blue-500",
-  //       },
-
-  //       {
-  //         text: `what would you`,
-  //       },
-  //       {
-  //         text: `like`,
-  //       },
-  //       {
-  //         text: `to do today?`,
-  //       },
-  //     ]);
-  //   }, [currentUser?.pomoSuperUser]);
-
-  //   if (!currentUser?.pomoSuperUser || !words?.length) {
-  //     return null;
-  //   }
-
   return (
-    <div className="flex flex-col items-center">
-      <div></div>
-      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base">
-        Your life is too precious, don't waste a single second towards
-        meaningless things. 👀
-      </p>
+    <div className="flex flex-col items-center gap-4 mt-10">
+      <div className="w-[400px] m-auto">
+        <Image src={AtomicHabits} alt="eisen-hower" className="rounded-md" />
+      </div>
+      <div>
+        <div className="text-xs sm:text-base md:text-xl lg:text-3xl xl:text-5xl font-bold text-center">
+          Get
+          <span className="text-blue-500"> 1% Better</span> everyday!
+        </div>
+        <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 w-[800px]">
+          Complaining about not achieving success despite working hard is like
+          complaining about an ice cube not melting when you heated it from
+          twenty-five to thirty-one degrees. Your work was not wasted; it is
+          just being stored. All the action happens at thirty-two degrees.
+        </p>
+      </div>
     </div>
   );
 };
