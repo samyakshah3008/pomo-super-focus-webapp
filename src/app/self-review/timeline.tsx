@@ -4,7 +4,7 @@ import UpdateSelfReviewEventItemSidesheet from "@/components/(self-review)/updat
 import { Separator } from "@/components/ui/primitives/separator";
 import { IconEdit } from "@tabler/icons-react";
 import moment from "moment";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const Timeline = ({
   selfReviewItems,
@@ -22,9 +22,8 @@ const Timeline = ({
     <>
       <div className="mt-10 flex flex-col gap-6">
         {selfReviewItems[selectedYear]?.map((item: any, index: any) => (
-          <>
+          <React.Fragment key={item?._id}>
             <div
-              key={item?._id}
               className="flex gap-6 items-start cursor-pointer"
               onClick={() => {
                 setSelectedItemObj(item);
@@ -52,7 +51,7 @@ const Timeline = ({
             {index < selfReviewItems[selectedYear]?.length - 1 ? (
               <Separator />
             ) : null}
-          </>
+          </React.Fragment>
         ))}
       </div>
 
