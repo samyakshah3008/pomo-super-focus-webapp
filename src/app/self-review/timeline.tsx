@@ -1,6 +1,8 @@
 "use client";
 
 import UpdateSelfReviewEventItemSidesheet from "@/components/(self-review)/update-event-sidesheet";
+import { Separator } from "@/components/ui/primitives/separator";
+import { IconEdit } from "@tabler/icons-react";
 import moment from "moment";
 import { useState } from "react";
 
@@ -18,31 +20,39 @@ const Timeline = ({
 
   return (
     <>
-      <div className="mt-10 flex flex-col gap-6 pl-8 relative">
-        <div className="absolute left-4 top-0 bottom-0 w-1 bg-blue-500"></div>
-
-        {selfReviewItems[selectedYear]?.map((item: any) => (
-          <div
-            key={item?._id}
-            className="flex gap-6 items-start relative border-2 border-solid cursor-pointer"
-            onClick={() => {
-              setSelectedItemObj(item);
-              setIsUpdateEventSheetOpen(true);
-            }}
-          >
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-full"></div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <div className="text-2xl font-semibold">{item?.title}</div>
-              <div className="text-sm text-gray-500">
-                {moment(item?.date).format("DD-MM-YYYY")}
+      <div className="mt-10 flex flex-col gap-6">
+        {selfReviewItems[selectedYear]?.map((item: any, index: any) => (
+          <>
+            <div
+              key={item?._id}
+              className="flex gap-6 items-start cursor-pointer"
+              onClick={() => {
+                setSelectedItemObj(item);
+                setIsUpdateEventSheetOpen(true);
+              }}
+            >
+              <div className="flex flex-col gap-2 flex-1">
+                <div className="flex justify-between">
+                  <div className="">
+                    <div className="text-xl font-bold text-gray-700">
+                      {moment(item?.date).format("Do MMMM YYYY")}
+                    </div>
+                    <div className="text-lg font-semibold text-gray-500">
+                      {item?.title}
+                    </div>
+                  </div>
+                  <IconEdit size={20} />
+                </div>
+                {/* Description */}
+                <div className="text-base text-gray-600">
+                  {item?.description}
+                </div>
               </div>
-
-              <div className="text-gray-700">{item?.description}</div>
             </div>
-          </div>
+            {index < selfReviewItems[selectedYear]?.length - 1 ? (
+              <Separator />
+            ) : null}
+          </>
         ))}
       </div>
 

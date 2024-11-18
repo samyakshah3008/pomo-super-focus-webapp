@@ -64,13 +64,13 @@ const MainContainer = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-[70%] m-auto ">
+    <div className="flex flex-col gap-4 w-[70%] m-auto mb-5 ">
       <div className="flex gap-4 justify-center items-center cursor-pointer">
         {listOfYears?.map((year: any, index: any) => {
           return (
             <div
               key={index}
-              className={`text-sm ${
+              className={`${
                 selectedYear == year ? "text-blue-500 underline" : ""
               }`}
               onClick={() => setSelectedYear(year)}
@@ -89,7 +89,11 @@ const MainContainer = () => {
       <CreateSelfReviewEventSidesheet
         fetchSelfReviewItems={fetchSelfReviewItems}
       >
-        <Button size="sm">Add new event to my self review list! 🚀</Button>
+        <div className="flex justify-end">
+          <Button size="sm" className="w-fit">
+            Add new event to my self review list! 🚀
+          </Button>
+        </div>
       </CreateSelfReviewEventSidesheet>
     </div>
   );
