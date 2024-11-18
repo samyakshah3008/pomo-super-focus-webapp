@@ -1,11 +1,19 @@
+"use client";
+
+import { useSuperFocus } from "@/context/super-focus";
+
 const MusicWidget = ({
   studySource,
+  currentSettingDetails,
 }: {
   studySource: "spotify" | "youtube";
+  currentSettingDetails: any;
 }) => {
+  const { activeState } = useSuperFocus();
+
   return (
     <div className="">
-      {studySource == "spotify" ? (
+      {studySource === "spotify" ? (
         <iframe
           title="Spotify Playlist"
           frameBorder="0"
@@ -13,7 +21,23 @@ const MusicWidget = ({
           loading="lazy"
           width="100%"
           height="360"
-          src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=iframe-api"
+          src={
+            activeState === "study"
+              ? `https://open.spotify.com/embed/playlist/${
+                  currentSettingDetails?.studyOptions?.studyMusicPlaylistId
+                }?autoplay=${
+                  currentSettingDetails?.studyOptions?.autoPlayStudyMusic
+                    ? 1
+                    : 0
+                }`
+              : `https://open.spotify.com/embed/playlist/${
+                  currentSettingDetails?.breakOptions?.breakMusicPlaylistId
+                }?autoplay=${
+                  currentSettingDetails?.breakOptions?.autoPlayBreakTimer
+                    ? 1
+                    : 0
+                }`
+          }
           className="rounded-3xl"
         ></iframe>
       ) : (
@@ -22,10 +46,26 @@ const MusicWidget = ({
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
-          title="lofi hip hop radio - beats to study/relax to 🐾"
+          title="YouTube Playlist"
           width="640"
           height="320"
-          src="https://www.youtube.com/embed/7NOSDKb0HlU?playsinline=1&enablejsapi=1&origin=https%3A%2F%2Ftimer.flotes.app&widgetid=2"
+          src={
+            activeState === "study"
+              ? `https://www.youtube.com/embed/${
+                  currentSettingDetails?.studyOptions?.studyMusicPlaylistId
+                }?autoplay=${
+                  currentSettingDetails?.studyOptions?.autoPlayStudyMusic
+                    ? 1
+                    : 0
+                }`
+              : `https://www.youtube.com/embed/${
+                  currentSettingDetails?.breakOptions?.breakMusicPlaylistId
+                }?autoplay=${
+                  currentSettingDetails?.breakOptions?.autoPlayBreakTimer
+                    ? 1
+                    : 0
+                }`
+          }
           allowFullScreen
           className="rounded-3xl"
         ></iframe>
