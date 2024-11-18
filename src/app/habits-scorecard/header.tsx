@@ -2,9 +2,11 @@
 
 import { getCurrentYear, getDaysUntilYearEnd } from "@/utils/helper-functions";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import WorkingPerson from "../../../public/working-person.png";
 
 const Header = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col items-center h-screen">
       <div>
@@ -30,12 +32,12 @@ const Header = () => {
         best out of it;)
       </p>
 
-      <a
+      <div
         className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 text-white font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 mt-8 cursor-pointer"
-        href="/habits-scorecard/dashboard"
+        onClick={() => router.push("/habits-scorecard/dashboard")}
       >
         Go to Atomic Habits Dashboard with Witch
-      </a>
+      </div>
     </div>
   );
 };
