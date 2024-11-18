@@ -16,6 +16,7 @@ import { addNewItemToUserTaskListService } from "@/services/tasks/tasks";
 import { Loader } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
+import { CalendarForm } from "../common/calendar";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
 import { Label } from "../ui/primitives/label";
@@ -30,7 +31,6 @@ import {
 } from "../ui/primitives/select";
 import { Textarea } from "../ui/primitives/textarea";
 import { useToast } from "../ui/primitives/use-toast";
-import { CalendarForm } from "./calendar";
 
 type TasksSidesheetProps = {
   children: React.ReactNode;
