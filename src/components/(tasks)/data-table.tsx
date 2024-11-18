@@ -109,7 +109,9 @@ export function DataTable({ data, fetchTaskItems }: any) {
         return (
           <div
             className={`lowercase text-ellipsis overflow-hidden whitespace-nowrap max-w-40 ${
-              isOverdue ? "text-red-500 font-semibold" : ""
+              isOverdue && !row.getValue("isCompleted")
+                ? "text-red-500 font-semibold"
+                : ""
             }`}
           >
             {dueDate}
