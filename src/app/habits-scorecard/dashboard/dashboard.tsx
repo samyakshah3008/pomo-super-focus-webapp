@@ -1,44 +1,44 @@
 "use client";
 
-import { fetchHabitsService } from "@/services/habits-scorecard/habits-scorecard";
+import { howToModalGoalObj } from "@/app/goals/constants";
+import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti";
+import HowToModal from "@/components/common/how-to-modal";
+import { IconBulbFilled } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import Header from "./header";
-import Today from "./today";
+import MainContainer from "./main-container";
 
 const Dashboard = () => {
-  const [habits, setHabits] = useState<[] | any>([]);
-  const [loading, setLoading] = useState(true);
-  const currentUser = useSelector((state: any) => state?.user);
-
-  const fetchHabits = async () => {
-    try {
-      const response = await fetchHabitsService(currentUser);
-      setHabits(response?.data?.data);
-    } catch (error) {
-      console.log("error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [showHowToModal, setShowHowToModal] = useState(false);
+  const [showExplodingHeart, setShowExplodingHeart] = useState(false);
 
   useEffect(() => {
-    if (!currentUser?.pomoSuperUser?._id) return;
-    fetchHabits();
-  }, [currentUser]);
-
-  if (loading) {
-    return null;
-  }
+    if (!showHowToModal) return;
+    if (showHowToModal) {
+      setShowExplodingHeart(false);
+    }
+  }, [showHowToModal]);
 
   return (
-    <div>
-      <div className="flex flex-col gap-5 w-[70%] m-auto">
-        {/* <TodayOverview habits={habits?.incomplete} fetchHabits={fetchHabits} />, */}
-        <Header />
-        <Today />
-        {/* <HabitsCompleted habits={habits?.complete} />, */}
+    <div className="flex flex-col gap-4 items-center pb-5">
+      {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
+
+      <Header />
+      <MainContainer />
+
+      <div className="absolute top-10 right-0 lg:right-40">
+        <IconBulbFilled
+          onClick={() => setShowHowToModal(true)}
+          className="cursor-pointer text-yellow-400 w-10 h-10 sm:w-16 lg:h-16"
+        />
       </div>
+
+      <HowToModal
+        showHowToModal={showHowToModal}
+        setShowHowToModal={setShowHowToModal}
+        setShowExplodingHeart={setShowExplodingHeart}
+        {...howToModalGoalObj}
+      />
     </div>
   );
 };
