@@ -1,11 +1,67 @@
-import { get } from "@/config/API";
-import { getHabitsEndpoint } from "@/constants/APIEndpoints";
+import { deleteRequest, get, postWithToken } from "@/config/API";
+import {
+  createNewHabitEndpoint,
+  deleteHabitEndpoint,
+  getAllHabitsEndpoint,
+  getTodaysHabitsEndpoint,
+  updateHabitEndpoint,
+} from "@/constants/APIEndpoints";
 
-const fetchHabitsService = async (currentUser: any) => {
-  const response = await get(
-    `${getHabitsEndpoint}?userId=${currentUser?.pomoSuperUser?._id}`
-  );
+const fetchAllHabitsService = async () => {
+  const response = await get(getAllHabitsEndpoint);
   return response;
 };
 
-export { fetchHabitsService };
+const fetchTodaysHabitsService = async () => {
+  const response = await get(getTodaysHabitsEndpoint);
+  return response;
+};
+
+const createHabitService = async (
+  defineHabitText: any,
+  getSpecificText: any,
+  identityText: any,
+  repeat: any,
+  selectedDays: any
+) => {
+  const response = await postWithToken(createNewHabitEndpoint, {
+    defineHabitText,
+    getSpecificText,
+    identityText,
+    repeat,
+    selectedDays,
+  });
+  return response;
+};
+
+const updateHabitService = async (
+  habitId: any,
+  defineHabitText: any,
+  getSpecificText: any,
+  identityText: any,
+  repeat: any,
+  selectedDays: any
+) => {
+  const response = await postWithToken(updateHabitEndpoint, {
+    habitId,
+    defineHabitText,
+    getSpecificText,
+    identityText,
+    repeat,
+    selectedDays,
+  });
+  return response;
+};
+
+const deleteHabitService = async (habitId: any) => {
+  const response = await deleteRequest(deleteHabitEndpoint, { habitId });
+  return response;
+};
+
+export {
+  createHabitService,
+  deleteHabitService,
+  fetchAllHabitsService,
+  fetchTodaysHabitsService,
+  updateHabitService,
+};
