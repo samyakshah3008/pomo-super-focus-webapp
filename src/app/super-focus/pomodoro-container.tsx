@@ -9,6 +9,7 @@ import {
 } from "@/services/super-focus/super-focus";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
+import Header from "./header";
 import MusicWidget from "./music-widget";
 import SuperFocusTimer from "./super-focus-timer";
 
@@ -82,29 +83,34 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
   }
 
   return (
-    <div className="w-[620px] flex flex-col gap-5 m-auto">
-      <SuperFocusTimer
-        studyTime={studyTime}
-        shortBreakTime={shortBreakTime}
-        longBreakTime={longBreakTime}
-        setStudyTime={setStudyTime}
-        setLongBreakTime={setLongBreakTime}
-        setShortBreakTime={setShortBreakTime}
-        currentSettingDetails={currentSettingDetails}
-        isStudyTimerPaused={isStudyTimerPaused}
-        setIsStudyTimerPaused={setIsStudyTimerPaused}
-        isStudyTimeInitialized={isStudyTimeInitialized}
-        setIsStudyTimeInitialized={setIsStudyTimeInitialized}
-      />
-      <MusicWidget
-        studySource={
-          activeState == "study"
-            ? currentSettingDetails?.studyOptions?.studyMusicSource
-            : currentSettingDetails?.breakOptions?.breakMusicSource
-        }
-        currentSettingDetails={currentSettingDetails}
-      />
-    </div>
+    <>
+      <div className="flex flex-col gap-10">
+        <Header />
+        <div className="flex gap-4 justify-center">
+          <SuperFocusTimer
+            studyTime={studyTime}
+            shortBreakTime={shortBreakTime}
+            longBreakTime={longBreakTime}
+            setStudyTime={setStudyTime}
+            setLongBreakTime={setLongBreakTime}
+            setShortBreakTime={setShortBreakTime}
+            currentSettingDetails={currentSettingDetails}
+            isStudyTimerPaused={isStudyTimerPaused}
+            setIsStudyTimerPaused={setIsStudyTimerPaused}
+            isStudyTimeInitialized={isStudyTimeInitialized}
+            setIsStudyTimeInitialized={setIsStudyTimeInitialized}
+          />
+          <MusicWidget
+            studySource={
+              activeState == "study"
+                ? currentSettingDetails?.studyOptions?.studyMusicSource
+                : currentSettingDetails?.breakOptions?.breakMusicSource
+            }
+            currentSettingDetails={currentSettingDetails}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
