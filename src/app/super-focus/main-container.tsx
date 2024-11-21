@@ -2,19 +2,12 @@
 
 import { useToast } from "@/components/ui/primitives/use-toast";
 import { SuperFocusProvider } from "@/context/super-focus";
-import { cn } from "@/lib/utils";
 import { fetchSuperFocusSettingsService } from "@/services/super-focus/super-focus";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
-import Header from "./header";
-import HowTo from "./howTo";
 import PomodoroContainer from "./pomodoro-container";
-import Settings from "./settings";
-import Tasks from "./tasks";
 
 const MainContainer = () => {
-  const [activeTab, setActiveTab] = useState("superFocus");
-  const [superFocusDetails, setSuperFocusDetails] = useState(null);
   const [currentSettingDetails, setCurrentSettingDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isImageValid, setIsImageValid] = useState(true);
@@ -24,7 +17,6 @@ const MainContainer = () => {
   const fetchSuperFocusSettings = async () => {
     try {
       const response = await fetchSuperFocusSettingsService();
-      setSuperFocusDetails(response?.data?.data?.superFocusRecordDetails);
       setCurrentSettingDetails(response?.data?.data?.superFocusRecordDetails);
     } catch (error) {
       toast({
@@ -35,27 +27,6 @@ const MainContainer = () => {
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const renderActiveTabComponent = () => {
-    if (activeTab == "superFocus") {
-      return (
-        <PomodoroContainer currentSettingDetails={currentSettingDetails} />
-      );
-    } else if (activeTab == "tasks") {
-      return <Tasks />;
-    } else if (activeTab == "howTo") {
-      return <HowTo />;
-    } else {
-      return (
-        <Settings
-          setSuperFocusDetails={setSuperFocusDetails}
-          superFocusDetails={superFocusDetails}
-          fetchSuperFocusSettings={fetchSuperFocusSettings}
-          currentSettingDetails={currentSettingDetails}
-        />
-      );
     }
   };
 
@@ -82,28 +53,8 @@ const MainContainer = () => {
 
   return (
     <SuperFocusProvider>
-      <div
-        style={
-          activeTab == "superFocus"
-            ? currentSettingDetails?.uiOptions?.backgroundImageUrl &&
-              isImageValid
-              ? {
-                  backgroundImage: `url(${currentSettingDetails?.uiOptions?.backgroundImageUrl}`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }
-              : { background: "linear-gradient(140deg,#13171f,#1e1e2e)" }
-            : {}
-        }
-        className={cn(
-          `min-h-screen p-5 ${
-            activeTab == "superFocus" ? "bg-pomosuperfocus-gradient" : ""
-          }`
-        )}
-      >
-        <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-        {renderActiveTabComponent()}
+      <div className="min-h-screen p-5">
+        <PomodoroContainer currentSettingDetails={currentSettingDetails} />
       </div>
     </SuperFocusProvider>
   );
