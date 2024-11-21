@@ -1,9 +1,12 @@
 "use client";
 
-import {
-  getBorderClass,
-  getColorClass,
-} from "@/components/(super-focus)/helper";
+import CongratulationsModal from "@/components/(super-focus)/congratulations-modal";
+import EscapeSessionModal from "@/components/(super-focus)/escape-session-modal";
+import LongBreakSessionActivatedModal from "@/components/(super-focus)/long-break-modal";
+import PauseStudySessionModal from "@/components/(super-focus)/pause-modal";
+import ResetSessionModal from "@/components/(super-focus)/reset-timer-modal";
+import ShortBreakSessionActivatedModal from "@/components/(super-focus)/short-break-modal";
+import StudySessionActivatedModal from "@/components/(super-focus)/study-modal";
 import { useToast } from "@/components/ui/primitives/use-toast";
 import { useSuperFocus } from "@/context/super-focus";
 import { cn } from "@/lib/utils";
@@ -14,9 +17,10 @@ import {
   pausePomodoroSessionService,
   resumePomodoroSessionService,
 } from "@/services/super-focus/super-focus";
-import { IconPlayerSkipBack, IconPlayerSkipForward } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { getTimeInMinutesAndSecondsFormat } from "./helper";
+import TimerWidget from "./timer-widget";
 
 const SuperFocusTimer = ({
   currentSettingDetails,
@@ -38,12 +42,25 @@ const SuperFocusTimer = ({
   const [isLongBreakSessionInitialized, setIsLongBreakSessionInitialized] =
     useState(false);
 
+  const [showStudySessionActivatedModal, setShowStudySessionActivatedModal] =
+    useState(false);
+  const [
+    showShortBreakSessionActivatedModal,
+    setShowShortBreakSessionActivatedModal,
+  ] = useState(false);
+  const [
+    showLongBreakSessionActivatedModal,
+    setShowLongBreakSessionActivatedModal,
+  ] = useState(false);
+  const [showEscapeSessionModal, setShowEscapeSessionModal] = useState(false);
+  const [showResetSessionModal, setShowResetSessionModal] = useState(false);
+  const [showPauseSessionModal, setShowPauseSessionModal] = useState(false);
+  const [showCongratulationsModal, setShowCongratulationsModal] =
+    useState(false);
+
   const hasSavedPomodoro = useRef(false);
 
-  const { getColor, setActiveState, activeState } = useSuperFocus();
-  let themeColor = getColor();
-  const colorClass = getColorClass(themeColor);
-  const borderClass = getBorderClass(themeColor);
+  const { setActiveState, activeState } = useSuperFocus();
 
   const { toast } = useToast();
 
@@ -57,7 +74,7 @@ const SuperFocusTimer = ({
     }
   };
 
-  const getTextAccordingToState = () => {
+  const getTextAccordingToState: any = () => {
     if (activeState == "study") {
       if (isStudyTimeInitialized) {
         if (isStudyTimerPaused) {
@@ -125,12 +142,10 @@ const SuperFocusTimer = ({
           await initializeActivePomodoroSessionService(
             currentSettingDetails?.time?.studyTime * 60
           );
-          toast({
-            title: "Session started! Good luck for the session!✅",
-            description: "New session started! We wish you all the very best!",
-          });
+
           setIsStudyTimerPaused(false);
           setIsStudyTimeInitialized(true);
+          setShowStudySessionActivatedModal(true);
         } catch (error) {
           toast({
             title: "Failed to start a session, please try again later!",
@@ -143,9 +158,11 @@ const SuperFocusTimer = ({
     } else if (activeState == "shortBreak") {
       setIsShortBreakSessionInitialized(true);
       setIsShortBreakTimerPaused(false);
+      setShowShortBreakSessionActivatedModal(true);
     } else {
       setIsLongBreakSessionInitialized(true);
       setIsLongBreakTimerPaused(false);
+      setShowLongBreakSessionActivatedModal(true);
     }
   };
 
@@ -157,11 +174,7 @@ const SuperFocusTimer = ({
           timeLeftInSeconds: studyTime,
         });
         setIsStudyTimerPaused(true);
-        toast({
-          title: "Session paused!✅",
-          description:
-            "We have paused the session, waiting for you to come back soon!",
-        });
+        setShowPauseSessionModal(true);
       } catch (error) {
         toast({
           title: "Failed to pause a session, please try again later!",
@@ -178,15 +191,12 @@ const SuperFocusTimer = ({
   };
 
   const savePomodoroSessionToDB = async () => {
+    let response;
     try {
-      await addNewPomodoroSessionService(
+      response = await addNewPomodoroSessionService(
         currentSettingDetails?.time?.studyTime
       );
-      toast({
-        title: "Congratulations, you completed focused session!",
-        description:
-          "You are looking in fine touch today! keep going and win the day!",
-      });
+      setShowCongratulationsModal(true);
     } catch (error) {
       toast({
         title:
@@ -196,39 +206,59 @@ const SuperFocusTimer = ({
         variant: "destructive",
       });
     } finally {
-      // check with number of sessions
       hasSavedPomodoro.current = false;
 
-      let switchToShortBreak = true;
-      if (switchToShortBreak) {
-        let autoStartTimer =
-          currentSettingDetails?.breakOptions?.autoStartBreakTimer;
+      if (response?.shouldGoToLongBreak) {
+        // let autoStartTimer =
+        //   currentSettingDetails?.breakOptions?.autoStartBreakTimer;
+        let autoStartTimer = false;
+        setActiveState("longBreak");
+        if (autoStartTimer) {
+          setIsLongBreakSessionInitialized(true);
+          setIsLongBreakTimerPaused(false);
+        }
+      } else {
+        // let autoStartTimer =
+        //   currentSettingDetails?.breakOptions?.autoStartBreakTimer;
+        let autoStartTimer = false;
         setActiveState("shortBreak");
         if (autoStartTimer) {
           setIsShortBreakSessionInitialized(true);
           setIsShortBreakTimerPaused(false);
         }
         // else we wont initialize
-        toast({
-          title: "Take a short break and come back!",
-          description:
-            "It's time for the short break, you can do some push ups or stretching before you start next session;)",
-        });
-      } else {
-        let autoStartTimer =
-          currentSettingDetails?.breakOptions?.autoStartBreakTimer;
-        setActiveState("longBreak");
-        if (autoStartTimer) {
-          setIsLongBreakSessionInitialized(true);
-          setIsLongBreakTimerPaused(false);
-        }
-        toast({
-          title: "Take long break!",
-          description:
-            "Take a long break and recharge yourself before your next session!",
-        });
       }
     }
+  };
+
+  const resetSession = async () => {
+    try {
+      await deletePomodoroSessionService();
+      setStudyTime(currentSettingDetails?.time?.studyTime * 60);
+      setIsStudyTimeInitialized(false);
+      setIsStudyTimerPaused(true);
+      setShowResetSessionModal(false);
+      toast({
+        title: "Session reset done ✅",
+        description: "Now you can take break if you want. ",
+      });
+    } catch (error) {
+      console.log("Failed to delete pomodoro", error);
+    } finally {
+      setShowResetSessionModal(false);
+    }
+  };
+
+  const resetShortBreakTime = () => {
+    setIsShortBreakSessionInitialized(false);
+    setIsShortBreakTimerPaused(true);
+    setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
+  };
+
+  const resetLongBreakTime = () => {
+    setIsLongBreakSessionInitialized(false);
+    setIsLongBreakTimerPaused(true);
+    setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
   };
 
   const switchTab = async (tab: any) => {
@@ -241,36 +271,27 @@ const SuperFocusTimer = ({
       setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
       setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
     } else if (tab == "shortBreak") {
-      setActiveState("shortBreak");
       if (isStudyTimeInitialized) {
-        try {
-          await deletePomodoroSessionService();
-          setStudyTime(currentSettingDetails?.time?.studyTime * 60);
-        } catch (error) {
-          console.log("Failed to delete pomodoro", error);
-        }
+        setShowEscapeSessionModal(true);
+      } else {
+        setActiveState("shortBreak");
+        setIsStudyTimeInitialized(false);
+        setIsStudyTimerPaused(true);
+        setIsLongBreakSessionInitialized(false);
+        setIsLongBreakTimerPaused(true);
+        setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
       }
-      setIsStudyTimeInitialized(false);
-      setIsStudyTimerPaused(true);
-      setIsLongBreakSessionInitialized(false);
-      setIsLongBreakTimerPaused(true);
-
-      setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
     } else {
-      setActiveState("longBreak");
       if (isStudyTimeInitialized) {
-        try {
-          await deletePomodoroSessionService();
-          setStudyTime(currentSettingDetails?.time?.studyTime * 60);
-        } catch (error) {
-          console.log("Failed to delete pomodoro", error);
-        }
+        setShowEscapeSessionModal(true);
+      } else {
+        setActiveState("longBreak");
+        setIsStudyTimeInitialized(false);
+        setIsStudyTimerPaused(true);
+        setIsShortBreakSessionInitialized(false);
+        setIsShortBreakTimerPaused(true);
+        setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
       }
-      setIsStudyTimeInitialized(false);
-      setIsStudyTimerPaused(true);
-      setIsShortBreakSessionInitialized(false);
-      setIsShortBreakTimerPaused(true);
-      setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
     }
   };
 
@@ -310,9 +331,11 @@ const SuperFocusTimer = ({
           setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
           setIsShortBreakSessionInitialized(false);
           setIsShortBreakTimerPaused(true);
+          setShowShortBreakSessionActivatedModal(true);
           if (autoStartTimer) {
             setIsStudyTimeInitialized(true);
             setIsStudyTimerPaused(false);
+            setShowStudySessionActivatedModal(true);
           }
           return 0;
         }
@@ -337,9 +360,11 @@ const SuperFocusTimer = ({
           setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
           setIsLongBreakSessionInitialized(false);
           setIsLongBreakTimerPaused(true);
+          setShowLongBreakSessionActivatedModal(true);
           if (autoStartTimer) {
             setIsStudyTimeInitialized(true);
             setIsStudyTimerPaused(false);
+            setShowStudySessionActivatedModal(true);
           }
           return 0;
         }
@@ -353,67 +378,121 @@ const SuperFocusTimer = ({
   }, [isLongBreakTimerPaused]);
 
   return (
-    <div
-      className={cn(
-        `w-full flex flex-col gap-5 bg-[#181c25cc] text-white border-2 ${borderClass} border-solid items-center rounded-3xl`
-      )}
-    >
-      <div>
-        <h1 className="text-[120px] text-center ">
-          {showTimeAccordingToState()}
-        </h1>
-        <div className="flex gap-4 justify-center items-center">
-          <IconPlayerSkipBack size={24} className="cursor-pointer" />
-          <button
-            onClick={
-              getTextAccordingToState() == "Resume" ||
-              getTextAccordingToState() == "Start"
-                ? startTimerAccordingToState
-                : pauseTimerAccordingToState
-            }
-            className={cn(
-              `border-2 font-bold bg-transparent ${borderClass} pl-8 pr-8 pt-4 pb-4 rounded-md uppercase`
-            )}
+    <>
+      <div
+        className={cn(
+          `flex flex-col gap-5 border-2 ${
+            activeState == "study"
+              ? "bg-blue-100"
+              : activeState == "shortBreak"
+              ? "bg-yellow-100"
+              : "bg-green-100"
+          } border-solid rounded-3xl w-[500px] p-4`
+        )}
+      >
+        <div className="flex gap-2 text-sm font-medium">
+          <div
+            className={`p-2 cursor-pointer ${
+              checkIsActive("study") &&
+              `rounded-full ${
+                activeState == "study"
+                  ? "bg-blue-400 border-blue-500"
+                  : activeState == "shortBreak"
+                  ? "bg-yellow-400 border-yellow-500"
+                  : "bg-green-400 border-green-500"
+              }   pl-4 pr-4 text-white font-semibold flex gap-1 items-center`
+            }`}
+            onClick={() => switchTab("study")}
           >
-            {getTextAccordingToState()}
-          </button>
-          <IconPlayerSkipForward className="cursor-pointer" />
+            {activeState == "study" && <IconCheck size={20} />} Study
+          </div>
+          <div
+            className={`p-2 cursor-pointer ${
+              checkIsActive("shortBreak") &&
+              `rounded-full ${
+                activeState == "study"
+                  ? "bg-blue-400 border-blue-500"
+                  : activeState == "shortBreak"
+                  ? "bg-yellow-400 border-yellow-500"
+                  : "bg-green-400 border-green-500"
+              } pl-4 pr-4 text-white font-semibold flex gap-1`
+            }`}
+            onClick={() => switchTab("shortBreak")}
+          >
+            Short Break
+          </div>
+          <div
+            className={`p-2 cursor-pointer ${
+              checkIsActive("longBreak") &&
+              `rounded-full ${
+                activeState == "study"
+                  ? "bg-blue-400 border-blue-500"
+                  : activeState == "shortBreak"
+                  ? "bg-yellow-400 border-yellow-500"
+                  : "bg-green-400 border-green-500"
+              } pl-4 pr-4 text-white font-semibold flex gap-1`
+            }`}
+            onClick={() => switchTab("longBreak")}
+          >
+            Long Break
+          </div>
+        </div>
+        <div className="flex justify-center items-center flex-1">
+          <div className="">
+            <h1 className="text-4xl text-center">
+              {showTimeAccordingToState()}
+            </h1>
+            <div className="w-full border-2 border-gray-300 mt-1"></div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <TimerWidget
+            isStudyTimeInitialized={isStudyTimeInitialized}
+            getTextAccordingToState={getTextAccordingToState}
+            startTimerAccordingToState={startTimerAccordingToState}
+            pauseTimerAccordingToState={pauseTimerAccordingToState}
+            isStudyTimerPaused={isStudyTimerPaused}
+            setShowResetSessionModal={setShowResetSessionModal}
+            isShortBreakSessionInitialized={isShortBreakSessionInitialized}
+            isLongBreakSessionInitialized={isLongBreakSessionInitialized}
+            isShortBreakTimerPaused={isShortBreakTimerPaused}
+            isLongBreakTimePaused={isLongBreakTimerPaused}
+            resetShortBreakTime={resetShortBreakTime}
+            resetLongBreakTime={resetLongBreakTime}
+          />
         </div>
       </div>
 
-      <div className="flex pb-5">
-        <div
-          className={cn(
-            `pt-4 pb-4 pr-10 pl-10 ${borderClass} border-2 border-solid border-r-0 cursor-pointer rounded-tl-md rounded-bl-md ${
-              checkIsActive("study") && "underline"
-            }`
-          )}
-          onClick={() => switchTab("study")}
-        >
-          Study
-        </div>
-        <div
-          className={cn(
-            `pt-4 pb-4 pr-10 pl-10 ${borderClass} border-2 border-solid cursor-pointer ${
-              checkIsActive("shortBreak") && "underline"
-            }`
-          )}
-          onClick={() => switchTab("shortBreak")}
-        >
-          Short break
-        </div>
-        <div
-          className={cn(
-            `pt-4 pb-4 pr-10 pl-10 ${borderClass} border-2 border-solid border-l-0 cursor-pointer rounded-tr-md rounded-br-md ${
-              checkIsActive("longBreak") && "underline"
-            }`
-          )}
-          onClick={() => switchTab("longBreak")}
-        >
-          Long break
-        </div>
-      </div>
-    </div>
+      <StudySessionActivatedModal
+        show={showStudySessionActivatedModal}
+        setShow={setShowStudySessionActivatedModal}
+      />
+      <ShortBreakSessionActivatedModal
+        show={showShortBreakSessionActivatedModal}
+        setShow={setShowShortBreakSessionActivatedModal}
+      />
+      <LongBreakSessionActivatedModal
+        show={showLongBreakSessionActivatedModal}
+        setShow={setShowLongBreakSessionActivatedModal}
+      />
+      <EscapeSessionModal
+        show={showEscapeSessionModal}
+        setShow={setShowEscapeSessionModal}
+      />
+      <ResetSessionModal
+        show={showResetSessionModal}
+        setShow={setShowResetSessionModal}
+        onResetCallback={resetSession}
+      />
+      <PauseStudySessionModal
+        show={showPauseSessionModal}
+        setShow={setShowPauseSessionModal}
+      />
+      <CongratulationsModal
+        show={showCongratulationsModal}
+        setShow={setShowCongratulationsModal}
+      />
+    </>
   );
 };
 
