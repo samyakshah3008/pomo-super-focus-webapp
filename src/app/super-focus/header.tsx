@@ -1,139 +1,52 @@
 "use client";
 
+import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+
 import {
-  getBgColorClass,
-  getBorderClass,
-  getColorClass,
-} from "@/components/(super-focus)/helper";
-import ReusableDialog from "@/components/common/reusable-dialog";
-import { Separator } from "@/components/ui/primitives/separator";
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/primitives/carousel";
 import { useSuperFocus } from "@/context/super-focus";
-import { cn } from "@/lib/utils";
-import {
-  IconBulb,
-  IconChecklist,
-  IconFocus2,
-  IconHome,
-  IconSettings,
-} from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef } from "react";
+import { tmkocTheme } from "./theme";
 
-const Header = ({ activeTab, setActiveTab }: any) => {
-  const [isConfirmExitDialogOpen, setIsConfirmExitDialogOpen] = useState(false);
+const Header = () => {
+  const plugin: any = useRef(
+    Autoplay({ delay: 10000, stopOnInteraction: false })
+  );
 
-  const router = useRouter();
-  const { getColor } = useSuperFocus();
-  let themeColor = getColor();
-
-  const colorClass = getColorClass(themeColor);
-  const borderClass = getBorderClass(themeColor);
-  const bgColorClass = getBgColorClass(themeColor);
-
-  const onCloseConfirmExitDialog = () => {
-    setIsConfirmExitDialogOpen(false);
-  };
-
-  const onConfirmExit = () => {
-    router.push("/dashboard");
-  };
-
-  const getHeadingText = () => {
-    if (activeTab == "superFocus") {
-      return "PomoSuperFocus";
-    } else if (activeTab == "tasks") {
-      return "PomoSuperTasks";
-    } else if (activeTab == "howTo") {
-      return "How to use?";
-    } else {
-      return "Settings";
-    }
-  };
+  const { activeState } = useSuperFocus();
 
   return (
-    <>
-      <div className="flex items-center justify-center w-[70%] m-auto mb-5">
-        <div className={cn(`text-3xl font-bold flex-1 ${colorClass}`)}>
-          {getHeadingText()}
-        </div>
-        <div className="flex gap-2 items-center">
-          <div
-            className={cn(
-              `border-2 ${borderClass}  border-solid pt-1 pb-1 pr-2 pl-2 rounded-md cursor-pointer `
-            )}
-            onClick={() => setIsConfirmExitDialogOpen(true)}
-          >
-            <IconHome size={22} className={colorClass} />
-          </div>
+    <div className="flex flex-col items-center">
+      <Carousel plugins={[plugin.current]} className="w-full max-w-xs">
+        <CarouselContent>
+          {tmkocTheme[activeState].map((item: any, index: any) => (
+            <CarouselItem key={index}>
+              <div className="">
+                <div className="m-auto">
+                  <Image
+                    className="w-[500px] h-[250px] object-contain"
+                    src={item}
+                    alt="goals checklist"
+                  />
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
 
-          <div
-            className={cn(
-              `border-2 ${borderClass} ${
-                activeTab == "superFocus" && bgColorClass
-              }  border-solid pt-1 pb-1 pr-2 pl-2 rounded-md cursor-pointer `
-            )}
-            onClick={() => setActiveTab("superFocus")}
-          >
-            <IconFocus2
-              size={22}
-              className={activeTab !== "superFocus" ? colorClass : ""}
-            />
-          </div>
-          <div
-            className={cn(
-              `border-2 ${borderClass} ${
-                activeTab == "howTo" && bgColorClass
-              } border-solid pt-1 pb-1 pr-2 pl-2 rounded-md cursor-pointer `
-            )}
-            onClick={() => setActiveTab("howTo")}
-          >
-            <IconBulb
-              size={22}
-              className={activeTab !== "howTo" ? colorClass : ""}
-            />
-          </div>
-          <div
-            className={cn(
-              `border-2 ${borderClass} ${
-                activeTab == "tasks" && bgColorClass
-              } border-solid pt-1 pb-1 pr-2 pl-2 rounded-md cursor-pointer `
-            )}
-            onClick={() => setActiveTab("tasks")}
-          >
-            <IconChecklist
-              size={22}
-              className={activeTab !== "tasks" ? colorClass : ""}
-            />
-          </div>
-          <div
-            className={cn(
-              `border-2 ${borderClass} ${
-                activeTab == "settings" && bgColorClass
-              } border-solid pt-1 pb-1 pr-2 pl-2 rounded-md cursor-pointer`
-            )}
-            onClick={() => setActiveTab("settings")}
-          >
-            <IconSettings
-              size={22}
-              className={activeTab !== "settings" ? colorClass : ""}
-            />
-          </div>
-        </div>
+      <div className="text-3xl font-bold text-center mt-2">
+        Bapuji is <span className="text-blue-500">watching</span> You, Babuchak!
       </div>
-      <Separator className="w-[70%] m-auto mb-5" />
-
-      <ReusableDialog
-        isOpen={isConfirmExitDialogOpen}
-        onClose={onCloseConfirmExitDialog}
-        onConfirm={onConfirmExit}
-        isProcessing={false}
-        title="Confirm Exit?"
-        description={`You are about to exit the super focus screen, are you sure? We hope you had some healthy deep work sessions and would love to see you back!`}
-        confirmText="Yes, I want to exit!"
-        cancelText="Cancel"
-        variant="destructive"
-      />
-    </>
+    </div>
   );
 };
 
