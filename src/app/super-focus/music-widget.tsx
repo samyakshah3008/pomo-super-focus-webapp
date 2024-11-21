@@ -12,7 +12,7 @@ const MusicWidget = ({
   const { activeState } = useSuperFocus();
 
   return (
-    <div className="">
+    <div className="w-[500px]">
       {studySource === "spotify" ? (
         <iframe
           title="Spotify Playlist"
@@ -47,8 +47,8 @@ const MusicWidget = ({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           title="YouTube Playlist"
-          width="640"
-          height="320"
+          width="100%"
+          height="360"
           src={
             activeState === "study"
               ? `https://www.youtube.com/embed/${
