@@ -66,8 +66,6 @@ const MyLife = () => {
     );
   }
 
-  console.log(lifeLeftObj, "lifeleft");
-  console.log(guestUserLifeSpan, "span");
   return (
     <div className="flex flex-col gap-4 pl-10 pr-10 pb-5 lg:w-[85%] m-auto ">
       <Header lifeLeftObj={lifeLeftObj} />

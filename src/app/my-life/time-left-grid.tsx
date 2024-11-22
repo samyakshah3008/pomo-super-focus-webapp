@@ -62,9 +62,9 @@ const TimeLeftGrid = ({
     <>
       <div className="flex flex-col gap-4">
         <div className="text-red-500 font-bold text-xl mt-5 text-center">
-          Life span completed: {lifeLeftObj?.progressPercentage}%
+          Life span completed: {lifeLeftObj?.progressPercentage || 0.7}%
         </div>
-        <Progress value={Math.ceil(lifeLeftObj?.progressPercentage)} />
+        <Progress value={Math.ceil(lifeLeftObj?.progressPercentage) || 1} />
         <div className="text-center">
           {lifeLeftObj?.isLifeSpanCompleted
             ? "Your estimated life span is completed, please choose a new estimate life span!"

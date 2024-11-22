@@ -3,16 +3,12 @@
 import { useSelector } from "react-redux";
 
 const YearsGrid = ({ lifeLeftObj, isGuestUser, guestUserLifeSpan }: any) => {
-  if (!lifeLeftObj?.totalWeeksCompleted) {
-    return null;
-  }
-
   const currentUser = useSelector((state: any) => state?.user);
 
   let yearsCompleted = Math.floor(lifeLeftObj?.totalWeeksCompleted / 52);
   let totalWeeksFromYearsCompleted = yearsCompleted * 52;
   let remainingWeeks =
-    lifeLeftObj?.totalWeeksCompleted - totalWeeksFromYearsCompleted;
+    lifeLeftObj?.totalWeeksCompleted - totalWeeksFromYearsCompleted || 1;
   let onGoingYear = yearsCompleted + 1;
 
   const isThisWeekCompleted = (yearIdx: any, weekIdx: any) => {
