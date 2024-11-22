@@ -46,12 +46,18 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
 
   const fetchActivePomodoro = async () => {
     try {
-      const response = await fetchActivePomodoroSession();
-      if (response?.data?.data?.found) {
-        setStudyTime(response?.data?.data?.currentPomodoro?.timeLeftInSeconds);
-        setIsStudyTimeInitialized(true);
-        if (!response?.data?.data?.currentPomodoro?.isPaused) {
-          setIsStudyTimerPaused(false);
+      if (!currentUser?.isGuestUser) {
+        const response = await fetchActivePomodoroSession();
+        if (response?.data?.data?.found) {
+          setStudyTime(
+            response?.data?.data?.currentPomodoro?.timeLeftInSeconds
+          );
+          setIsStudyTimeInitialized(true);
+          if (!response?.data?.data?.currentPomodoro?.isPaused) {
+            setIsStudyTimerPaused(false);
+          }
+        } else {
+          setStudyTime(currentSettingDetails?.time?.studyTime * 60);
         }
       } else {
         setStudyTime(currentSettingDetails?.time?.studyTime * 60);
@@ -69,13 +75,13 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
   };
 
   useEffect(() => {
-    if (!currentSettingDetails?.time?.studyTime) return;
+    if (!currentSettingDetails?.time?.studyTime || !currentUser?._id) return;
     if (!shortBreakTime) {
       fetchActivePomodoro();
       setShortBreakTime(currentSettingDetails?.time?.shortBreak * 60);
       setLongBreakTime(currentSettingDetails?.time?.longBreak * 60);
     }
-  }, [currentSettingDetails]);
+  }, [currentSettingDetails, currentUser]);
 
   useEffect(() => {
     if (!currentUser?._id) return;
