@@ -6,7 +6,11 @@ import { useSelector } from "react-redux";
 import EditDetailsDialog from "./edit-details-dialog";
 import { calculateLifeLeft } from "./helper";
 
-const TimeLeftGrid = () => {
+const TimeLeftGrid = ({
+  isGuestUser,
+  guestUserBirthDate,
+  guestUserLifeSpan,
+}: any) => {
   const [isEditLifeDetailsDialogOpen, setIsEditLifeDetailsDialogOpen] =
     useState(false);
   const [lifeLeftObj, setLifeLeftObj] = useState<any>(null);
@@ -14,23 +18,36 @@ const TimeLeftGrid = () => {
   const currentUser = useSelector((state: any) => state?.user);
 
   useEffect(() => {
-    if (
-      !currentUser?.pomoSuperUser?._id ||
-      !currentUser.pomoSuperUser.isMyLifeOnboardingComplete
-    )
-      return;
-
-    const { birthDate, estimateLifeSpan } = currentUser.pomoSuperUser;
-
-    const id = setInterval(() => {
-      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
-      if (timeLeft) {
-        setLifeLeftObj(timeLeft);
-        if (timeLeft.isLifeSpanCompleted) {
-          clearInterval(id);
+    if (!currentUser?.pomoSuperUser?._id) return;
+    let id: any;
+    if (isGuestUser) {
+      id = setInterval(() => {
+        const timeLeft = calculateLifeLeft(
+          guestUserBirthDate,
+          guestUserLifeSpan
+        );
+        if (timeLeft) {
+          setLifeLeftObj(timeLeft);
+          if (timeLeft.isLifeSpanCompleted) {
+            clearInterval(id);
+          }
         }
-      }
-    }, 1000);
+      }, 1000);
+    } else {
+      if (!currentUser.pomoSuperUser.isMyLifeOnboardingComplete) return;
+
+      const { birthDate, estimateLifeSpan } = currentUser.pomoSuperUser;
+
+      id = setInterval(() => {
+        const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+        if (timeLeft) {
+          setLifeLeftObj(timeLeft);
+          if (timeLeft.isLifeSpanCompleted) {
+            clearInterval(id);
+          }
+        }
+      }, 1000);
+    }
 
     return () => {
       clearInterval(id);
@@ -47,7 +64,7 @@ const TimeLeftGrid = () => {
         <div className="text-red-500 font-bold text-xl mt-5 text-center">
           Life span completed: {lifeLeftObj?.progressPercentage}%
         </div>
-        <Progress value={35} />
+        <Progress value={Math.ceil(lifeLeftObj?.progressPercentage)} />
         <div className="text-center">
           {lifeLeftObj?.isLifeSpanCompleted
             ? "Your estimated life span is completed, please choose a new estimate life span!"

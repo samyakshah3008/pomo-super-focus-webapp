@@ -2,7 +2,7 @@
 
 import { useSelector } from "react-redux";
 
-const YearsGrid = ({ lifeLeftObj }: any) => {
+const YearsGrid = ({ lifeLeftObj, isGuestUser, guestUserLifeSpan }: any) => {
   if (!lifeLeftObj?.totalWeeksCompleted) {
     return null;
   }
@@ -24,7 +24,10 @@ const YearsGrid = ({ lifeLeftObj }: any) => {
     return true;
   };
 
-  if (!currentUser?.pomoSuperUser?.estimateLifeSpan) {
+  if (
+    !currentUser?.pomoSuperUser?.isGuestUser &&
+    !currentUser?.pomoSuperUser?.estimateLifeSpan
+  ) {
     return null;
   }
 
@@ -41,26 +44,30 @@ const YearsGrid = ({ lifeLeftObj }: any) => {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-8 px-4">
-        {[...Array(currentUser?.pomoSuperUser?.estimateLifeSpan)].map(
-          (_, yearIdx) => (
-            <div key={yearIdx} className="flex flex-col items-center">
-              <div className="text-center underline">Year {yearIdx + 1}</div>
+        {[
+          ...Array(
+            isGuestUser
+              ? Number(guestUserLifeSpan)
+              : Number(currentUser?.pomoSuperUser?.estimateLifeSpan)
+          ),
+        ].map((_, yearIdx) => (
+          <div key={yearIdx} className="flex flex-col items-center">
+            <div className="text-center underline">Year {yearIdx + 1}</div>
 
-              <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 grid grid-cols-6 sm:grid-cols-8 md:grid-cols-13 gap-1">
-                {[...Array(52)].map((_, weekIdx) => (
-                  <div
-                    key={weekIdx}
-                    className={`w-4 h-4 rounded-full ${
-                      isThisWeekCompleted(yearIdx + 1, weekIdx + 1)
-                        ? "bg-red-400"
-                        : "bg-green-300"
-                    }`}
-                  ></div>
-                ))}
-              </div>
+            <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 grid grid-cols-6 sm:grid-cols-8 md:grid-cols-13 gap-1">
+              {[...Array(52)].map((_, weekIdx) => (
+                <div
+                  key={weekIdx}
+                  className={`w-4 h-4 rounded-full ${
+                    isThisWeekCompleted(yearIdx + 1, weekIdx + 1)
+                      ? "bg-red-400"
+                      : "bg-green-300"
+                  }`}
+                ></div>
+              ))}
             </div>
-          )
-        )}
+          </div>
+        ))}
       </div>
     </>
   );
