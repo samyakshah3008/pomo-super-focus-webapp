@@ -19,6 +19,17 @@ const Goals = () => {
     }
   }, [showHowToModal]);
 
+  useEffect(() => {
+    if (!showExplodingHeart) return;
+    let id = setTimeout(() => {
+      setShowExplodingHeart(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [showExplodingHeart]);
+
   return (
     <div className="flex flex-col gap-4 items-center pb-5">
       {showExplodingHeart ? <ExplodingHeartConfetti /> : null}

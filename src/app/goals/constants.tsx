@@ -56,6 +56,17 @@ const goalsDummyData: any = [
   },
 ];
 
+const goalsGuestUserData: any = [
+  {
+    title: "Feed 1000 cats",
+    doAbleActions: "Gonna save money for next 2months",
+    category: "career",
+    estimatedTimeToComplete: "10-11-2024",
+    status: false,
+    id: "123",
+  },
+];
+
 const howToModalGoalObj = {
   screenTitle: (
     <>
@@ -104,4 +115,9 @@ const howToModalGoalObj = {
     "Give a virtual cuddle to cats and close, cats have surprise for you as well!",
 };
 
-export { goalCategories, goalsDummyData, howToModalGoalObj };
+export {
+  goalCategories,
+  goalsDummyData,
+  goalsGuestUserData,
+  howToModalGoalObj,
+};
