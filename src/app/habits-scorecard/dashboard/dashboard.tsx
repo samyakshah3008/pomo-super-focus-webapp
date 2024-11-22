@@ -1,10 +1,10 @@
 "use client";
 
-import { howToModalGoalObj } from "@/app/goals/constants";
 import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti";
 import HowToModal from "@/components/common/how-to-modal";
 import { IconBulbFilled } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import { howToModalHabitsObj } from "../constants";
 import Header from "./header";
 import MainContainer from "./main-container";
 
@@ -18,6 +18,17 @@ const Dashboard = () => {
       setShowExplodingHeart(false);
     }
   }, [showHowToModal]);
+
+  useEffect(() => {
+    if (!showExplodingHeart) return;
+    let id = setTimeout(() => {
+      setShowExplodingHeart(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [showExplodingHeart]);
 
   return (
     <div className="flex flex-col gap-4 items-center pb-5">
@@ -37,7 +48,7 @@ const Dashboard = () => {
         showHowToModal={showHowToModal}
         setShowHowToModal={setShowHowToModal}
         setShowExplodingHeart={setShowExplodingHeart}
-        {...howToModalGoalObj}
+        {...howToModalHabitsObj}
       />
     </div>
   );

@@ -50,7 +50,12 @@ export type HabitItem = {
   selectedDays: any;
 };
 
-export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
+export function DataTable({
+  data,
+  fetchAllHabits,
+  fetchTodayHabits,
+  isGuestUser,
+}: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -109,8 +114,12 @@ export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
       header: "Days",
       cell: ({ row }: any) => (
         <div className="lowercase text-ellipsis overflow-hidden whitespace-nowrap max-w-40">
-          {row.getValue("selectedDays")?.map((item: any) => {
-            return <div className="uppercase">{item} </div>;
+          {row.getValue("selectedDays")?.map((item: any, index: any) => {
+            return (
+              <div key={index} className="uppercase">
+                {item}{" "}
+              </div>
+            );
           })}
         </div>
       ),
@@ -137,6 +146,7 @@ export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
                   setRepeat(row.original.repeat);
                   setSelectedDays(row.original.selectedDays);
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 View
@@ -149,6 +159,7 @@ export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
                   setRepeat(row.original.repeat);
                   setSelectedDays(row.original.selectedDays);
                 }}
+                disabled={isGuestUser}
               >
                 Delete
               </DropdownMenuItem>{" "}
@@ -159,6 +170,7 @@ export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
                   setRepeat(row.original.repeat);
                   setSelectedDays(row.original.selectedDays);
                 }}
+                disabled={isGuestUser}
               >
                 Update
               </DropdownMenuItem>{" "}
@@ -272,6 +284,7 @@ export function DataTable({ data, fetchAllHabits, fetchTodayHabits }: any) {
           <CreateHabitSidesheet
             fetchHabitsItems={fetchAllHabits}
             fetchTodayHabits={fetchTodayHabits}
+            isGuestUser={isGuestUser}
           >
             <Button size="sm" className="ml-2">
               Create New Habit 🚀

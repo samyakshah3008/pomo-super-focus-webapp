@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  guestUserAllHabits,
+  guestUserTodayHabits,
+} from "@/components/(habits)/constants";
 import CreateHabitSidesheet from "@/components/(habits)/create-habit-sidesheet";
 import { DataTable } from "@/components/(habits)/data-table";
 import { Button } from "@/components/ui/primitives/button";
@@ -18,7 +22,9 @@ const MainContainer = () => {
   const [allHabits, setAllHabits] = useState<[] | any>([]);
   const [todayHabits, setTodayHabits] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = useSelector((state: any) => state?.user);
+  const [isGuestUser, setIsGuestUser] = useState(false);
+
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
   const fetchRef = useRef(0);
 
   const fetchAllHabits = async () => {
@@ -44,13 +50,21 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    if (!currentUser?.pomoSuperUser?._id || fetchRef.current == 1) return;
-    fetchAllHabits();
-    fetchTodayHabits();
-    fetchRef.current = 1;
-  }, [currentUser?.pomoSuperUser?._id]);
+    if (!currentUser?._id || fetchRef.current == 1) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+      setAllHabits(guestUserAllHabits);
+      setTodayHabits(guestUserTodayHabits);
+      setLoading(false);
+      fetchRef.current = 1;
+    } else {
+      fetchAllHabits();
+      fetchTodayHabits();
+      fetchRef.current = 1;
+    }
+  }, [currentUser?._id]);
 
-  if (loading) {
+  if (loading || !currentUser?._id) {
     return (
       <div className="h-96 flex items-center">
         <Loader className="mr-2 h-8 w-8 animate-spin" />
@@ -72,6 +86,7 @@ const MainContainer = () => {
           <CreateHabitSidesheet
             fetchHabitsItems={fetchAllHabits}
             fetchTodayHabits={fetchTodayHabits}
+            isGuestUser={isGuestUser}
           >
             <Button size="sm">Create a New Habit! 🚀</Button>
           </CreateHabitSidesheet>
@@ -102,12 +117,18 @@ const MainContainer = () => {
             </div>
             <Separator />
           </>
-        ) : null}
+        ) : (
+          <div className="mt-5 mb-5 flex flex-col gap-4">
+            <div className="text-xl font-semibold">Your today's habits: 📈</div>
+            <div className="text-sm">No habits for today! </div>
+          </div>
+        )}
 
         <DataTable
           data={allHabits}
           fetchAllHabits={fetchAllHabits}
           fetchTodayHabits={fetchTodayHabits}
+          isGuestUser={isGuestUser}
         />
       </div>
     </div>

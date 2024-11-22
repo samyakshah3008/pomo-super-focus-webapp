@@ -27,6 +27,7 @@ type HabitsSidesheetProps = {
   children: React.ReactNode;
   fetchHabitsItems: any;
   fetchTodayHabits: any;
+  isGuestUser: boolean;
 };
 
 type HabitObj = {
@@ -39,6 +40,7 @@ const CreateHabitSidesheet = ({
   children,
   fetchHabitsItems,
   fetchTodayHabits,
+  isGuestUser,
 }: HabitsSidesheetProps) => {
   const [habitObj, setHabitObj] = useState<HabitObj>({
     defineHabitText: "",
@@ -65,33 +67,42 @@ const CreateHabitSidesheet = ({
   };
 
   const addNewItemToUserHabits = async () => {
-    setLoading(true);
-
-    try {
-      await createHabitService(
-        habitObj.defineHabitText,
-        habitObj.getSpecificText,
-        habitObj.identityText,
-        repeat,
-        selectedDays
-      );
-      toast({
-        variant: "default",
-        title: "Item added to Habits List ✅",
-        description:
-          "Yay! we have successfully added your new item to your habit list!",
-      });
-      fetchHabitsItems();
-      fetchTodayHabits();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to add your item to habit list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+
+      try {
+        await createHabitService(
+          habitObj.defineHabitText,
+          habitObj.getSpecificText,
+          habitObj.identityText,
+          repeat,
+          selectedDays
+        );
+        toast({
+          variant: "default",
+          title: "Item added to Habits List ✅",
+          description:
+            "Yay! we have successfully added your new item to your habit list!",
+        });
+        fetchHabitsItems();
+        fetchTodayHabits();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to add your item to habit list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

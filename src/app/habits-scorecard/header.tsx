@@ -3,7 +3,7 @@
 import { getCurrentYear, getDaysUntilYearEnd } from "@/utils/helper-functions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import WorkingPerson from "../../../public/working-person.png";
+import WorkingPerson from "../../../public/working-person-two.png";
 
 const Header = () => {
   const router = useRouter();

@@ -39,8 +39,6 @@ const UpdateHabitSidesheet = ({
 
   const { toast } = useToast();
 
-  console.log(habitObj, "habit obj");
-
   const updateHabit = async () => {
     setLoading(true);
 

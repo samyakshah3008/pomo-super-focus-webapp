@@ -27,8 +27,32 @@ const groundItToIdentityExamples = [
   "A healthy person",
 ];
 
+const guestUserAllHabits = [
+  {
+    defineHabitText: "Meditate for 5mins",
+    getSpecificText: "When I wake up",
+    identityText: "A healthy person",
+    repeat: "weekly",
+    selectedDays: ["Mon", "Tue", "Wed"],
+    _id: "673b2e661237deebe4e0febb",
+  },
+];
+
+const guestUserTodayHabits = [
+  {
+    defineHabitText: "Meditate for 5mins",
+    getSpecificText: "When I wake up",
+    identityText: "A healthy person",
+    repeat: "weekly",
+    selectedDays: ["Mon", "Tue", "Wed"],
+    _id: "673b2e661237deebe4e0febb",
+  },
+];
+
 export {
   defineHabitsExamples,
   getSpecificExamples,
   groundItToIdentityExamples,
+  guestUserAllHabits,
+  guestUserTodayHabits,
 };
