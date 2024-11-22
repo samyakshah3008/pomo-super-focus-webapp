@@ -34,7 +34,7 @@ export const updateDailyFocusTimeGoalEndpoint = "/streaks/daily-goal";
 // leaderboard
 
 export const getWeeklyLeaderboardEndpoint = "/leaderboard/weekly";
-
+export const getWeeklyUserLeaderboardEndpoint = "/leaderboard/weekly/user-rank";
 // working framework
 
 export const getWorkingFrameworkTemplatesEndpoint = "/working-framework";

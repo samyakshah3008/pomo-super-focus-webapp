@@ -1,9 +1,6 @@
 import { get } from "@/config/API";
 import { dailyProgressEndpoint } from "@/constants/APIEndpoints";
-import {
-  accessTokenKeyBrowserStorage,
-  userIdKeyBrowserStorage,
-} from "@/constants/browser-storage";
+import { accessTokenKeyBrowserStorage } from "@/constants/browser-storage";
 import { getLocalStorageItem } from "@/lib/browser-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -34,9 +31,7 @@ export const fetchDailyProgress: any = createAsyncThunk<any>(
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
     if (accessToken) {
-      const userId = getLocalStorageItem(userIdKeyBrowserStorage);
-
-      const response = await get(dailyProgressEndpoint, { userId });
+      const response = await get(dailyProgressEndpoint);
       return response?.data?.data;
     }
     throw new Error("User is not logged in.");
