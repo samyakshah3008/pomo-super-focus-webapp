@@ -18,6 +18,7 @@ const SectionTwo = ({
   superFocusDetails,
   setSuperFocusDetails,
   onCancelEdit,
+  isGuestUser,
 }: any) => {
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md p-4">
@@ -40,7 +41,11 @@ const SectionTwo = ({
         ) : (
           <IconEdit
             cursor="pointer"
-            onClick={() => setIsStudySectionEditing(true)}
+            onClick={() => {
+              if (!isGuestUser) {
+                setIsStudySectionEditing(true);
+              }
+            }}
             size={24}
           />
         )}

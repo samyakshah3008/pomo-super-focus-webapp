@@ -12,7 +12,7 @@ const MusicWidget = ({
   const { activeState } = useSuperFocus();
 
   return (
-    <div className="w-[500px]">
+    <div className="w-[300px] lg:w-[400px] xl:w-[500px]">
       {studySource === "spotify" ? (
         <iframe
           title="Spotify Playlist"
@@ -23,20 +23,8 @@ const MusicWidget = ({
           height="360"
           src={
             activeState === "study"
-              ? `https://open.spotify.com/embed/playlist/${
-                  currentSettingDetails?.studyOptions?.studyMusicPlaylistId
-                }?autoplay=${
-                  currentSettingDetails?.studyOptions?.autoPlayStudyMusic
-                    ? 1
-                    : 0
-                }`
-              : `https://open.spotify.com/embed/playlist/${
-                  currentSettingDetails?.breakOptions?.breakMusicPlaylistId
-                }?autoplay=${
-                  currentSettingDetails?.breakOptions?.autoPlayBreakTimer
-                    ? 1
-                    : 0
-                }`
+              ? `https://open.spotify.com/embed/playlist/${currentSettingDetails?.studyOptions?.studyMusicPlaylistId}`
+              : `https://open.spotify.com/embed/playlist/${currentSettingDetails?.breakOptions?.breakMusicPlaylistId}`
           }
           className="rounded-3xl"
         ></iframe>

@@ -5,14 +5,11 @@ import TomatoLottie from "../../../../public/tomato-lottie.json";
 import { pomoSuperFocusTimerFeatures } from "../constants";
 
 const MainContainer = () => {
-  const GetThemeColorText = (text: string) => {
-    return <span className="text-blue-500 font-semibold">{text}</span>;
-  };
   return (
-    <main className="flex flex-col items-center">
-      <article className="flex flex-col items-center gap-16 max-w-[600px]">
+    <main className="flex flex-col w-[80%] m-auto p-4">
+      <article className="flex flex-col gap-16">
         {/* Lottie  */}
-        <div className="w-[250px] h-[200px] mt-5">
+        <div className="w-[250px] h-[200px] mt-5 m-auto">
           <Lottie
             animationData={TomatoLottie}
             loop={true}
@@ -22,42 +19,52 @@ const MainContainer = () => {
         </div>
         {/* Section 1 */}
         <div className="flex flex-col gap-5">
-          <h1 className="text-4xl  font-bold">
+          <h1 className="text-4xl font-bold">
             What is <span className="text-blue-500 font-semibold"></span>{" "}
-            {GetThemeColorText("PomoSuperFocus")} Timer?
+            <span className="text-blue-500 font-semibold">PomoSuperFocus</span>{" "}
+            Timer?
           </h1>
           <div className="text-xl ">
-            {GetThemeColorText("PomoSuperFocus Timer")} is the pomodoro timer
-            with {GetThemeColorText("flavor")}. It's{" "}
-            {GetThemeColorText("highly configurable")} and aesthetically
-            pleasing. It {GetThemeColorText("syncs music")} with your study
+            <span className=" font-semibold">PomoSuperFocus Timer</span> is the
+            pomodoro timer with <span className=" font-semibold">flavor</span>.
+            It's <span className=" font-semibold">highly configurable</span> and
+            aesthetically pleasing. It{" "}
+            <span className=" font-semibold">syncs music</span> with your study
             sessions to keep you focused and{" "}
-            {GetThemeColorText("eliminate distractions")}.
+            <span className=" font-semibold">eliminate distractions</span>. And
+            the best part is we support various themes, starting off, we have
+            added default theme as{" "}
+            <span className="font-semibold">babuchak jethiya</span> and we
+            promise to bring more themes very soon!
           </div>
         </div>
 
         {/* Section 2 */}
         <div className="flex flex-col gap-5">
           <h1 className="text-4xl font-bold ">
-            What is {GetThemeColorText("Pomodoro")}?
+            What is{" "}
+            <span className="text-blue-500 font-semibold">Pomodoro</span>?
           </h1>
           <div className="text-xl ">
             Pomodoro is a type of tomato and a{" "}
-            {GetThemeColorText("popular productivity technique")}. It can be
-            useful for people who may get overwhelmed, procrastinate, or
-            struggle to concentrate.
+            <span className=" font-semibold">
+              popular productivity technique
+            </span>
+            . It can be useful for people who may get overwhelmed,
+            procrastinate, or struggle to concentrate.
           </div>
           <div className="text-xl ">
-            A {GetThemeColorText("pomosuperfocus timer")} is also a type of
-            tomato. It's used to make salsa verde, and in this case, make you
-            more productive.
+            A <span className=" font-semibold">pomosuperfocus timer</span> is
+            also a type of tomato. It's used to make salsa verde, and in this
+            case, make you more productive.
           </div>
         </div>
 
         {/* Section 3 */}
         <div className="flex flex-col gap-5">
           <h1 className="text-4xl font-bold ">
-            PomoSuperFocus Timer {GetThemeColorText("Features")}
+            PomoSuperFocus Timer{" "}
+            <span className="text-blue-500 font-semibold">Features</span>
           </h1>
           <ul className="flex flex-col gap-2">
             {pomoSuperFocusTimerFeatures.map((feature, index) => (
@@ -71,7 +78,7 @@ const MainContainer = () => {
         {/* Section 4 */}
         <div className="flex flex-col gap-5">
           <h1 className="text-4xl font-bold ">
-            How is it {GetThemeColorText("Free")}?
+            How is it <span className="text-blue-500 font-semibold">Free</span>?
           </h1>
           <div className="text-xl ">
             <span className="font-bold">PomoSuperFocus</span> will be{" "}

@@ -6,6 +6,7 @@ import { updateSuperFocusSettingsEndpoint } from "@/constants/APIEndpoints";
 import { fetchSuperFocusSettingsService } from "@/services/super-focus/super-focus";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Header from "./header";
 import SectionFour from "./section-four";
 import SectionOne from "./section-one";
@@ -20,6 +21,9 @@ const MainContainer = () => {
   const [currentSettingDetails, setCurrentSettingDetails] = useState(null);
   const [superFocusDetails, setSuperFocusDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isGuestUser, setIsGuestUser] = useState(false);
+
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const { toast } = useToast();
 
@@ -83,7 +87,16 @@ const MainContainer = () => {
     fetchSuperFocusSettings();
   }, []);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+    } else {
+      setIsGuestUser(false);
+    }
+  }, [currentUser]);
+
+  if (isLoading || !currentUser?._id) {
     return (
       <div className="h-96 flex items-center">
         <Loader className="mr-2 h-8 w-8 animate-spin" />
@@ -94,8 +107,14 @@ const MainContainer = () => {
   return (
     <div className="flex flex-col gap-5 p-4">
       <Header />
+      <div className="flex flex-col gap-4 w-[80%] m-auto">
+        {isGuestUser ? (
+          <div className="underline text-red-500 font-bold text-center">
+            Please note that since you are a guest user, you cannot edit this
+            settings for now!{" "}
+          </div>
+        ) : null}
 
-      <div className="flex flex-col gap-4 w-[80%] m-auto ">
         <SectionOne
           isTimeSectionEditing={isTimeSectionEditing}
           setIsTimeSectionEditing={setIsTimeSectionEditing}
@@ -103,6 +122,7 @@ const MainContainer = () => {
           superFocusDetails={superFocusDetails}
           setSuperFocusDetails={setSuperFocusDetails}
           onCancelEdit={onCancelEdit}
+          isGuestUser={isGuestUser}
         />
 
         <SectionTwo
@@ -112,6 +132,7 @@ const MainContainer = () => {
           superFocusDetails={superFocusDetails}
           setSuperFocusDetails={setSuperFocusDetails}
           onCancelEdit={onCancelEdit}
+          isGuestUser={isGuestUser}
         />
 
         <SectionThree
@@ -120,6 +141,7 @@ const MainContainer = () => {
           saveSettings={saveSettings}
           superFocusDetails={superFocusDetails}
           setSuperFocusDetails={setSuperFocusDetails}
+          isGuestUser={isGuestUser}
         />
 
         <SectionFour
@@ -128,6 +150,7 @@ const MainContainer = () => {
           saveSettings={saveSettings}
           superFocusDetails={superFocusDetails}
           setSuperFocusDetails={setSuperFocusDetails}
+          isGuestUser={isGuestUser}
         />
       </div>
     </div>

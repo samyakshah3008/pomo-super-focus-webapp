@@ -9,6 +9,7 @@ import {
 } from "@/services/super-focus/super-focus";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Header from "./header";
 import MusicWidget from "./music-widget";
 import SuperFocusTimer from "./super-focus-timer";
@@ -20,8 +21,10 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
   const [isStudyTimerPaused, setIsStudyTimerPaused] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isStudyTimeInitialized, setIsStudyTimeInitialized] = useState(false);
+  const [isGuestUser, setIsGuestUser] = useState(false);
 
   const { activeState } = useSuperFocus();
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const { toast } = useToast();
 
@@ -74,7 +77,16 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
     }
   }, [currentSettingDetails]);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+    } else {
+      setIsGuestUser(false);
+    }
+  }, [currentUser]);
+
+  if (isLoading || !currentUser?._id) {
     return (
       <div className="h-96 flex items-center">
         <Loader className="mr-2 h-8 w-8 animate-spin" />
@@ -99,6 +111,7 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
             setIsStudyTimerPaused={setIsStudyTimerPaused}
             isStudyTimeInitialized={isStudyTimeInitialized}
             setIsStudyTimeInitialized={setIsStudyTimeInitialized}
+            isGuestUser={isGuestUser}
           />
           <MusicWidget
             studySource={

@@ -34,6 +34,7 @@ const SuperFocusTimer = ({
   setIsStudyTimerPaused,
   setIsStudyTimeInitialized,
   isStudyTimeInitialized,
+  isGuestUser,
 }: any) => {
   const [isShortBreakTimerPaused, setIsShortBreakTimerPaused] = useState(true);
   const [isLongBreakTimerPaused, setIsLongBreakTimerPaused] = useState(true);
@@ -119,10 +120,12 @@ const SuperFocusTimer = ({
     if (activeState == "study") {
       if (isStudyTimeInitialized) {
         try {
-          await resumePomodoroSessionService({
-            action: "resume",
-            timeLeftInSeconds: studyTime,
-          });
+          if (!isGuestUser) {
+            await resumePomodoroSessionService({
+              action: "resume",
+              timeLeftInSeconds: studyTime,
+            });
+          }
           toast({
             title: "Session resumed!✅",
             description:
@@ -139,9 +142,11 @@ const SuperFocusTimer = ({
         }
       } else {
         try {
-          await initializeActivePomodoroSessionService(
-            currentSettingDetails?.time?.studyTime * 60
-          );
+          if (!isGuestUser) {
+            await initializeActivePomodoroSessionService(
+              currentSettingDetails?.time?.studyTime * 60
+            );
+          }
 
           setIsStudyTimerPaused(false);
           setIsStudyTimeInitialized(true);
@@ -169,10 +174,12 @@ const SuperFocusTimer = ({
   const pauseTimerAccordingToState = async () => {
     if (activeState == "study") {
       try {
-        await pausePomodoroSessionService({
-          action: "pause",
-          timeLeftInSeconds: studyTime,
-        });
+        if (!isGuestUser) {
+          await pausePomodoroSessionService({
+            action: "pause",
+            timeLeftInSeconds: studyTime,
+          });
+        }
         setIsStudyTimerPaused(true);
         setShowPauseSessionModal(true);
       } catch (error) {
@@ -193,9 +200,11 @@ const SuperFocusTimer = ({
   const savePomodoroSessionToDB = async () => {
     let response;
     try {
-      response = await addNewPomodoroSessionService(
-        currentSettingDetails?.time?.studyTime
-      );
+      if (!isGuestUser) {
+        response = await addNewPomodoroSessionService(
+          currentSettingDetails?.time?.studyTime
+        );
+      }
       setShowCongratulationsModal(true);
     } catch (error) {
       toast({
@@ -233,7 +242,9 @@ const SuperFocusTimer = ({
 
   const resetSession = async () => {
     try {
-      await deletePomodoroSessionService();
+      if (!isGuestUser) {
+        await deletePomodoroSessionService();
+      }
       setStudyTime(currentSettingDetails?.time?.studyTime * 60);
       setIsStudyTimeInitialized(false);
       setIsStudyTimerPaused(true);
@@ -387,7 +398,7 @@ const SuperFocusTimer = ({
               : activeState == "shortBreak"
               ? "bg-yellow-100"
               : "bg-green-100"
-          } border-solid rounded-3xl w-[500px] p-4`
+          } border-solid rounded-3xl w-[300px] lg:w-[400px] xl:w-[500px] h-[360px] p-4`
         )}
       >
         <div className="flex gap-2 text-sm font-medium">

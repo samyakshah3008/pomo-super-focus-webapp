@@ -7,8 +7,6 @@ import Cat4 from "../../../public/cat-5.png";
 import Cat2 from "../../../public/cat-with-a-witch-hat-rafiki.png";
 import Cat1 from "../../../public/cat-with-witch-hat-and-skull.png";
 
-import { userIdKeyBrowserStorage } from "@/constants/browser-storage";
-import { getLocalStorageItem } from "@/lib/browser-storage";
 import { fetchUserData } from "@/lib/store/features/user/userSlice";
 import { updateUserDetailsService } from "@/services/user/user";
 import { useEffect, useState } from "react";
@@ -27,11 +25,9 @@ const GreetingModal = ({ setShowConfetti }: any) => {
   const currentUser = useSelector((state: any) => state?.user);
   const dispatch = useDispatch();
 
-  const userId = getLocalStorageItem(userIdKeyBrowserStorage);
-
   const updateUserDetails = async () => {
     try {
-      await updateUserDetailsService(userId);
+      await updateUserDetailsService();
       dispatch(fetchUserData());
       setShowConfetti(true);
     } catch (error) {

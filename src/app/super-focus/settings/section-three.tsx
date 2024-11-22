@@ -17,6 +17,7 @@ const SectionThree = ({
   saveSettings,
   superFocusDetails,
   setSuperFocusDetails,
+  isGuestUser,
 }: any) => {
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md p-4">
@@ -39,7 +40,11 @@ const SectionThree = ({
         ) : (
           <IconEdit
             cursor="pointer"
-            onClick={() => setIsBreakSectionEditing(true)}
+            onClick={() => {
+              if (!isGuestUser) {
+                setIsBreakSectionEditing(true);
+              }
+            }}
             size={24}
           />
         )}

@@ -41,7 +41,7 @@ const ExitModal = ({ show, setShow }: ExitModalProps) => {
                 height="250"
                 src={tmkocTheme.exitModal.youtubeLink}
                 allowFullScreen
-                className="rounded-3xl"
+                className="rounded-3xl w-[300px] lg:w-[350px] xl:w-[500px]"
               ></iframe>
             </div>
 

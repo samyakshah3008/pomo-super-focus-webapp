@@ -41,7 +41,7 @@ const LongBreakSessionActivatedModal = ({
                 height="250"
                 src={tmkocTheme.longBreakModal.youtubeLink}
                 allowFullScreen
-                className="rounded-3xl"
+                className="rounded-3xl w-[300px] lg:w-[350px] xl:w-[500px]"
               ></iframe>
             </div>
 

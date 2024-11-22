@@ -5,7 +5,7 @@ import Underconstruction from "../../../../public/under-construction-man.json";
 
 const MainContainer = () => {
   return (
-    <div className="w-[70%] m-auto flex flex-col items-center gap-5 justify-center">
+    <div className="w-[80%] m-auto h-full flex flex-col items-center gap-5 justify-center">
       <div className="w-96 h-96">
         <Lottie animationData={Underconstruction} loop={true} />
       </div>

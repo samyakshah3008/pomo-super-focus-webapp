@@ -10,7 +10,6 @@ import PomodoroContainer from "./pomodoro-container";
 const MainContainer = () => {
   const [currentSettingDetails, setCurrentSettingDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isImageValid, setIsImageValid] = useState(true);
 
   const { toast } = useToast();
 
@@ -34,15 +33,6 @@ const MainContainer = () => {
     fetchSuperFocusSettings();
   }, []);
 
-  useEffect(() => {
-    if (currentSettingDetails?.uiOptions?.backgroundImageUrl) {
-      const img = new Image();
-      img.src = currentSettingDetails?.uiOptions?.backgroundImageUrl;
-      img.onload = () => setIsImageValid(true);
-      img.onerror = () => setIsImageValid(false);
-    }
-  }, [currentSettingDetails?.uiOptions?.backgroundImageUrl]);
-
   if (isLoading) {
     return (
       <div className="h-96 flex items-center">
@@ -53,7 +43,7 @@ const MainContainer = () => {
 
   return (
     <SuperFocusProvider>
-      <div className="min-h-screen p-5">
+      <div className="p-5">
         <PomodoroContainer currentSettingDetails={currentSettingDetails} />
       </div>
     </SuperFocusProvider>

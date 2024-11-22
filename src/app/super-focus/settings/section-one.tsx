@@ -11,6 +11,7 @@ const SectionOne = ({
   superFocusDetails,
   setSuperFocusDetails,
   onCancelEdit,
+  isGuestUser,
 }: any) => {
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md p-4">
@@ -33,7 +34,11 @@ const SectionOne = ({
         ) : (
           <IconEdit
             cursor="pointer"
-            onClick={() => setIsTimeSectionEditing(true)}
+            onClick={() => {
+              if (!isGuestUser) {
+                setIsTimeSectionEditing(true);
+              }
+            }}
             size={24}
           />
         )}
