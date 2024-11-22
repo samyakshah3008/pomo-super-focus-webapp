@@ -8,13 +8,17 @@ import { fetchBucketListService } from "@/services/bucket-list/bucket-list";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotFoundItem from "../../../public/empty-state-box.png";
+import { guestUserBucketItems } from "./constants";
 
 const MainContainer = () => {
   const [bucketItems, setBucketItems] = useState<any>([]);
   const [fetchingBucketItems, setFetchingBucketItems] = useState(true);
+  const [isGuestUser, setIsGuestUser] = useState(false);
 
   const { toast } = useToast();
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const fetchBucketItems = async () => {
     try {
@@ -35,10 +39,18 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    fetchBucketItems();
-  }, []);
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+      setFetchingBucketItems(false);
+      setBucketItems(guestUserBucketItems);
+    } else {
+      setIsGuestUser(false);
+      fetchBucketItems();
+    }
+  }, [currentUser]);
 
-  if (fetchingBucketItems) {
+  if (fetchingBucketItems || !currentUser?._id) {
     return (
       <div className="h-96 flex items-center">
         <Loader className="mr-2 h-8 w-8 animate-spin" />
@@ -55,7 +67,10 @@ const MainContainer = () => {
           You haven't added any item to your unlimited storage bucket, add one
           today 😻
         </p>
-        <CreateBucketItemSidesheet fetchBucketItems={fetchBucketItems}>
+        <CreateBucketItemSidesheet
+          fetchBucketItems={fetchBucketItems}
+          isGuestUser={isGuestUser}
+        >
           <Button size="sm">Add new item to my bucket! 🚀</Button>
         </CreateBucketItemSidesheet>
       </div>
@@ -65,7 +80,11 @@ const MainContainer = () => {
   return (
     <>
       <div className="w-[80%]">
-        <DataTable data={bucketItems} fetchBucketItems={fetchBucketItems} />
+        <DataTable
+          data={bucketItems}
+          fetchBucketItems={fetchBucketItems}
+          isGuestUser={isGuestUser}
+        />
       </div>
     </>
   );

@@ -48,7 +48,7 @@ export type BucketItem = {
   isCompleted: boolean;
 };
 
-export function DataTable({ data, fetchBucketItems }: any) {
+export function DataTable({ data, fetchBucketItems, isGuestUser }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -110,6 +110,7 @@ export function DataTable({ data, fetchBucketItems }: any) {
                   setOpenViewItemSidesheet(true);
                   setSelectedItemObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 View
@@ -120,6 +121,7 @@ export function DataTable({ data, fetchBucketItems }: any) {
                   setIsConfirmDeleteItemDialogOpen(true);
                   setSelectedItemObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 Delete
               </DropdownMenuItem>{" "}
@@ -128,6 +130,7 @@ export function DataTable({ data, fetchBucketItems }: any) {
                   setSelectedItemObj(row.original);
                   setOpenUpdateItemSidesheet(true);
                 }}
+                disabled={isGuestUser}
               >
                 Update
               </DropdownMenuItem>{" "}
@@ -231,7 +234,10 @@ export function DataTable({ data, fetchBucketItems }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateBucketItemSidesheet fetchBucketItems={fetchBucketItems}>
+          <CreateBucketItemSidesheet
+            fetchBucketItems={fetchBucketItems}
+            isGuestUser={isGuestUser}
+          >
             <Button size="sm" className="ml-2">
               Add new item to my bucket! 🚀
             </Button>

@@ -71,4 +71,14 @@ const howToModalBucketListObj = {
   ctaBtnText: "Understood, Thanks and close.",
 };
 
-export { dummyBucketList, howToModalBucketListObj };
+const guestUserBucketItems = [
+  {
+    title: "Retire Parents",
+    description:
+      "I strongly manifest to retire my parents someday very soon and give them all the treatment and life experiences which they gave me in growing me!",
+    isCompleted: false,
+    id: "671e15d62cd0374307c",
+  },
+];
+
+export { dummyBucketList, guestUserBucketItems, howToModalBucketListObj };
