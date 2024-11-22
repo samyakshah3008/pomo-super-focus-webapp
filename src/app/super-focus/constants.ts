@@ -29,7 +29,7 @@ const pomoSuperFocusTimerFeatures = [
   },
   {
     icon: "⚡",
-    label: "Personalized performance report",
+    label: "Pick your favorite theme while working!",
   },
 ];
 
