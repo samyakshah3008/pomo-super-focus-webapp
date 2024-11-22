@@ -5,17 +5,21 @@ import { fetchSelfReviewItemsService } from "@/services/self-review/self-review"
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotFoundItem from "../../../public/empty-state-box.png";
 import CreateSelfReviewEventSidesheet from "../../components/(self-review)/create-event-sidesheet";
+import { guestUserSelfReviewItems } from "./constants";
 import Timeline from "./timeline";
 
 const MainContainer = () => {
-  const [selfReviewItems, setSelfReviewItems] = useState([]);
+  const [selfReviewItems, setSelfReviewItems] = useState<any>([]);
   const [isFetching, setisFetching] = useState(true);
   const [listOfYears, setListOfYears] = useState<any>([]);
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear().toString()
   );
+  const [isGuestUser, setIsGuestUser] = useState(false);
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const fetchSelfReviewItems = async () => {
     setisFetching(true);
@@ -32,16 +36,29 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    fetchSelfReviewItems();
-  }, []);
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+      setSelfReviewItems(guestUserSelfReviewItems);
+      setListOfYears(Object.keys(guestUserSelfReviewItems));
+      setSelectedYear(new Date().getFullYear().toString());
+      // setGoalItems(goalsGuestUserData);
+      setisFetching(false);
+    } else {
+      setIsGuestUser(false);
+      fetchSelfReviewItems();
+    }
+  }, [currentUser]);
 
-  if (isFetching) {
+  if (isFetching || !currentUser?._id) {
     return (
       <div className="h-96 flex items-center">
         <Loader className="mr-2 h-8 w-8 animate-spin" />
       </div>
     );
   }
+
+  console.log(selfReviewItems, "idwhn");
 
   if (!Object.keys(selfReviewItems).length) {
     return (
@@ -56,6 +73,7 @@ const MainContainer = () => {
 
         <CreateSelfReviewEventSidesheet
           fetchSelfReviewItems={fetchSelfReviewItems}
+          isGuestUser={isGuestUser}
         >
           <Button size="sm">Add new event to my self review list! 🚀</Button>
         </CreateSelfReviewEventSidesheet>
@@ -73,7 +91,9 @@ const MainContainer = () => {
               className={`${
                 selectedYear == year ? "text-blue-500 underline" : ""
               }`}
-              onClick={() => setSelectedYear(year)}
+              onClick={() => {
+                setSelectedYear(year);
+              }}
             >
               {" "}
               {year}{" "}
@@ -85,9 +105,11 @@ const MainContainer = () => {
         fetchSelfReviewItems={fetchSelfReviewItems}
         selfReviewItems={selfReviewItems}
         selectedYear={selectedYear}
+        isGuestUser={isGuestUser}
       />
       <CreateSelfReviewEventSidesheet
         fetchSelfReviewItems={fetchSelfReviewItems}
+        isGuestUser={isGuestUser}
       >
         <div className="flex justify-end">
           <Button size="sm" className="w-fit">

@@ -19,9 +19,10 @@ import { Input } from "../ui/primitives/input";
 import { Textarea } from "../ui/primitives/textarea";
 import { useToast } from "../ui/primitives/use-toast";
 
-type GoalsSidesheetProps = {
+type CreateSelfReviewSidesheetProps = {
   children: React.ReactNode;
   fetchSelfReviewItems: any;
+  isGuestUser: any;
 };
 
 type SelfReviewObj = {
@@ -32,7 +33,8 @@ type SelfReviewObj = {
 const CreateSelfReviewEventSidesheet = ({
   children,
   fetchSelfReviewItems,
-}: GoalsSidesheetProps) => {
+  isGuestUser,
+}: CreateSelfReviewSidesheetProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selfReviewItemObj, setSelfReviewItemObj] = useState<SelfReviewObj>({
     title: "",
@@ -52,26 +54,35 @@ const CreateSelfReviewEventSidesheet = ({
   };
 
   const addNewItemToUserSelfReviewList = async () => {
-    setLoading(true);
-
-    try {
-      await addNewItemToUserSelfReviewService(selfReviewItemObj, date);
-      toast({
-        variant: "default",
-        title: "New life event added to Self review List ✅",
-        description:
-          "Yay! we have successfully added your new event to your self review list!",
-      });
-      fetchSelfReviewItems();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to add your item to self review list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+
+      try {
+        await addNewItemToUserSelfReviewService(selfReviewItemObj, date);
+        toast({
+          variant: "default",
+          title: "New life event added to Self review List ✅",
+          description:
+            "Yay! we have successfully added your new event to your self review list!",
+        });
+        fetchSelfReviewItems();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to add your item to self review list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

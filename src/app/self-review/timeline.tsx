@@ -10,6 +10,7 @@ const Timeline = ({
   selfReviewItems,
   fetchSelfReviewItems,
   selectedYear,
+  isGuestUser,
 }: any) => {
   const [selectedItemObj, setSelectedItemObj] = useState(null);
   const [isUpdateEventSheetOpen, setIsUpdateEventSheetOpen] = useState(false);
@@ -26,8 +27,10 @@ const Timeline = ({
             <div
               className="flex gap-6 items-start cursor-pointer"
               onClick={() => {
-                setSelectedItemObj(item);
-                setIsUpdateEventSheetOpen(true);
+                if (!isGuestUser) {
+                  setSelectedItemObj(item);
+                  setIsUpdateEventSheetOpen(true);
+                }
               }}
             >
               <div className="flex flex-col gap-2 flex-1">
