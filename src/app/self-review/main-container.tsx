@@ -42,7 +42,6 @@ const MainContainer = () => {
       setSelfReviewItems(guestUserSelfReviewItems);
       setListOfYears(Object.keys(guestUserSelfReviewItems));
       setSelectedYear(new Date().getFullYear().toString());
-      // setGoalItems(goalsGuestUserData);
       setisFetching(false);
     } else {
       setIsGuestUser(false);
@@ -57,8 +56,6 @@ const MainContainer = () => {
       </div>
     );
   }
-
-  console.log(selfReviewItems, "idwhn");
 
   if (!Object.keys(selfReviewItems).length) {
     return (
