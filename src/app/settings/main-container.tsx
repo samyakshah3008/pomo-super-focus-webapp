@@ -21,11 +21,17 @@ const MainContainer = ({
   });
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isGuestUser, setIsGuestUser] = useState(false);
 
   const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   useEffect(() => {
     if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+    } else {
+      setIsGuestUser(false);
+    }
     setBasicInformationObj({
       firstName: currentUser?.firstName,
       lastName: currentUser?.lastName,
@@ -47,8 +53,13 @@ const MainContainer = ({
       <BasicInformation
         basicInformationObj={basicInformationObj}
         setBasicInformationObj={setBasicInformationObj}
+        isGuestUser={isGuestUser}
       />
-      <CredentialInformation email={email} setEmail={setEmail} />
+      <CredentialInformation
+        email={email}
+        setEmail={setEmail}
+        isGuestUser={isGuestUser}
+      />
       <IntegrationsInformation />
       <Notifications />
       <LogoutFlow

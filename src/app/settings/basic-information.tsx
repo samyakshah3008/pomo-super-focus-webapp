@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 const BasicInformation = ({
   basicInformationObj,
   setBasicInformationObj,
+  isGuestUser,
 }: any) => {
   const [isBasicInformationEditing, setIsBasicInformationEditing] =
     useState(false);
@@ -82,7 +83,11 @@ const BasicInformation = ({
         ) : (
           <IconEdit
             cursor="pointer"
-            onClick={() => setIsBasicInformationEditing(true)}
+            onClick={() => {
+              if (!isGuestUser) {
+                setIsBasicInformationEditing(true);
+              }
+            }}
             size={24}
           />
         )}
