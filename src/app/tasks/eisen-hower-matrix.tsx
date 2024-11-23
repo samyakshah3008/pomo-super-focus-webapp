@@ -20,7 +20,11 @@ import {
   p4PriorityKey,
 } from "./constants";
 
-const EisenhowerMatrix = ({ eisenMatrixData, fetchTaskItems }: any) => {
+const EisenhowerMatrix = ({
+  eisenMatrixData,
+  fetchTaskItems,
+  isGuestUser,
+}: any) => {
   const [isConfirmDeleteTaskDialogOpen, setIsConfirmDeleteTaskDialogOpen] =
     useState(false);
   const [selectedTaskObj, setSelectedTaskObj] = useState<any>(null);
@@ -28,27 +32,37 @@ const EisenhowerMatrix = ({ eisenMatrixData, fetchTaskItems }: any) => {
   const { toast } = useToast();
 
   const onConfirmDelete = async () => {
-    setIsDeleting(true);
-    try {
-      await deleteItemFromUserTaskListService(selectedTaskObj?._id);
-      toast({
-        variant: "default",
-        title: "Item deleted from your Task List ✅",
-        description:
-          "Yay! we have successfully deleted your item from your Task list!",
-      });
-      fetchTaskItems();
-    } catch (error) {
-      console.log(error, "error");
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to delete your item from Task list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
       setIsConfirmDeleteTaskDialogOpen(false);
-      setIsDeleting(false);
+    } else {
+      setIsDeleting(true);
+      try {
+        await deleteItemFromUserTaskListService(selectedTaskObj?._id);
+        toast({
+          variant: "default",
+          title: "Item deleted from your Task List ✅",
+          description:
+            "Yay! we have successfully deleted your item from your Task list!",
+        });
+        fetchTaskItems();
+      } catch (error) {
+        console.log(error, "error");
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to delete your item from Task list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setIsConfirmDeleteTaskDialogOpen(false);
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -57,23 +71,32 @@ const EisenhowerMatrix = ({ eisenMatrixData, fetchTaskItems }: any) => {
   };
 
   const onChangeStatus = async (newStatus: boolean, obj: any) => {
-    try {
-      await onChangeStatusService(newStatus, obj?._id);
-      toast({
-        variant: "default",
-        title: `Task status changed to ${
-          newStatus == true ? "Completed 😻✅" : "Incomplete ❌⏳"
-        }`,
-        description: "Yay! we have successfully updated your task's status!",
-      });
-      fetchTaskItems();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to update your item from Task list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
+    } else {
+      try {
+        await onChangeStatusService(newStatus, obj?._id);
+        toast({
+          variant: "default",
+          title: `Task status changed to ${
+            newStatus == true ? "Completed 😻✅" : "Incomplete ❌⏳"
+          }`,
+          description: "Yay! we have successfully updated your task's status!",
+        });
+        fetchTaskItems();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to update your item from Task list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      }
     }
   };
 
@@ -104,23 +127,31 @@ const EisenhowerMatrix = ({ eisenMatrixData, fetchTaskItems }: any) => {
         return;
     }
 
-    // Call the update task priority service
-    try {
-      await onChangePriorityService(newPriority, draggedTaskId);
-      toast({
-        variant: "default",
-        title: "Task priority updated successfully! ✅",
-        description: "The task has been moved to a new priority category.",
-      });
-      fetchTaskItems(); // Refresh tasks after updating
-    } catch (error: any) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Failed to update task priority! ⚠️",
-        description: error.message,
+        title: "Guest users don't have creds for now! 😄",
+        description:
+          "However, we promise to give you a verified account access to the soonest!",
       });
+    } else {
+      // Call the update task priority service
+      try {
+        await onChangePriorityService(newPriority, draggedTaskId);
+        toast({
+          variant: "default",
+          title: "Task priority updated successfully! ✅",
+          description: "The task has been moved to a new priority category.",
+        });
+        fetchTaskItems(); // Refresh tasks after updating
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Failed to update task priority! ⚠️",
+          description: error.message,
+        });
+      }
     }
-
     // Update your state or database here based on the dragged task's new position
     console.log(`Dragged from ${sourceId} to ${destinationId}`);
   };
@@ -247,7 +278,6 @@ const MatrixBox = ({
   fetchTaskItems,
   provided,
 }: any) => {
-  console.log(tasks, "task");
   return (
     <div
       ref={provided.innerRef}

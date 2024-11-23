@@ -54,7 +54,7 @@ export type Task = {
   priority: string;
 };
 
-export function DataTable({ data, fetchTaskItems }: any) {
+export function DataTable({ data, fetchTaskItems, isGuestUser }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -148,6 +148,7 @@ export function DataTable({ data, fetchTaskItems }: any) {
                   setOpenViewTaskSidesheet(true);
                   setSelectedTaskObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 View
@@ -160,6 +161,7 @@ export function DataTable({ data, fetchTaskItems }: any) {
                     row.original
                   );
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 {row?.original?.isCompleted
@@ -172,6 +174,7 @@ export function DataTable({ data, fetchTaskItems }: any) {
                   setIsConfirmDeleteTaskDialogOpen(true);
                   setSelectedTaskObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 Delete
               </DropdownMenuItem>{" "}
@@ -180,6 +183,7 @@ export function DataTable({ data, fetchTaskItems }: any) {
                   setSelectedTaskObj(row.original);
                   setOpenUpdateTaskSidesheet(true);
                 }}
+                disabled={isGuestUser}
               >
                 Update
               </DropdownMenuItem>{" "}
@@ -304,7 +308,10 @@ export function DataTable({ data, fetchTaskItems }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateTaskSidesheet fetchTaskItems={fetchTaskItems}>
+          <CreateTaskSidesheet
+            isGuestUser={isGuestUser}
+            fetchTaskItems={fetchTaskItems}
+          >
             <Button size="sm" className="ml-2">
               Create New Task
             </Button>

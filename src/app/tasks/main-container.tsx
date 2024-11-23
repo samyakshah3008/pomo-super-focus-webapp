@@ -8,8 +8,10 @@ import { fetchTasksListService } from "@/services/tasks/tasks";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotFoundItem from "../../../public/empty-state-box.png";
 import {
+  guestUserTasksItems,
   p1PriorityKey,
   p2PriorityKey,
   p3PriorityKey,
@@ -21,8 +23,10 @@ const MainContainer = () => {
   const [tasks, setTasks] = useState<any>([]);
   const [isFetchingTasks, setIsFetchingTasks] = useState(false);
   const [eisenMatrixData, setEisenMatrixData] = useState<any>(null);
+  const [isGuestUser, setIsGuestUser] = useState(false);
 
   const { toast } = useToast();
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const prepareEisenMatrixData = (taskItems: any) => {
     let findP1Priority = taskItems?.filter(
@@ -49,27 +53,38 @@ const MainContainer = () => {
   };
 
   const fetchTaskItems = async () => {
-    try {
-      const response = await fetchTasksListService();
-      let taskItems = response?.data?.data?.taskItems;
-      prepareEisenMatrixData(taskItems);
-      let reversedTaskItems = [...taskItems].reverse();
-      setTasks(reversedTaskItems || []);
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Oops, failed to fetch your task list! ⚠️",
-        description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
-      });
-    } finally {
-      setIsFetchingTasks(false);
+    if (currentUser?.isGuestUser) {
+      setTasks(guestUserTasksItems);
+      prepareEisenMatrixData(guestUserTasksItems);
+    } else {
+      try {
+        const response = await fetchTasksListService();
+        let taskItems = response?.data?.data?.taskItems;
+        prepareEisenMatrixData(taskItems);
+        let reversedTaskItems = [...taskItems].reverse();
+        setTasks(reversedTaskItems || []);
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to fetch your task list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setIsFetchingTasks(false);
+      }
     }
   };
 
   useEffect(() => {
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+    } else {
+      setIsGuestUser(false);
+    }
     fetchTaskItems();
-  }, []);
+  }, [currentUser]);
 
   if (isFetchingTasks) {
     return (
@@ -85,6 +100,7 @@ const MainContainer = () => {
         <EisenhowerMatrix
           eisenMatrixData={eisenMatrixData}
           fetchTaskItems={fetchTaskItems}
+          isGuestUser={isGuestUser}
         />
         {!tasks?.length ? (
           <div className="h-96 flex flex-col gap-2 justify-center items-center">
@@ -96,12 +112,19 @@ const MainContainer = () => {
               Seems like you haven't created a task so far, create one today
               with Eisenhower framework! 😻
             </p>
-            <CreateTaskSidesheet fetchTaskItems={fetchTaskItems}>
+            <CreateTaskSidesheet
+              isGuestUser={isGuestUser}
+              fetchTaskItems={fetchTaskItems}
+            >
               <Button size="sm">Add new item to my bucket! 🚀</Button>
             </CreateTaskSidesheet>
           </div>
         ) : (
-          <DataTable data={tasks} fetchTaskItems={fetchTaskItems} />
+          <DataTable
+            isGuestUser={isGuestUser}
+            data={tasks}
+            fetchTaskItems={fetchTaskItems}
+          />
         )}
       </div>
     </>
