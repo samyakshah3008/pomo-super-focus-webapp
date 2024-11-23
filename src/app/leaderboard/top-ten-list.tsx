@@ -12,8 +12,6 @@ const TopTenList = ({ leaderboardList }: { leaderboardList: any }) => {
   const formattedStartOfWeek = moment(startOfWeek).format("MMM D, YYYY");
   const formattedEndOfWeek = moment(endOfWeek).format("MMM D, YYYY");
 
-  console.log(leaderboardList, "leaderboardlist");
-
   return (
     <div className="flex flex-col gap-10 align-center justify-center">
       <div className="text-2xl font-bold text-center underline">

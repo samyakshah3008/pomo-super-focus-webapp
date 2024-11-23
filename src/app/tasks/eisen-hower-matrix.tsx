@@ -153,7 +153,6 @@ const EisenhowerMatrix = ({
       }
     }
     // Update your state or database here based on the dragged task's new position
-    console.log(`Dragged from ${sourceId} to ${destinationId}`);
   };
 
   return (
@@ -192,6 +191,7 @@ const EisenhowerMatrix = ({
                   setSelectedTaskObj={setSelectedTaskObj}
                   onChangeStatus={onChangeStatus}
                   provided={provided}
+                  isGuestUser={isGuestUser}
                 />
               )}
             </Droppable>
@@ -209,6 +209,7 @@ const EisenhowerMatrix = ({
                   setSelectedTaskObj={setSelectedTaskObj}
                   onChangeStatus={onChangeStatus}
                   provided={provided}
+                  isGuestUser={isGuestUser}
                 />
               )}
             </Droppable>
@@ -226,6 +227,7 @@ const EisenhowerMatrix = ({
                   setSelectedTaskObj={setSelectedTaskObj}
                   onChangeStatus={onChangeStatus}
                   provided={provided}
+                  isGuestUser={isGuestUser}
                 />
               )}
             </Droppable>
@@ -243,6 +245,7 @@ const EisenhowerMatrix = ({
                   setSelectedTaskObj={setSelectedTaskObj}
                   onChangeStatus={onChangeStatus}
                   provided={provided}
+                  isGuestUser={isGuestUser}
                 />
               )}
             </Droppable>
@@ -277,6 +280,7 @@ const MatrixBox = ({
   onChangeStatus,
   fetchTaskItems,
   provided,
+  isGuestUser,
 }: any) => {
   return (
     <div
@@ -344,7 +348,10 @@ const MatrixBox = ({
           </div>
         )}
       </div>
-      <CreateTaskSidesheet fetchTaskItems={fetchTaskItems}>
+      <CreateTaskSidesheet
+        fetchTaskItems={fetchTaskItems}
+        isGuestUser={isGuestUser}
+      >
         <Button size="sm">+ Add new task</Button>
       </CreateTaskSidesheet>
       {provided.placeholder}

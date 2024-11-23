@@ -215,7 +215,7 @@ const MatrixBox = ({
           </div>
         )}
       </div>
-      <CreateTaskSidesheet fetchTaskItems={fetchTaskItems}>
+      <CreateTaskSidesheet fetchTaskItems={fetchTaskItems} isGuestUser={true}>
         <Button size="sm">+ Add task</Button>
       </CreateTaskSidesheet>
     </div>
