@@ -48,7 +48,6 @@ export function TailwindcssButtons() {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        console.log("Text copied to clipboard:", text);
         toast.success("Copied to clipboard");
       })
       .catch((err) => {

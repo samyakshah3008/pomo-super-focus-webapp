@@ -18,7 +18,7 @@ const config = {
   prefix: "",
   theme: {
     container: {
-      center: "true",
+      center: true,
       padding: "2rem",
       screens: {
         "2xl": "1400px",
@@ -90,7 +90,7 @@ const config = {
             strokeDashoffset: "0",
           },
         },
-        "accordion-down": {
+        accordionDown: {
           from: {
             height: "0",
           },
@@ -98,7 +98,7 @@ const config = {
             height: "var(--radix-accordion-content-height)",
           },
         },
-        "accordion-up": {
+        accordionUp: {
           from: {
             height: "var(--radix-accordion-content-height)",
           },
@@ -119,8 +119,8 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         progress: "progressAnim 2s linear forwards",
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        accordionDown: "accordion-down 0.2s ease-out",
+        accordionUp: "accordion-up 0.2s ease-out",
         shimmer: "shimmer 2s linear infinite",
       },
       borderWidth: {

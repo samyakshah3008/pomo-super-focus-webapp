@@ -24,7 +24,6 @@ export function UpdateHabitDialog({
   habit,
   fetchHabits,
 }: any) {
-  console.log(habit, "habit");
   const [title, setTitle] = useState<any>(habit?.title);
   const [repeat, setRepeat] = useState<"daily" | "weekly" | "">(habit?.repeat);
   const [selectedDays, setSelectedDays] = useState<string[]>(
