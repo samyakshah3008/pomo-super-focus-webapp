@@ -48,6 +48,15 @@ const tmkocTheme: any = {
     LongBreak7,
     LongBreak8,
   ],
+  welcomeModal: {
+    youtubeLink:
+      "https://www.youtube.com/embed/ZR0cTdh-W-M?autoplay=1&loop=1&playlist=ZR0cTdh-W-M",
+    title: "Welcome to Super Focus Playground! 🚀",
+    headerText: "Don't forget to eat almonds daily;)",
+    descriptionText:
+      "We - PomoSuperFocus team, witch and cats wishing you a productive day today, hope you mark off all your todos of the day! A few things to prepare while studying - do environment checks, have a water bottle to stay hydrated, stretchings in break time, and no internet until you complete satisfactory amount of work! ",
+    footerCtaText: "Thanks a lot! I am Ready!",
+  },
   sessionStartModal: {
     img: SessionStartedImg,
     title: "Study Session activated! 🚀",

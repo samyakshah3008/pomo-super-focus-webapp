@@ -1,5 +1,6 @@
 "use client";
 
+import WelcomeModal from "@/components/(super-focus)/welcome-modal";
 import { useToast } from "@/components/ui/primitives/use-toast";
 import { SuperFocusProvider } from "@/context/super-focus";
 import { fetchSuperFocusSettingsService } from "@/services/super-focus/super-focus";
@@ -10,6 +11,7 @@ import PomodoroContainer from "./pomodoro-container";
 const MainContainer = () => {
   const [currentSettingDetails, setCurrentSettingDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   const { toast } = useToast();
 
@@ -26,6 +28,7 @@ const MainContainer = () => {
       });
     } finally {
       setIsLoading(false);
+      setShowWelcomeModal(true);
     }
   };
 
@@ -46,6 +49,7 @@ const MainContainer = () => {
       <div className="p-5">
         <PomodoroContainer currentSettingDetails={currentSettingDetails} />
       </div>
+      <WelcomeModal show={showWelcomeModal} setShow={setShowWelcomeModal} />
     </SuperFocusProvider>
   );
 };
