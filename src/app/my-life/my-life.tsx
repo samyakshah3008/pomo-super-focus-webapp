@@ -16,6 +16,9 @@ const MyLife = () => {
   const [isOnboardingCompleted, setIsOnboardingCompleted] = useState(false);
   const [lifeLeftObj, setLifeLeftObj] = useState<any>(null);
   const [showHowToModal, setShowHowToModal] = useState(false);
+  const [isGuestUser, setIsGuestUser] = useState(false);
+  const [guestUserBirthDate, setGuestUserBirthDate] = useState<any>("");
+  const [guestUserLifeSpan, setGuestUserLifeSpan] = useState<any>("");
 
   const currentUser = useSelector((state: any) => state?.user);
 
@@ -31,13 +34,18 @@ const MyLife = () => {
 
   useEffect(() => {
     if (!currentUser?.pomoSuperUser?._id) return;
-    if (currentUser?.pomoSuperUser?.isMyLifeOnboardingComplete) {
-      const { birthDate, estimateLifeSpan } = currentUser?.pomoSuperUser;
-      setIsOnboardingCompleted(true);
-      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
-      setLifeLeftObj(timeLeft);
+    if (currentUser?.pomoSuperUser?.isGuestUser) {
+      setIsGuestUser(true);
     } else {
-      setIsOnboardingCompleted(false);
+      setIsGuestUser(false);
+      if (currentUser?.pomoSuperUser?.isMyLifeOnboardingComplete) {
+        const { birthDate, estimateLifeSpan } = currentUser?.pomoSuperUser;
+        setIsOnboardingCompleted(true);
+        const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+        setLifeLeftObj(timeLeft);
+      } else {
+        setIsOnboardingCompleted(false);
+      }
     }
   }, [currentUser]);
 
@@ -50,14 +58,28 @@ const MyLife = () => {
       <Onboarding
         showSuccessOnboarding={showSuccessOnboarding}
         setIsOnboardingCompleted={setIsOnboardingCompleted}
+        isGuestUser={isGuestUser}
+        setLifeLeftObj={setLifeLeftObj}
+        setGuestUserBirthDate={setGuestUserBirthDate}
+        setGuestUserLifeSpan={setGuestUserLifeSpan}
       />
     );
   }
+
   return (
     <div className="flex flex-col gap-4 pl-10 pr-10 pb-5 lg:w-[85%] m-auto ">
       <Header lifeLeftObj={lifeLeftObj} />
-      <TimeLeftGrid />
-      <YearsGrid lifeLeftObj={lifeLeftObj} />
+      <TimeLeftGrid
+        isGuestUser={isGuestUser}
+        guestUserBirthDate={guestUserBirthDate}
+        guestUserLifeSpan={guestUserLifeSpan}
+      />
+
+      <YearsGrid
+        lifeLeftObj={lifeLeftObj}
+        isGuestUser={isGuestUser}
+        guestUserLifeSpan={guestUserLifeSpan}
+      />
 
       <div className="absolute top-10 right-0 lg:right-40">
         <IconBulbFilled

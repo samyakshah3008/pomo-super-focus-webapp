@@ -16,6 +16,7 @@ import { addNewItemToUserTaskListService } from "@/services/tasks/tasks";
 import { Loader } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
+import { CalendarForm } from "../common/calendar";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
 import { Label } from "../ui/primitives/label";
@@ -30,11 +31,11 @@ import {
 } from "../ui/primitives/select";
 import { Textarea } from "../ui/primitives/textarea";
 import { useToast } from "../ui/primitives/use-toast";
-import { CalendarForm } from "./calendar";
 
 type TasksSidesheetProps = {
   children: React.ReactNode;
   fetchTaskItems: any;
+  isGuestUser: boolean;
 };
 
 type TaskObj = {
@@ -47,6 +48,7 @@ type TaskObj = {
 const CreateTaskSidesheet = ({
   children,
   fetchTaskItems,
+  isGuestUser,
 }: TasksSidesheetProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [taskObj, setTaskObj] = useState<TaskObj>({
@@ -71,27 +73,36 @@ const CreateTaskSidesheet = ({
   };
 
   const addNewItemToUserTasks = async () => {
-    setLoading(true);
-    let formattedDate = moment(date).format("DD-MM-YYYY");
-
-    try {
-      await addNewItemToUserTaskListService(taskObj, formattedDate);
-      toast({
-        variant: "default",
-        title: "Item added to Task List ✅",
-        description:
-          "Yay! we have successfully added your new item to your task list!",
-      });
-      fetchTaskItems();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to add your item to task list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience while we fix it!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+      let formattedDate = moment(date).format("DD-MM-YYYY");
+
+      try {
+        await addNewItemToUserTaskListService(taskObj, formattedDate);
+        toast({
+          variant: "default",
+          title: "Item added to Task List ✅",
+          description:
+            "Yay! we have successfully added your new item to your task list!",
+        });
+        fetchTaskItems();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to add your item to task list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience while we fix it!",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

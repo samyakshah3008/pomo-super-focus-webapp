@@ -38,6 +38,17 @@ const dummyGratitudeList: GratitudeItem[] = [
   },
 ];
 
+const guestUserGratitudeList = [
+  {
+    title: "Best health",
+    description: "I am utmost grateful for my best health today!",
+    dateOfCreation: "28-10-2024",
+    id: "671fb9df97351d93478",
+    createdAt: "2024-10-28T16:20:47.818Z",
+    updatedAt: "2024-10-28T16:20:47.818Z",
+  },
+];
+
 const howToModalGratitudeListObj = {
   screenTitle: (
     <>
@@ -62,4 +73,8 @@ const howToModalGratitudeListObj = {
   ctaBtnText: "Understood, Thanks and close.",
 };
 
-export { dummyGratitudeList, howToModalGratitudeListObj };
+export {
+  dummyGratitudeList,
+  guestUserGratitudeList,
+  howToModalGratitudeListObj,
+};

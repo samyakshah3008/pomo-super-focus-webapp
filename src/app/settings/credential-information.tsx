@@ -5,7 +5,7 @@ import { IconEdit } from "@tabler/icons-react";
 import { useState } from "react";
 import EditEmailDialog from "./dialog";
 
-const CredentialInformation = ({ email, setEmail }: any) => {
+const CredentialInformation = ({ email, setEmail, isGuestUser }: any) => {
   const [isEditEmailDialogOpen, setIsEditEmailDialogOpen] = useState(false);
   const [confirmEdit, setIsConfirmEdit] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -38,7 +38,11 @@ const CredentialInformation = ({ email, setEmail }: any) => {
           <IconEdit
             cursor="pointer"
             size={24}
-            onClick={() => setIsEditEmailDialogOpen(true)}
+            onClick={() => {
+              if (!isGuestUser) {
+                setIsEditEmailDialogOpen(true);
+              }
+            }}
           />
         </div>
         <div className="flex gap-2">

@@ -16,6 +16,7 @@ import { addNewItemToUserGoalService } from "@/services/goals/goal";
 import { Loader } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
+import { CalendarForm } from "../common/calendar";
 import { Checkbox } from "../ui/primitives/checkbox";
 import { Input } from "../ui/primitives/input";
 import { Label } from "../ui/primitives/label";
@@ -30,11 +31,11 @@ import {
 } from "../ui/primitives/select";
 import { Textarea } from "../ui/primitives/textarea";
 import { useToast } from "../ui/primitives/use-toast";
-import { CalendarForm } from "./calendar";
 
 type GoalsSidesheetProps = {
   children: React.ReactNode;
   fetchGoalItems: any;
+  isGuestUser: boolean;
 };
 
 type GoalObj = {
@@ -47,6 +48,7 @@ type GoalObj = {
 const CreateGoalSidesheet = ({
   children,
   fetchGoalItems,
+  isGuestUser,
 }: GoalsSidesheetProps) => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [goalObj, setGoalObj] = useState<GoalObj>({
@@ -71,27 +73,36 @@ const CreateGoalSidesheet = ({
   };
 
   const addNewItemToUserGoals = async () => {
-    setLoading(true);
-    let formattedDate = moment(date).format("DD-MM-YYYY");
-
-    try {
-      await addNewItemToUserGoalService(goalObj, formattedDate);
-      toast({
-        variant: "default",
-        title: "Item added to Goals List ✅",
-        description:
-          "Yay! we have successfully added your new item to your goal list!",
-      });
-      fetchGoalItems();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to add your item to goal list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+      let formattedDate = moment(date).format("DD-MM-YYYY");
+
+      try {
+        await addNewItemToUserGoalService(goalObj, formattedDate);
+        toast({
+          variant: "default",
+          title: "Item added to Goals List ✅",
+          description:
+            "Yay! we have successfully added your new item to your goal list!",
+        });
+        fetchGoalItems();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to add your item to goal list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

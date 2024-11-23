@@ -8,9 +8,8 @@ import {
   verifyOTPAndUpdateEmailEndpoint,
 } from "@/constants/APIEndpoints";
 
-const updateUserDetailsService = async (userId: string | null) => {
+const updateUserDetailsService = async () => {
   const response = await postWithToken(userDetailsEndpoint, {
-    userId,
     isGreetingModalShown: true,
   });
   return response;

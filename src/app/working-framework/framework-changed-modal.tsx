@@ -13,12 +13,14 @@ interface FrameworkChangedModalProps {
   show: boolean;
   setShow: (value: boolean) => void;
   newFrameworkName: string;
+  isGuestUser: boolean;
 }
 
 const FrameworkChangedModal = ({
   show,
   setShow,
   newFrameworkName,
+  isGuestUser,
 }: FrameworkChangedModalProps) => {
   const handleClose = () => setShow(false);
 
@@ -57,6 +59,11 @@ const FrameworkChangedModal = ({
                 Activation is just the beginning of your productivity journey.
                 To see real results, stick to the framework and push yourself to
                 achieve the best version of yourself. Stay committed!
+              </div>
+              <div className="underline text-bold text-center text-red-500 text-sm">
+                Guest users don't have creds to activate. But this is how the UI
+                will look upon activation! -- Verify your account today to
+                activate a framework today!
               </div>
             </div>
           </ModalContent>

@@ -35,9 +35,7 @@ export const fetchUserData: any = createAsyncThunk<FetchUserDataResponse, void>(
   async () => {
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
     if (accessToken) {
-      const userId = getLocalStorageItem(userIdKeyBrowserStorage);
-
-      const response = await get(userDetailsEndpoint, { userId });
+      const response = await get(userDetailsEndpoint);
       return { userDetails: response?.data?.data?.currentUser };
     }
     throw new Error("User is not logged in.");

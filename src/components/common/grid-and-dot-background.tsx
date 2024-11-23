@@ -30,7 +30,7 @@ export function DotBackground({
 }) {
   return (
     <div
-      className={`dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex justify-center ${
+      className={`dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex justify-center ${
         widthFull ? "w-full" : ""
       } `}
     >

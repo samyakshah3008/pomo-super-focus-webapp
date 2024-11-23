@@ -13,7 +13,7 @@ import { fetchTemplatesService } from "@/services/working-framework/working-fram
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const StarterTemplates = () => {
+const StarterTemplates = ({ isGuestUser }: { isGuestUser: boolean }) => {
   const [templates, setTemplates] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
@@ -58,6 +58,7 @@ const StarterTemplates = () => {
         <CardHoverEffect
           cardItems={currentItems}
           type="working-framework-sidesheet"
+          isGuestUser={isGuestUser}
         />
       </div>
 

@@ -23,6 +23,7 @@ import { useToast } from "../ui/primitives/use-toast";
 type BucketSidesheetProps = {
   children: React.ReactNode;
   fetchBucketItems: any;
+  isGuestUser: boolean;
 };
 
 type BucketItem = {
@@ -34,6 +35,7 @@ type BucketItem = {
 const CreateBucketItemSidesheet = ({
   children,
   fetchBucketItems,
+  isGuestUser,
 }: BucketSidesheetProps) => {
   const [itemObj, setItemObj] = useState<BucketItem>({
     title: "",
@@ -54,26 +56,35 @@ const CreateBucketItemSidesheet = ({
   };
 
   const addNewItemToUserBucket = async () => {
-    setLoading(true);
-
-    try {
-      await addNewItemToUserBucketService(itemObj);
-      toast({
-        variant: "default",
-        title: "Item added to Bucket List ✅",
-        description:
-          "Yay! we have successfully added your new item to your bucket list!",
-      });
-      fetchBucketItems();
-    } catch (error) {
+    if (isGuestUser) {
       toast({
         variant: "destructive",
-        title: "Oops, failed to add your item to bucket list! ⚠️",
+        title: "Guest users don't have creds for now! 😄",
         description:
-          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+          "However, we promise to give you a verified account access to the soonest!",
       });
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+
+      try {
+        await addNewItemToUserBucketService(itemObj);
+        toast({
+          variant: "default",
+          title: "Item added to Bucket List ✅",
+          description:
+            "Yay! we have successfully added your new item to your bucket list!",
+        });
+        fetchBucketItems();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Oops, failed to add your item to bucket list! ⚠️",
+          description:
+            "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

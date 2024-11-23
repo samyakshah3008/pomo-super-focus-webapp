@@ -50,7 +50,7 @@ export type Goal = {
   status: "achieved" | "yet to achieve";
 };
 
-export function DataTable({ data, fetchGoalItems }: any) {
+export function DataTable({ data, fetchGoalItems, isGuestUser }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -129,6 +129,7 @@ export function DataTable({ data, fetchGoalItems }: any) {
                   setOpenViewGoalSidesheet(true);
                   setSelectedGoalObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 View Goal
@@ -139,6 +140,7 @@ export function DataTable({ data, fetchGoalItems }: any) {
                   setIsConfirmDeleteGoalDialogOpen(true);
                   setSelectedGoalObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 Delete Goal
               </DropdownMenuItem>{" "}
@@ -147,6 +149,7 @@ export function DataTable({ data, fetchGoalItems }: any) {
                   setSelectedGoalObj(row.original);
                   setOpenUpdateGoalSidesheet(true);
                 }}
+                disabled={isGuestUser}
               >
                 Update Goal
               </DropdownMenuItem>{" "}
@@ -218,9 +221,9 @@ export function DataTable({ data, fetchGoalItems }: any) {
         <div className="flex items-center py-4">
           <Input
             placeholder="Search goals..."
-            value={(table.getColumn("goals")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("goals")?.setFilterValue(event.target.value)
+              table.getColumn("title")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -250,7 +253,10 @@ export function DataTable({ data, fetchGoalItems }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateGoalSidesheet fetchGoalItems={fetchGoalItems}>
+          <CreateGoalSidesheet
+            fetchGoalItems={fetchGoalItems}
+            isGuestUser={isGuestUser}
+          >
             <Button size="sm" className="ml-2">
               Create New Goal
             </Button>

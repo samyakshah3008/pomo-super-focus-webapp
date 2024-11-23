@@ -6,12 +6,6 @@ const quickStartLinks = [
     link: "/super-focus",
   },
   {
-    title: "Leaderboard",
-    description:
-      "Check out the top performers based on total focus time and challenge yourself to climb the ranks.",
-    link: "/leaderboard",
-  },
-  {
     title: "Goals Review",
     description:
       "Track and review your yearly goals to ensure you're on the path to success.",
@@ -34,6 +28,30 @@ const quickStartLinks = [
     description:
       "Monitor and improve your habits with daily tracking to build consistency over time.",
     link: "/habits-scorecard",
+  },
+  {
+    title: "You Vs You!",
+    description:
+      "Document your yearly ups and downs in chunks and take a time to self review of how far you have reached!",
+    link: "/self-review",
+  },
+  {
+    title: "Gratitude List",
+    description:
+      "For all the things which you have currently, someone is manifesting it to have them, be grateful for what you have.",
+    link: "/gratitude-list",
+  },
+  {
+    title: "Bucket List",
+    description:
+      "Turning dreams into reality, one step at a time—whether in life or career.",
+    link: "/bucket-list",
+  },
+  {
+    title: "My life",
+    description:
+      "Life moves very fast, set your personalized life span eg. 50years and see visual progress of how much span is left as per your age to get awared! 👀",
+    link: "/self-review",
   },
 ];
 

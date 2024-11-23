@@ -4,6 +4,7 @@ const CardHoverEffect = ({
   cardItems,
   type,
   getCustomWorkingFrameworkTemplates,
+  isGuestUser,
 }: any) => {
   return (
     <div className="max-w-5xl mx-auto px-8">
@@ -11,6 +12,7 @@ const CardHoverEffect = ({
         getCustomWorkingFrameworkTemplates={getCustomWorkingFrameworkTemplates}
         items={cardItems}
         type={type}
+        isGuestUser={isGuestUser}
       />
     </div>
   );

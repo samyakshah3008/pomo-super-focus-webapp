@@ -2,13 +2,12 @@
 
 import { AccordionBlocks } from "@/components/common/accordion-blocks";
 import { ProgressBar } from "@/components/common/progress";
+import { Loader } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DashboardChecklist from "../../../public/checklist-dashboard.json";
-import { Loader } from "lucide-react";
 
-// Dynamically import Lottie for client-side only
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const Checklist = () => {

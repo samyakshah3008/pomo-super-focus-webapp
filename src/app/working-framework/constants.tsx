@@ -57,4 +57,31 @@ const howToModalWorkingFrameworkObj = {
     "Give a virtual cuddle to cats and close, cats have surprise for you as well!",
 };
 
-export { buildCustomFrameworkCard, howToModalWorkingFrameworkObj };
+const guestUserActiveWorkingFramework = {
+  title: "Early Riser",
+  rules: [
+    "I'll wake up before 6am to start my day early.",
+    "I'll use the Pomodoro technique for focused work sessions.",
+    "I'll complete my top 3 tasks before noon.",
+    "I'll take short stretching breaks between Pomodoro sessions.",
+    "I'll avoid social media during work blocks.",
+    "I'll plan my tasks the night before to ensure a productive start.",
+    "I'll not eat until I've finished 2 hours of deep work.",
+    "I'll keep my desk clean to stay organized and focused.",
+    "I'll drink water regularly to stay hydrated and energized.",
+    "I'll reflect on my achievements at the end of the day.",
+    "I'll review my goals before wrapping up for the day.",
+    "I'll ensure a proper work-life balance with quality time for loved ones.",
+    "I'll limit distractions by turning off notifications during Pomodoro sessions.",
+    "I'll prioritize deep focus time over multitasking.",
+  ],
+  description:
+    "Kickstart your day with structured focus sessions using the Pomodoro technique, ensuring consistent morning productivity.",
+  createdBy: "PomoSuperFocus Team",
+};
+
+export {
+  buildCustomFrameworkCard,
+  guestUserActiveWorkingFramework,
+  howToModalWorkingFrameworkObj,
+};

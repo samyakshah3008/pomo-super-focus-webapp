@@ -21,7 +21,9 @@ export const verifyOTPAndSignUpUserService = async (payload: {}) => {
   return response;
 };
 
-export const signUpGuestUserService = async () => {
-  const response = await postWithoutToken(guestUserSignUpEndpoint, {});
+export const signUpGuestUserService = async (guestUser: any) => {
+  const response = await postWithoutToken(guestUserSignUpEndpoint, {
+    guestUser,
+  });
   return response;
 };

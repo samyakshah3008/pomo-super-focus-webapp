@@ -1,9 +1,6 @@
 import { get } from "@/config/API";
 import { streakDetailsEndpoint } from "@/constants/APIEndpoints";
-import {
-  accessTokenKeyBrowserStorage,
-  userIdKeyBrowserStorage,
-} from "@/constants/browser-storage";
+import { accessTokenKeyBrowserStorage } from "@/constants/browser-storage";
 import { getLocalStorageItem } from "@/lib/browser-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -19,10 +16,7 @@ export const fetchStreakDetails: any = createAsyncThunk<any>(
     const accessToken = getLocalStorageItem(accessTokenKeyBrowserStorage);
     const currentDate = new Date().toISOString();
     if (accessToken) {
-      const userId = getLocalStorageItem(userIdKeyBrowserStorage);
-
       const response = await get(streakDetailsEndpoint, {
-        userId,
         currentDate,
       });
       return response?.data?.data?.streakDetails;

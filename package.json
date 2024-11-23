@@ -39,6 +39,7 @@
     "cmdk": "^1.0.0",
     "cookies-next": "^4.1.1",
     "date-fns": "^3.6.0",
+    "embla-carousel-autoplay": "^8.5.1",
     "embla-carousel-react": "^8.1.8",
     "framer-motion": "^11.11.1",
     "input-otp": "^1.2.4",

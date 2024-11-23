@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/primitives/dialog";
+import { Input } from "../ui/primitives/input";
 
 type FlowType = "signin" | "signup";
 
@@ -30,6 +31,11 @@ const GuestLoginConfirmDialog = ({
   flow,
 }: GuestLoginConfirmDialogProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [guestUser, setGuestUser] = useState({
+    firstName: "",
+    lastName: "",
+    isGuestUser: true,
+  });
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -39,7 +45,7 @@ const GuestLoginConfirmDialog = ({
       setIsSubmitting(true);
       const {
         data: { accessToken, refreshToken, user },
-      } = await signUpGuestUserService();
+      } = await signUpGuestUserService(guestUser);
       saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
       dispatch(fetchUserData());
       router.push("/dashboard");
@@ -51,7 +57,7 @@ const GuestLoginConfirmDialog = ({
   };
 
   const onCreateNewAccount = () => {
-    router.push("/signup");
+    onCloseGuestLoginDialog();
   };
 
   return (
@@ -65,8 +71,34 @@ const GuestLoginConfirmDialog = ({
         </DialogHeader>
 
         <div className="text-sm">
+          Please help us with how we can call you? 😻 That's it, no OTP
+          verifications or email spams.
+        </div>
+
+        <div className="flex gap-4 text-sm">
+          <div className="flex flex-col gap-2">
+            <div className="text-sm">First Name</div>
+            <Input
+              value={guestUser.firstName}
+              onChange={(e) =>
+                setGuestUser({ ...guestUser, firstName: e.target.value })
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="text-sm">Last Name</div>
+            <Input
+              value={guestUser.lastName}
+              onChange={(e) =>
+                setGuestUser({ ...guestUser, lastName: e.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="text-sm bg-yellow-200 p-2 rounded-md border-yellow-500 border-solid border-2">
           You are about to Login as Guest, please note that being a guest you
-          won't be getting full access like for a verified account.
+          won't be getting full access like for a verified account. 🚀
         </div>
 
         <DialogFooter className="mt-4">
@@ -74,18 +106,20 @@ const GuestLoginConfirmDialog = ({
             onClick={
               flow == "signup" ? onCloseGuestLoginDialog : onCreateNewAccount
             }
+            size="sm"
           >
-            Create New Account
+            Close
           </Button>
           <Button
-            variant="destructive"
-            disabled={isSubmitting}
+            size="sm"
+            className="bg-green-500 hover:bg-green-400"
+            disabled={isSubmitting || !guestUser?.firstName.length}
             onClick={onConfirmGuestLogin}
           >
             {isSubmitting ? (
               <Loader className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            {isSubmitting ? "Setting up your account" : "Confirm"}
+            {isSubmitting ? "Setting up your account" : "Create Guest Account!"}
           </Button>
         </DialogFooter>
       </DialogContent>

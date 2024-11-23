@@ -5,14 +5,12 @@ import { useEffect, useState } from "react";
 import GreetingModal from "@/components/(dashboard)/greeting-modal";
 import Confetti from "@/components/common/confetti";
 import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti";
-import { DotBackground } from "@/components/common/grid-and-dot-background";
 import HowToModal from "@/components/common/how-to-modal";
 import { Separator } from "@/components/ui/primitives/separator";
 import { IconBulbFilled } from "@tabler/icons-react";
 import Checklist from "./checklist";
 import { howToModalDashboardObj } from "./constants";
 import Header from "./header";
-import ProgressReview from "./progress-review";
 import QuickStart from "./quick-start";
 
 const DashboardLayout = () => {
@@ -20,12 +18,7 @@ const DashboardLayout = () => {
   const [showHowToModal, setShowHowToModal] = useState(false);
   const [showExplodingHeart, setShowExplodingHeart] = useState(false);
 
-  const sections = [
-    <Header />,
-    <Checklist />,
-    <QuickStart />,
-    <ProgressReview />,
-  ];
+  const sections = [<Header />, <Checklist />, <QuickStart />];
 
   useEffect(() => {
     if (!showHowToModal) return;
@@ -34,23 +27,43 @@ const DashboardLayout = () => {
     }
   }, [showHowToModal]);
 
+  useEffect(() => {
+    if (!showExplodingHeart) return;
+    let id = setTimeout(() => {
+      setShowExplodingHeart(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [showExplodingHeart]);
+
+  useEffect(() => {
+    if (!showConfetti) return;
+    let id = setTimeout(() => {
+      setShowConfetti(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [showConfetti]);
+
   return (
     <div>
       <GreetingModal setShowConfetti={setShowConfetti} />
-      <DotBackground widthFull={true}>
-        {showConfetti ? <Confetti /> : null}
-        {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
-        <div className="flex flex-col w-[80%] gap-10 ">
-          {sections.map((section, id) => {
-            return (
-              <>
-                {section}
-                {sections?.length !== id ? <Separator /> : null}
-              </>
-            );
-          })}
-        </div>
-      </DotBackground>
+      {showConfetti ? <Confetti /> : null}
+      {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
+      <div className="flex flex-col gap-10 p-4 ">
+        {sections.map((section, id) => {
+          return (
+            <>
+              {section}
+              {id < sections.length - 1 ? <Separator /> : null}
+            </>
+          );
+        })}
+      </div>
       <div className="absolute top-10 right-0 lg:right-40">
         <IconBulbFilled
           onClick={() => setShowHowToModal(true)}

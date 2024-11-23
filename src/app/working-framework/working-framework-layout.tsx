@@ -4,13 +4,16 @@ import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti
 import { DotBackground } from "@/components/common/grid-and-dot-background";
 import HowToModal from "@/components/common/how-to-modal";
 import { Separator } from "@/components/ui/primitives/separator";
-import Lottie from "lottie-react";
+import { IconBulbFilled } from "@tabler/icons-react";
+import { Loader } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Bulb from "../../../public/bulb.json";
 import ActivatedFramework from "./activated-framework";
-import { howToModalWorkingFrameworkObj } from "./constants";
+import {
+  guestUserActiveWorkingFramework,
+  howToModalWorkingFrameworkObj,
+} from "./constants";
 import CustomTemplate from "./custom-template";
 import Header from "./header";
 import StarterTemplates from "./starter-templates";
@@ -21,6 +24,8 @@ const WorkingFrameworkLayout = () => {
   const [customFrameworkName, setCustomFrameworkName] = useState<any>("");
   const [showHowToModal, setShowHowToModal] = useState(false);
   const [showExplodingHeart, setShowExplodingHeart] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isGuestUser, setIsGuestUser] = useState(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -32,6 +37,17 @@ const WorkingFrameworkLayout = () => {
       setShowExplodingHeart(false);
     }
   }, [showHowToModal]);
+
+  useEffect(() => {
+    if (!showExplodingHeart) return;
+    let id = setTimeout(() => {
+      setShowExplodingHeart(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [showExplodingHeart]);
 
   useEffect(() => {
     const fromFlow = searchParams.get("from");
@@ -50,14 +66,34 @@ const WorkingFrameworkLayout = () => {
     }
   }, [showSuccessModal]);
 
-  if (!currentUser?._id) {
-    return null;
+  useEffect(() => {
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+    } else {
+      setIsGuestUser(false);
+    }
+    setIsLoading(false);
+  }, [currentUser]);
+
+  if (isLoading || !currentUser?._id) {
+    return (
+      <div className="h-96 flex items-center">
+        <Loader className="mr-2 h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   const sections = [
     <Header />,
-    <ActivatedFramework framework={currentUser?.workingFramework} />,
-    <StarterTemplates />,
+    <ActivatedFramework
+      framework={
+        isGuestUser
+          ? guestUserActiveWorkingFramework
+          : currentUser?.workingFramework
+      }
+    />,
+    <StarterTemplates isGuestUser={isGuestUser} />,
     <CustomTemplate />,
   ];
 
@@ -77,19 +113,17 @@ const WorkingFrameworkLayout = () => {
           })}
         </div>
       </DotBackground>
-      <div className="fixed top-10 right-40">
-        {" "}
-        <Lottie
+      <div className="absolute top-10 right-0 lg:right-40">
+        <IconBulbFilled
           onClick={() => setShowHowToModal(true)}
-          className="cursor-pointer w-24 h-24"
-          animationData={Bulb}
-          loop={true}
+          className="cursor-pointer text-yellow-400 w-10 h-10 sm:w-16 lg:h-16"
         />
       </div>
       <SuccessModal
         show={showSuccessModal}
         setShow={setShowSuccessModal}
         customFrameworkName={customFrameworkName}
+        isGuestUser={isGuestUser}
       />
       <HowToModal
         showHowToModal={showHowToModal}

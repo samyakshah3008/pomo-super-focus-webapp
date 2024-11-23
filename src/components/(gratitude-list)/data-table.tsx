@@ -48,7 +48,7 @@ export type GratitudeItem = {
   date: string;
 };
 
-export function DataTable({ data, fetchGratitudeItems }: any) {
+export function DataTable({ data, fetchGratitudeItems, isGuestUser }: any) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -111,6 +111,7 @@ export function DataTable({ data, fetchGratitudeItems }: any) {
                   setopenViewGratitudeSidesheet(true);
                   setSelectedItemObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 {" "}
                 View
@@ -121,6 +122,7 @@ export function DataTable({ data, fetchGratitudeItems }: any) {
                   setIsConfirmDeleteItemDialogOpen(true);
                   setSelectedItemObj(row.original);
                 }}
+                disabled={isGuestUser}
               >
                 Delete
               </DropdownMenuItem>{" "}
@@ -129,6 +131,7 @@ export function DataTable({ data, fetchGratitudeItems }: any) {
                   setSelectedItemObj(row.original);
                   setOpenUpdateGoalSidesheet(true);
                 }}
+                disabled={isGuestUser}
               >
                 Update
               </DropdownMenuItem>{" "}
@@ -232,7 +235,10 @@ export function DataTable({ data, fetchGratitudeItems }: any) {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateGratitudeSidesheet fetchGratitudeItems={fetchGratitudeItems}>
+          <CreateGratitudeSidesheet
+            fetchGratitudeItems={fetchGratitudeItems}
+            isGuestUser={isGuestUser}
+          >
             <Button size="sm" className="ml-2">
               Add New Gratitude 🙏
             </Button>

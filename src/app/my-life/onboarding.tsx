@@ -12,7 +12,10 @@ import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GemBox from "../../../public/skull-reward.json";
-import { validateBirthDateAndEstimateTimeLeft } from "./helper";
+import {
+  calculateLifeLeft,
+  validateBirthDateAndEstimateTimeLeft,
+} from "./helper";
 
 type Word = {
   text: string;
@@ -22,13 +25,17 @@ type Word = {
 const Onboarding = ({
   setIsOnboardingCompleted,
   showSuccessOnboarding,
+  isGuestUser,
+  setLifeLeftObj,
+  setGuestUserBirthDate,
+  setGuestUserLifeSpan,
 }: any) => {
   const today = format(new Date(), "yyyy-MM-dd");
 
   const currentUser = useSelector((state: any) => state?.user);
   const [words, setWords] = useState<Word[]>([]);
   const [birthDate, setBirthDate] = useState<any>("");
-  const [lifeSpan, setLifeSpan] = useState("");
+  const [lifeSpan, setLifeSpan] = useState<any>("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -36,22 +43,31 @@ const Onboarding = ({
   const { toast } = useToast();
 
   const completeMyLifeOnboardingFlow = async () => {
-    setIsLoading(true);
-    try {
-      await completeMyLifeOnboardingFlowService(birthDate, lifeSpan);
+    if (isGuestUser) {
       setIsOnboardingCompleted(true);
-      dispatch(fetchUserData());
       showSuccessOnboarding();
-    } catch (error: any) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Unable to complete my life onboarding",
-        description:
-          "Uh oh! We are extremely sorry but we are not able to complete your my life onboarding, please try again later.",
-      });
-    } finally {
-      setIsLoading(false);
+      const timeLeft = calculateLifeLeft(birthDate, lifeSpan);
+      setLifeLeftObj(timeLeft);
+      setGuestUserBirthDate(birthDate);
+      setGuestUserLifeSpan(lifeSpan);
+    } else {
+      setIsLoading(true);
+      try {
+        await completeMyLifeOnboardingFlowService(birthDate, lifeSpan);
+        setIsOnboardingCompleted(true);
+        dispatch(fetchUserData());
+        showSuccessOnboarding();
+      } catch (error: any) {
+        console.log(error);
+        toast({
+          variant: "destructive",
+          title: "Unable to complete my life onboarding",
+          description:
+            "Uh oh! We are extremely sorry but we are not able to complete your my life onboarding, please try again later.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 

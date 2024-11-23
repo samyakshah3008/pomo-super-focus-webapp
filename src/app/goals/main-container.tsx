@@ -6,11 +6,16 @@ import { fetchGoalListService } from "@/services/goals/goal";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import NotFoundItem from "../../../public/empty-state-box.png";
+import { goalsGuestUserData } from "./constants";
 
 const MainContainer = () => {
   const [goalItems, setGoalItems] = useState<any>([]);
   const [fetchingGoalItems, setFetchingGoalItems] = useState(true);
+  const [isGuestUser, setIsGuestUser] = useState(false);
+
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const { toast } = useToast();
 
@@ -33,8 +38,16 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    fetchGoalItems();
-  }, []);
+    if (!currentUser?._id) return;
+    if (currentUser?.isGuestUser) {
+      setIsGuestUser(true);
+      setGoalItems(goalsGuestUserData);
+      setFetchingGoalItems(false);
+    } else {
+      setIsGuestUser(false);
+      fetchGoalItems();
+    }
+  }, [currentUser]);
 
   if (fetchingGoalItems) {
     return (
@@ -52,7 +65,10 @@ const MainContainer = () => {
         <p className="text-gray-600">
           You haven't added any item to your goal list, add one today 😻
         </p>
-        <CreateGoalSidesheet fetchGoalItems={fetchGoalItems}>
+        <CreateGoalSidesheet
+          fetchGoalItems={fetchGoalItems}
+          isGuestUser={isGuestUser}
+        >
           <Button size="sm">Add new item to my goals! 🚀</Button>
         </CreateGoalSidesheet>
       </div>
@@ -62,7 +78,11 @@ const MainContainer = () => {
   return (
     <>
       <div className="w-[80%]">
-        <DataTable data={goalItems} fetchGoalItems={fetchGoalItems} />
+        <DataTable
+          isGuestUser={isGuestUser}
+          data={goalItems}
+          fetchGoalItems={fetchGoalItems}
+        />
       </div>
     </>
   );
