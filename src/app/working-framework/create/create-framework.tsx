@@ -52,36 +52,46 @@ const CreateFramework = () => {
   };
 
   const launchFramework = async () => {
-    setIsSubmitting(true);
-    try {
-      await postWithToken(customWorkingFrameworkTemplatesEndpoint, {
-        userId: currentUser?._id,
-        customWorkTemplateObj: {
-          template: {
-            title,
-            rules,
-            description,
-            createdBy: `${currentUser?.firstName + currentUser?.lastName}`,
-          },
-          isLaunched: false,
-        },
-      });
+    if (currentUser?.isGuestUser) {
+      setIsSubmitting(true);
       setShowCookingState(true);
       setTimeout(() => {
         router.push(
           `/working-framework?from=create-flow&frameworkName=${title}`
         );
       }, 10000);
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Failed to launch",
-        description:
-          "Something went wrong while launching, please try again later.",
-      });
-    } finally {
-      dispatch(fetchUserData());
-      setIsSubmitting(false);
+    } else {
+      setIsSubmitting(true);
+      try {
+        await postWithToken(customWorkingFrameworkTemplatesEndpoint, {
+          userId: currentUser?._id,
+          customWorkTemplateObj: {
+            template: {
+              title,
+              rules,
+              description,
+              createdBy: `${currentUser?.firstName + currentUser?.lastName}`,
+            },
+            isLaunched: false,
+          },
+        });
+        setShowCookingState(true);
+        setTimeout(() => {
+          router.push(
+            `/working-framework?from=create-flow&frameworkName=${title}`
+          );
+        }, 10000);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Failed to launch",
+          description:
+            "Something went wrong while launching, please try again later.",
+        });
+      } finally {
+        dispatch(fetchUserData());
+        setIsSubmitting(false);
+      }
     }
   };
 

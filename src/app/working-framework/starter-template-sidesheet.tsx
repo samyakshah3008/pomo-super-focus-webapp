@@ -18,25 +18,37 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FrameworkChangedModal from "./framework-changed-modal";
 
-const StarterTemplateSidesheet = ({ children, item }: any) => {
+const StarterTemplateSidesheet = ({ children, item, isGuestUser }: any) => {
   const [show, setShow] = useState(false);
 
   const currentUser = useSelector((state: any) => state?.user);
   const { toast } = useToast();
   const dispatch = useDispatch();
-
   const activateWorkingFramework = async () => {
-    try {
-      await activateWorkFrameworkService(currentUser?.pomoSuperUser?._id, item);
-      dispatch(fetchUserData());
-      setShow(true);
-    } catch (error) {
-      console.log("something went wrong while activating work framework.");
+    if (isGuestUser) {
       toast({
-        title: "Failed!",
-        description: `Failed to active ${item?.title} framework, please try again later.`,
         variant: "destructive",
+        title: "Guest users don't have creds for now! 😄",
+        description:
+          "However, we promise to give you a verified account access to the soonest!",
       });
+      setShow(true);
+    } else {
+      try {
+        await activateWorkFrameworkService(
+          currentUser?.pomoSuperUser?._id,
+          item
+        );
+        dispatch(fetchUserData());
+        setShow(true);
+      } catch (error) {
+        console.log("something went wrong while activating work framework.");
+        toast({
+          title: "Failed!",
+          description: `Failed to active ${item?.title} framework, please try again later.`,
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -96,6 +108,7 @@ const StarterTemplateSidesheet = ({ children, item }: any) => {
         show={show}
         setShow={setShow}
         newFrameworkName={item?.title}
+        isGuestUser={isGuestUser}
       />
     </>
   );

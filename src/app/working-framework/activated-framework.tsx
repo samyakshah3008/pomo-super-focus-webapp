@@ -2,7 +2,7 @@
 
 import { IconCircleFilled } from "@tabler/icons-react";
 import Image from "next/image";
-import ThinkingFace from "../../../public/thinking-face.png";
+import ThinkingFace from "../../../public/empty-state-box.png";
 
 interface Framework {
   title: string;

@@ -12,6 +12,7 @@ export const HoverEffect = ({
   className,
   type,
   getCustomWorkingFrameworkTemplates,
+  isGuestUser,
 }: {
   items: {
     title: string;
@@ -21,6 +22,7 @@ export const HoverEffect = ({
   className?: string;
   type?: string;
   getCustomWorkingFrameworkTemplates?: any;
+  isGuestUser?: boolean;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -28,7 +30,7 @@ export const HoverEffect = ({
     switch (type) {
       case "working-framework-sidesheet":
         return items.map((item, idx) => (
-          <StarterTemplateSidesheet item={item}>
+          <StarterTemplateSidesheet item={item} isGuestUser={isGuestUser}>
             <div
               key={idx}
               className="relative group  block p-2 h-full w-full cursor-pointer"
@@ -68,6 +70,7 @@ export const HoverEffect = ({
             getCustomWorkingFrameworkTemplates={
               getCustomWorkingFrameworkTemplates
             }
+            isGuestUser={isGuestUser}
           >
             <div
               key={idx}

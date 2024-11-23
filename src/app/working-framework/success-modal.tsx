@@ -9,7 +9,12 @@ import {
   ModalFooter,
 } from "../../components/ui/animated-modal";
 
-const SuccessModal = ({ show, setShow, customFrameworkName }: any) => {
+const SuccessModal = ({
+  show,
+  setShow,
+  customFrameworkName,
+  isGuestUser,
+}: any) => {
   const onCloseHandler = () => {
     setShow(false);
   };
@@ -50,6 +55,11 @@ const SuccessModal = ({ show, setShow, customFrameworkName }: any) => {
               <div className="border-2 border-solid border-green-500 p-2 rounded-md bg-green-100 ">
                 Please note that you can find this in custom framework's
                 section.
+              </div>
+              <div className="underline text-bold text-center text-red-500 text-sm">
+                Guest users don't have creds to activate. But this is how the UI
+                will look upon activation! -- Verify your account today to
+                create custom framework today!
               </div>
             </div>
           </ModalContent>

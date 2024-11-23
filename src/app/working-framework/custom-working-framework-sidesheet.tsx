@@ -31,12 +31,14 @@ interface CustomWorkingFrameworkSidesheetProps {
     _id: string;
   };
   getCustomWorkingFrameworkTemplates: () => void;
+  isGuestUser: any;
 }
 
 const CustomWorkingFrameworkSidesheet = ({
   children,
   item,
   workingFrameworkObj,
+  isGuestUser,
   getCustomWorkingFrameworkTemplates,
 }: CustomWorkingFrameworkSidesheetProps) => {
   const [showFrameworkChangeModal, setShowFrameworkChangeModal] =
@@ -51,17 +53,30 @@ const CustomWorkingFrameworkSidesheet = ({
   const dispatch = useDispatch();
 
   const activateWorkFramework = async () => {
-    try {
-      await activateWorkFrameworkService(currentUser?.pomoSuperUser?._id, item);
-      dispatch(fetchUserData());
-      setShowFrameworkChangeModal(true);
-    } catch (error) {
-      console.error("Error activating work framework:", error);
+    if (isGuestUser) {
       toast({
-        title: "Failed!",
-        description: `Failed to activate ${item?.title} framework, please try again later.`,
         variant: "destructive",
+        title: "Guest users don't have creds for now! 😄",
+        description:
+          "However, we promise to give you a verified account access to the soonest!",
       });
+      setShowFrameworkChangeModal(true);
+    } else {
+      try {
+        await activateWorkFrameworkService(
+          currentUser?.pomoSuperUser?._id,
+          item
+        );
+        dispatch(fetchUserData());
+        setShowFrameworkChangeModal(true);
+      } catch (error) {
+        console.error("Error activating work framework:", error);
+        toast({
+          title: "Failed!",
+          description: `Failed to activate ${item?.title} framework, please try again later.`,
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -174,6 +189,7 @@ const CustomWorkingFrameworkSidesheet = ({
         show={showFrameworkChangeModal}
         setShow={setShowFrameworkChangeModal}
         newFrameworkName={item?.title}
+        isGuestUser={isGuestUser}
       />
       <ReusableDialog
         isOpen={isConfirmDeleteDialogOpen}
