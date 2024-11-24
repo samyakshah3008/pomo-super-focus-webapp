@@ -34,6 +34,7 @@ const GuestLoginConfirmDialog = ({
   const [guestUser, setGuestUser] = useState({
     firstName: "",
     lastName: "",
+    email: "",
     isGuestUser: true,
   });
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const GuestLoginConfirmDialog = ({
 
         <div className="text-sm">
           Please help us with how we can call you? 😻 That's it, no OTP
-          verifications or email spams.
+          verifications.
         </div>
 
         <div className="flex gap-4 text-sm">
@@ -95,6 +96,15 @@ const GuestLoginConfirmDialog = ({
             />
           </div>
         </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm">Email</div>
+          <Input
+            value={guestUser.email}
+            onChange={(e) =>
+              setGuestUser({ ...guestUser, email: e.target.value })
+            }
+          />
+        </div>
 
         <div className="text-sm bg-yellow-200 p-2 rounded-md border-yellow-500 border-solid border-2">
           You are about to Login as Guest, please note that being a guest you
@@ -113,7 +123,11 @@ const GuestLoginConfirmDialog = ({
           <Button
             size="sm"
             className="bg-green-500 hover:bg-green-400"
-            disabled={isSubmitting || !guestUser?.firstName.length}
+            disabled={
+              isSubmitting ||
+              !guestUser?.firstName.length ||
+              !guestUser?.email.length
+            }
             onClick={onConfirmGuestLogin}
           >
             {isSubmitting ? (
