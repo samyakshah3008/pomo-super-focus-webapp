@@ -110,7 +110,7 @@ const Onboarding = ({
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-5">
       <div className="w-80 h-80 flex m-auto">
         <Lottie animationData={GemBox} loop={true} width={250} />
       </div>
@@ -120,8 +120,8 @@ const Onboarding = ({
         see visual progress of how much span is left as per your age to get
         awared! 👀
       </p>
-      <div className="flex flex-col gap-5 w-[600px] ">
-        <div className="flex mt-10 gap-4">
+      <div className="flex flex-col gap-5 lg:w-[600px] ">
+        <div className="flex flex-col lg:flex-row mt-10 gap-4">
           <div className="flex flex-col gap-2 w-[50%]">
             <div className="font-bold">Enter your birth date:</div>{" "}
             <Input

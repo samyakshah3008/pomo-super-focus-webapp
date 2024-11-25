@@ -11,7 +11,7 @@ export function AccordionBlocks({ accordionItems }: any) {
   }
 
   return (
-    <Accordion type="single" collapsible className="w-[600px] ">
+    <Accordion type="single" collapsible className="lg:w-[600px] ">
       {accordionItems?.map((item: any, id: any) => {
         return (
           <AccordionItem value={`item-${id}`} key={id}>

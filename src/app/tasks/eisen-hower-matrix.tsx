@@ -158,7 +158,7 @@ const EisenhowerMatrix = ({
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-col items-center p-6">
+        <div className="lg:flex flex-col items-center p-6 hidden ">
           {/* Horizontal Labels */}
           <div className="flex justify-center gap-6 mb-4 w-full">
             <div className="w-1/2 text-center text-lg font-semibold">
@@ -286,7 +286,7 @@ const MatrixBox = ({
     <div
       ref={provided.innerRef}
       {...provided.droppableProps}
-      className={`${color} border border-gray-300 dark:border-neutral-700 rounded-lg p-4 w-[450px] h-[20rem] md:h-[26rem] lg:h-[30rem] flex flex-col`}
+      className={`${color} border border-gray-300 dark:border-neutral-700 rounded-lg p-4 w-[450px] h-[20rem] md:h-[26rem] lg:h-[30rem] lg:w-[300px] xl:w-[450px] flex flex-col`}
     >
       <div className="overflow-y-auto mb-2 flex-1 rounded-lg">
         {tasks?.length > 0 ? (
@@ -298,7 +298,7 @@ const MatrixBox = ({
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className="p-4 text-sm flex justify-between items-center bg-gray-100 dark:bg-neutral-700 rounded cursor-pointer"
+                    className="p-4 text-xs flex gap-4 justify-between items-center bg-gray-100 dark:bg-neutral-700 rounded cursor-pointer"
                   >
                     <span className="flex items-center justify-center gap-2">
                       <IconCircle
