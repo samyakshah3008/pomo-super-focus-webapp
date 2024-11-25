@@ -54,7 +54,7 @@ const tmkocTheme: any = {
     title: "Welcome to Super Focus Playground! 🚀",
     headerText: "Don't forget to eat almonds daily;)",
     descriptionText:
-      "We - PomoSuperFocus team, witch and cats wishing you a productive day today, hope you mark off all your todos of the day! A few things to prepare while studying - do environment checks, have a water bottle to stay hydrated, stretchings in break time, and no internet until you complete satisfactory amount of work! ",
+      "We - PomoSuperFocus team, witch and cats wishing you a productive day today, hope you mark off all your todos of the day!",
     footerCtaText: "Thanks a lot! I am Ready!",
   },
   sessionStartModal: {

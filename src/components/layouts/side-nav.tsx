@@ -12,6 +12,7 @@ import {
   IconHeart,
   IconHeartbeat,
   IconHome,
+  IconLock,
   IconLogout2,
   IconSettingsAutomation,
   IconStairsUp,
@@ -21,6 +22,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import ConfirmLogoutModal from "../(settings)/confirm-logout-modal";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
@@ -30,6 +32,7 @@ const SideNav = () => {
   const [showConfirmLogoutModal, setShowConfirmLogoutModal] = useState(false);
 
   const pathname = usePathname();
+  const currentUser = useSelector((state: any) => state?.user?.pomoSuperUser);
 
   const navData = [
     {
@@ -53,6 +56,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "Leaderboard",
@@ -64,6 +68,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "Goals Review",
@@ -75,6 +80,11 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: (
+        <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
+          {currentUser?.hasBetaAccess ? "Beta" : "Request"}
+        </span>
+      ),
     },
     {
       label: "Tasks",
@@ -85,6 +95,11 @@ const SideNav = () => {
             activeTab == "Tasks" ? "text-blue-500" : "text-neutral-700"
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
+      ),
+      afterTextIcon: (
+        <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
+          {currentUser?.hasBetaAccess ? "Beta" : "Request"}
+        </span>
       ),
     },
     {
@@ -99,6 +114,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "Habits Scorecard",
@@ -112,6 +128,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "You vs You",
@@ -123,6 +140,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "My gratitude list",
@@ -136,6 +154,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "My bucket list",
@@ -147,6 +166,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "My life",
@@ -158,6 +178,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
     {
       label: "Settings",
@@ -169,6 +190,7 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
+      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
     },
   ];
 

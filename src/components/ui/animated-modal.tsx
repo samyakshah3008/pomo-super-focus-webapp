@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { IconX } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, {
   ReactNode,
@@ -195,27 +196,32 @@ const Overlay = ({ className }: { className?: string }) => {
 const CloseIcon = () => {
   const { setOpen } = useModal();
   return (
-    <button
+    <IconX
+      width={30}
+      height={30}
       onClick={() => setOpen(false)}
-      className="absolute top-4 right-4 group"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-black dark:text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
-      >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M18 6l-12 12" />
-        <path d="M6 6l12 12" />
-      </svg>
-    </button>
+      className="absolute top-4 right-4 group cursor-pointer text-black-400"
+    />
+    // <button
+
+    // >
+    //   <svg
+    //     xmlns="http://www.w3.org/2000/svg"
+    //     width="40"
+    //     height="40"
+    //     viewBox="0 0 24 24"
+    //     fill="none"
+    //     stroke="currentColor"
+    //     strokeWidth="2"
+    //     strokeLinecap="round"
+    //     strokeLinejoin="round"
+    //     className="text-black dark:text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
+    //   >
+    //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    //     <path d="M18 6l-12 12" />
+    //     <path d="M6 6l12 12" />
+    //   </svg>
+    // </button>
   );
 };
 
