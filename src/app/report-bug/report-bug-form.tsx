@@ -41,7 +41,7 @@ const ReportBugForm = ({ setIsFormSubmitted, setFormResponse }: any) => {
   };
 
   return (
-    <div className="border-border dark:bg-background z-10 rounded-xl border bg-neutral-100 p-6 w-[600px] flex flex-col gap-4 mt-4">
+    <div className="border-border dark:bg-background z-10 rounded-xl border bg-neutral-100 p-6 w-[90%] lg:w-[600px] flex flex-col gap-4 mt-4">
       <div className="flex flex-col gap-2">
         <div className="text-sm">Title:</div>
         <Input
