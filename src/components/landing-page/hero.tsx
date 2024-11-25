@@ -21,11 +21,11 @@ function Hero({ isAuthenticated }: any) {
           />
         </div>
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight font-bricolage">
-          Bring Your Best Version with
+          Unlock Your Best Version with
           <span className=" text-blue-500"> PomoSuperFocus! </span>
         </h1>
         <p className="text-base md:text-lg text-gray-600">
-          Free, open source forever, aims to bring the best version of you!
+          Free, open source forever, aims to unlock the best version of you!
           <br />
           <Highlight>all in one productivity tool</Highlight>
         </p>

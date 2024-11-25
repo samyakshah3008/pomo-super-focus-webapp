@@ -69,16 +69,15 @@ const TimeLeftGrid = ({
           {lifeLeftObj?.isLifeSpanCompleted
             ? "Your estimated life span is completed, please choose a new estimate life span!"
             : " We count based on your birth date and life span you entered"}{" "}
+          {!isGuestUser ? (
+            <span
+              className="underline cursor-pointer"
+              onClick={() => setIsEditLifeDetailsDialogOpen(true)}
+            >
+              Edit Details?
+            </span>
+          ) : null}
         </div>
-
-        {!isGuestUser ? (
-          <span
-            className="underline cursor-pointer"
-            onClick={() => setIsEditLifeDetailsDialogOpen(true)}
-          >
-            Edit Details?
-          </span>
-        ) : null}
 
         {/* Time left section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 mt-5">

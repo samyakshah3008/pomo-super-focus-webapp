@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "../ui/primitives/dialog";
 import { Input } from "../ui/primitives/input";
+import { useToast } from "../ui/primitives/use-toast";
 
 type FlowType = "signin" | "signup";
 
@@ -37,7 +38,9 @@ const GuestLoginConfirmDialog = ({
     email: "",
     isGuestUser: true,
   });
+  const [isValidEmail, setIsValidEmail] = useState(false);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   const router = useRouter();
 
@@ -50,7 +53,14 @@ const GuestLoginConfirmDialog = ({
       saveCredentialsToBrowserStorage(accessToken, refreshToken, user);
       dispatch(fetchUserData());
       router.push("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "User with this email already exists! ⚠️",
+        description:
+          error?.data?.message ??
+          "We are extremely sorry for this, please try again later. Appreciate your patience meanwhile we fix!",
+      });
       console.error(error, "logged error");
     } finally {
       setIsSubmitting(false);
@@ -60,6 +70,11 @@ const GuestLoginConfirmDialog = ({
   const onCreateNewAccount = () => {
     onCloseGuestLoginDialog();
   };
+
+  function validateEmail(email: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
   return (
     <Dialog
@@ -100,9 +115,14 @@ const GuestLoginConfirmDialog = ({
           <div className="text-sm">Email</div>
           <Input
             value={guestUser.email}
-            onChange={(e) =>
-              setGuestUser({ ...guestUser, email: e.target.value })
-            }
+            onChange={(e) => {
+              if (validateEmail(e.target.value)) {
+                setIsValidEmail(true);
+              } else {
+                setIsValidEmail(false);
+              }
+              setGuestUser({ ...guestUser, email: e.target.value });
+            }}
           />
         </div>
 
@@ -126,7 +146,8 @@ const GuestLoginConfirmDialog = ({
             disabled={
               isSubmitting ||
               !guestUser?.firstName.length ||
-              !guestUser?.email.length
+              !guestUser?.email.length ||
+              !isValidEmail
             }
             onClick={onConfirmGuestLogin}
           >

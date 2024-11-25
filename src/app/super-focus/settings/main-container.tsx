@@ -108,12 +108,17 @@ const MainContainer = () => {
     <div className="flex flex-col gap-5 p-4">
       <Header />
       <div className="flex flex-col gap-4 w-[80%] m-auto">
-        {isGuestUser ? (
-          <div className="underline text-red-500 font-bold text-center text-sm">
-            Please note that since you are a guest user, you cannot edit this
-            settings for now!{" "}
-          </div>
-        ) : null}
+        <div className="border-2 m-auto text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+          {isGuestUser
+            ? `Dear ${
+                currentUser?.firstName || "Super User"
+              }, for beta access - please
+        mail me at samyakshah3008@gmail.com to unlock this for absolutely free
+        of cost! 💝`
+            : `Dear ${
+                currentUser?.firstName || "Super User"
+              }, you have beta access for this feature. We hope you will love it! 💝`}
+        </div>
 
         <SectionOne
           isTimeSectionEditing={isTimeSectionEditing}

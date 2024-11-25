@@ -84,7 +84,7 @@ const WorkingFrameworkLayout = () => {
   }
 
   const sections = [
-    <Header />,
+    <Header isGuestUser={isGuestUser} currentUser={currentUser} />,
     <ActivatedFramework
       framework={
         isGuestUser
