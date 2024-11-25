@@ -64,15 +64,17 @@ const Header = () => {
         fresh opportunities till {getCurrentYear()} ends. Make the best out of
         it! 👀
       </p>
-      {currentUser?.pomoSuperUser?.isGuestUser ? (
-        <div className="underline text-red-500 font-bold text-center mt-5 lg:w-[800px] text-xs lg:text-sm">
-          Please note that since you are a guest user, we are not storing your
-          data except account details. All the features will have default
-          guest's data which you can check. Though you can check the creation
-          flow for each! We appreciate your patience while we gradually give
-          verified account access to our users!
-        </div>
-      ) : null}
+      <div className="border-2 m-auto mt-4 text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+        {currentUser?.pomoSuperUser?.isGuestUser
+          ? `Dear ${
+              currentUser?.pomoSuperUser?.firstName || "Super User"
+            }, for beta access - please
+        mail me at samyakshah3008@gmail.com to unlock this for absolutely free
+        of cost! 💝`
+          : `Dear ${
+              currentUser?.pomoSuperUser?.firstName || "Super User"
+            }, you have beta access for this feature. We hope you will love it! 💝`}
+      </div>
     </div>
   );
 };

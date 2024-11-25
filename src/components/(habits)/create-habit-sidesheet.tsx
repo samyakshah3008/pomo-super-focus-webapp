@@ -380,7 +380,7 @@ const CreateHabitSidesheet = ({
                     <IconArrowBack size={20} className="mr-2" /> Previous
                   </Button>
                   <Button
-                    disabled={!habitObj.defineHabitText.length}
+                    disabled={!selectedDays?.length || !repeat?.length}
                     size="sm"
                     onClick={() => setCurrentStep(5)}
                   >

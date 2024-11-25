@@ -38,7 +38,7 @@ const Goals = () => {
 
   useEffect(() => {
     if (!currentUser?._id) return;
-    if (currentUser?.isGuestUser && !currentUser?.hasBetaAccess) {
+    if (currentUser?.isGuestUser) {
       setIsGuestUser(true);
     } else {
       setIsGuestUser(false);
@@ -60,11 +60,11 @@ const Goals = () => {
 
       <Header />
 
-      <div className="border-2 rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+      <div className="border-2 mt-2 text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
         {isGuestUser
           ? `Dear ${
               currentUser?.firstName || "Super User"
-            }, for beta access, please
+            }, for beta access - please
         mail me at samyakshah3008@gmail.com to unlock this for absolutely free
         of cost! 💝`
           : `Dear ${

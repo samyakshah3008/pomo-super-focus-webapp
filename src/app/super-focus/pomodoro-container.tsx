@@ -103,8 +103,20 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
   return (
     <>
       <div className="flex flex-col gap-10">
-        <Header />
-
+        <div>
+          <Header />
+          <div className="border-2 m-auto mt-4 text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+            {isGuestUser
+              ? `Dear ${
+                  currentUser?.firstName || "Super User"
+                }, for beta access - please
+        mail me at samyakshah3008@gmail.com to unlock this for absolutely free
+        of cost! 💝`
+              : `Dear ${
+                  currentUser?.firstName || "Super User"
+                }, you have beta access for this feature. We hope you will love it! 💝`}
+          </div>
+        </div>
         <div className="flex flex-col lg:flex-row gap-4 justify-center items-center">
           <SuperFocusTimer
             studyTime={studyTime}

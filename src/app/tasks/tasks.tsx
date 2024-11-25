@@ -31,7 +31,7 @@ const Tasks = () => {
 
   useEffect(() => {
     if (!currentUser?._id) return;
-    if (currentUser?.isGuestUser && !currentUser?.hasBetaAccess) {
+    if (currentUser?.isGuestUser) {
       setIsGuestUser(true);
     } else {
       setIsGuestUser(false);
@@ -52,16 +52,10 @@ const Tasks = () => {
       {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
 
       <Header />
-      <div className="border-2 rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
-        {isGuestUser
-          ? `Dear ${
-              currentUser?.firstName || "Super User"
-            }, for beta access, please
-        mail me at samyakshah3008@gmail.com to unlock this for absolutely free
-        of cost! 💝`
-          : `Dear ${
-              currentUser?.firstName || "Super User"
-            }, you have beta access for this feature. We hope you will love it! 💝`}
+      <div className="border-2 text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+        {`Dear ${
+          currentUser?.firstName || "Super User"
+        }, this feature is open for everyone. Incase we face heavy traffic - due to our servers on limited free plan, you might face some issues. We appreciate your patience for the same! 💝`}
       </div>
       <MainContainer />
       <div className="absolute top-20 lg:top-10 right-7 lg:right-40">

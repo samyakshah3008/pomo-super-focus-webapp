@@ -20,10 +20,7 @@ const YearsGrid = ({ lifeLeftObj, isGuestUser, guestUserLifeSpan }: any) => {
     return true;
   };
 
-  if (
-    !currentUser?.pomoSuperUser?.isGuestUser &&
-    !currentUser?.pomoSuperUser?.estimateLifeSpan
-  ) {
+  if (!currentUser?.pomoSuperUser?.estimateLifeSpan) {
     return null;
   }
 

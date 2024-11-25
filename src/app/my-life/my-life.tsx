@@ -36,18 +36,26 @@ const MyLife = () => {
 
   useEffect(() => {
     if (!currentUser?.pomoSuperUser?._id) return;
-    if (currentUser?.pomoSuperUser?.isGuestUser) {
-      setIsGuestUser(true);
+    // if (currentUser?.pomoSuperUser?.isGuestUser) {
+    //   setIsGuestUser(true);
+    // } else {
+    //   setIsGuestUser(false);
+    //   if (currentUser?.pomoSuperUser?.isMyLifeOnboardingComplete) {
+    //     const { birthDate, estimateLifeSpan } = currentUser?.pomoSuperUser;
+    //     setIsOnboardingCompleted(true);
+    //     const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+    //     setLifeLeftObj(timeLeft);
+    //   } else {
+    //     setIsOnboardingCompleted(false);
+    //   }
+    // }
+    if (currentUser?.pomoSuperUser?.isMyLifeOnboardingComplete) {
+      const { birthDate, estimateLifeSpan } = currentUser?.pomoSuperUser;
+      setIsOnboardingCompleted(true);
+      const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
+      setLifeLeftObj(timeLeft);
     } else {
-      setIsGuestUser(false);
-      if (currentUser?.pomoSuperUser?.isMyLifeOnboardingComplete) {
-        const { birthDate, estimateLifeSpan } = currentUser?.pomoSuperUser;
-        setIsOnboardingCompleted(true);
-        const timeLeft = calculateLifeLeft(birthDate, estimateLifeSpan);
-        setLifeLeftObj(timeLeft);
-      } else {
-        setIsOnboardingCompleted(false);
-      }
+      setIsOnboardingCompleted(false);
     }
   }, [currentUser]);
 
@@ -71,10 +79,11 @@ const MyLife = () => {
       <Onboarding
         showSuccessOnboarding={showSuccessOnboarding}
         setIsOnboardingCompleted={setIsOnboardingCompleted}
-        isGuestUser={isGuestUser}
+        // isGuestUser={isGuestUser}
+        isGuestUser={false}
         setLifeLeftObj={setLifeLeftObj}
-        setGuestUserBirthDate={setGuestUserBirthDate}
-        setGuestUserLifeSpan={setGuestUserLifeSpan}
+        // setGuestUserBirthDate={setGuestUserBirthDate}
+        // setGuestUserLifeSpan={setGuestUserLifeSpan}
       />
     );
   }
@@ -84,16 +93,25 @@ const MyLife = () => {
       {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
 
       <Header lifeLeftObj={lifeLeftObj} />
+
+      <div className="border-2 m-auto text-sm rounded-md border-green-500 border-solid p-2 bg-green-200 font-medium lg:w-[600px] text-center">
+        {`Dear ${
+          currentUser?.firstName || "Super User"
+        }, this feature is open for everyone. Incase we face heavy traffic - due to our servers on limited free plan, you might face some issues. We appreciate your patience for the same! 💝`}
+      </div>
+
       <TimeLeftGrid
-        isGuestUser={isGuestUser}
-        guestUserBirthDate={guestUserBirthDate}
-        guestUserLifeSpan={guestUserLifeSpan}
+        // isGuestUser={isGuestUser}
+        isGuestUser={false}
+        // guestUserBirthDate={guestUserBirthDate}
+        // guestUserLifeSpan={guestUserLifeSpan}
       />
 
       <YearsGrid
         lifeLeftObj={lifeLeftObj}
-        isGuestUser={isGuestUser}
-        guestUserLifeSpan={guestUserLifeSpan}
+        // isGuestUser={isGuestUser}
+        isGuestUser={false}
+        // guestUserLifeSpan={guestUserLifeSpan}
       />
 
       <div className="absolute top-20 lg:top-10 right-7 lg:right-40">

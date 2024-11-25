@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  guestUserAllHabits,
-  guestUserTodayHabits,
-} from "@/components/(habits)/constants";
 import CreateHabitSidesheet from "@/components/(habits)/create-habit-sidesheet";
 import { DataTable } from "@/components/(habits)/data-table";
 import { Button } from "@/components/ui/primitives/button";
@@ -51,17 +47,21 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (!currentUser?._id || fetchRef.current == 1) return;
-    if (currentUser?.isGuestUser) {
-      setIsGuestUser(true);
-      setAllHabits(guestUserAllHabits);
-      setTodayHabits(guestUserTodayHabits);
-      setLoading(false);
-      fetchRef.current = 1;
-    } else {
-      fetchAllHabits();
-      fetchTodayHabits();
-      fetchRef.current = 1;
-    }
+    // if (currentUser?.isGuestUser) {
+    //   setIsGuestUser(true);
+    //   setAllHabits(guestUserAllHabits);
+    //   setTodayHabits(guestUserTodayHabits);
+    //   setLoading(false);
+    //   fetchRef.current = 1;
+    // } else {
+    //   fetchAllHabits();
+    //   fetchTodayHabits();
+    //   fetchRef.current = 1;
+    // }
+
+    fetchAllHabits();
+    fetchTodayHabits();
+    fetchRef.current = 1;
   }, [currentUser?._id]);
 
   if (loading || !currentUser?._id) {
@@ -86,7 +86,8 @@ const MainContainer = () => {
           <CreateHabitSidesheet
             fetchHabitsItems={fetchAllHabits}
             fetchTodayHabits={fetchTodayHabits}
-            isGuestUser={isGuestUser}
+            // isGuestUser={isGuestUser}
+            isGuestUser={false}
           >
             <Button size="sm">Create a New Habit! 🚀</Button>
           </CreateHabitSidesheet>
@@ -128,7 +129,8 @@ const MainContainer = () => {
           data={allHabits}
           fetchAllHabits={fetchAllHabits}
           fetchTodayHabits={fetchTodayHabits}
-          isGuestUser={isGuestUser}
+          // isGuestUser={isGuestUser}
+          isGuestUser={false}
         />
       </div>
     </div>

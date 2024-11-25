@@ -56,7 +56,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "Leaderboard",
@@ -68,7 +74,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "Goals Review",
@@ -80,9 +92,11 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: (
-        <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
-          {currentUser?.hasBetaAccess ? "Beta" : "Request"}
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
         </span>
       ),
     },
@@ -98,7 +112,7 @@ const SideNav = () => {
       ),
       afterTextIcon: (
         <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
-          {currentUser?.hasBetaAccess ? "Beta" : "Request"}
+          Open
         </span>
       ),
     },
@@ -114,7 +128,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "Habits Scorecard",
@@ -128,7 +148,11 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: (
+        <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
+          Open
+        </span>
+      ),
     },
     {
       label: "You vs You",
@@ -140,7 +164,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "My gratitude list",
@@ -154,7 +184,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "My bucket list",
@@ -166,7 +202,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
     {
       label: "My life",
@@ -178,7 +220,11 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: (
+        <span className="text-xs rounded-md border-green-500 border-2 border-solid bg-green-200 pl-2 pr-2">
+          Open
+        </span>
+      ),
     },
     {
       label: "Settings",
@@ -190,7 +236,13 @@ const SideNav = () => {
           }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
         />
       ),
-      afterTextIcon: <IconLock size={20} className="text-gray-500" />,
+      afterTextIcon: currentUser?.isGuestUser ? (
+        <IconLock size={20} className="text-gray-500" />
+      ) : (
+        <span className="text-xs rounded-md border-blue-500 border-2 border-solid bg-blue-200 pl-2 pr-2">
+          Beta
+        </span>
+      ),
     },
   ];
 
