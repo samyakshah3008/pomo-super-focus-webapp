@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import GratitudeList from "./gratitude-list";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard for Pomo Super Focus Users.",
+  title: "Gratitude List",
+  description: "Gratitude List for Pomo Super Focus Users.",
 };
 
 export default async function DashboardPage({}) {

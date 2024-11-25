@@ -74,11 +74,12 @@ const PomodoroSideNav = () => {
               <SidebarLink
                 link={{
                   label: "Support us!",
-                  href: "#",
+                  href: "https://github.com/samyakshah3008/pomo-super-focus-webapp",
                   icon: (
                     <IconHeartHandshake className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
                   ),
                 }}
+                target="_blank"
               />
               <SidebarLink
                 link={{

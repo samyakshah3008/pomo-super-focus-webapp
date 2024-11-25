@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import React, { createContext, useContext, useState } from "react";
 
 interface Links {
@@ -156,15 +156,7 @@ export const MobileSidebar = ({
   );
 };
 
-export const SidebarLink = ({
-  link,
-  className,
-  ...props
-}: {
-  link: Links;
-  className?: string;
-  props?: LinkProps;
-}) => {
+export const SidebarLink = ({ link, className, ...props }: any) => {
   const { open, animate } = useSidebar();
   return (
     <Link

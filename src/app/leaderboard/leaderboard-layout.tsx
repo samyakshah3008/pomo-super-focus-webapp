@@ -67,7 +67,7 @@ const LeaderboardLayout = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 items-center pb-5">
       {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
 
       <div className="flex flex-col w-[80%] m-auto gap-10 ">

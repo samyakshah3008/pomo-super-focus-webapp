@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 import BucketList from "./bucket-list";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Dashboard for Pomo Super Focus Users.",
+  title: "Bucket List",
+  description: "Bucket List for Pomo Super Focus Users.",
 };
 
 export default async function DashboardPage({}) {

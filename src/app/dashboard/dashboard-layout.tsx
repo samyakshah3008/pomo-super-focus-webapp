@@ -50,7 +50,7 @@ const DashboardLayout = () => {
   }, [showConfetti]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4 items-center pb-5">
       <GreetingModal setShowConfetti={setShowConfetti} />
       {showConfetti ? <Confetti /> : null}
       {showExplodingHeart ? <ExplodingHeartConfetti /> : null}

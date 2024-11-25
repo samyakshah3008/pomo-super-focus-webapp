@@ -104,6 +104,7 @@ const PomodoroContainer = ({ currentSettingDetails }: any) => {
     <>
       <div className="flex flex-col gap-10">
         <Header />
+
         <div className="flex gap-4 justify-center">
           <SuperFocusTimer
             studyTime={studyTime}

@@ -32,7 +32,8 @@ const howToModalSelfReviewListObj = {
     </>
   ),
   showCats: true,
-  ctaBtnText: "Understood, Thanks and close.",
+  ctaBtnText:
+    "Give a virtual cuddle to cats and close, cats have surprise for you as well!",
 };
 
 const guestUserSelfReviewItems = {

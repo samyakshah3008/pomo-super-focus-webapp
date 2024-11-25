@@ -40,7 +40,8 @@ const howToModalTaskObj = {
     </>
   ),
   showCats: true,
-  ctaBtnText: "Got it! Thanks and close.",
+  ctaBtnText:
+    "Give a virtual cuddle to cats and close, cats have surprise for you as well!",
 };
 
 const taskCategories = [

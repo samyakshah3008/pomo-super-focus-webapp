@@ -18,7 +18,7 @@ export default async function SignUpPage({}) {
   }
 
   return (
-    <div className="w-screen max-w-lg px-4">
+    <div className="w-screen max-w-lg px-4 flex flex-col gap-5 items-center">
       <div className="border-border dark:bg-background z-10 rounded-xl border bg-neutral-100 p-6">
         <h1 className="text-2xl font-semibold">Create a new account</h1>
 

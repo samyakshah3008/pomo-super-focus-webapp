@@ -136,7 +136,13 @@ const Onboarding = ({
             <Input
               type="number"
               value={lifeSpan}
-              onChange={(e: any) => setLifeSpan(e.target.value)}
+              onChange={(e: any) => {
+                if (e.target.value > 100) {
+                  setLifeSpan(100);
+                } else {
+                  setLifeSpan(e.target.value);
+                }
+              }}
               placeholder="60"
             />{" "}
           </div>
