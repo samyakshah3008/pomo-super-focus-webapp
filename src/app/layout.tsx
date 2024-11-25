@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     url: "https://pomo-super-focus.vercel.app/",
     images: [
       {
-        url: "/public/thumbnail.png",
+        url: "https://pomo-super-focus.vercel.app/thumbnail.png",
         width: 1200,
         height: 630,
         alt: "PomoSuperFocus Preview",
