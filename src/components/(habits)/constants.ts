@@ -36,6 +36,38 @@ const guestUserAllHabits = [
     selectedDays: ["Mon", "Tue", "Wed"],
     _id: "673b2e661237deebe4e0febb",
   },
+  {
+    defineHabitText: "Drink 2 liters of water",
+    getSpecificText: "After every meal",
+    identityText: "A hydrated person",
+    repeat: "daily",
+    selectedDays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    _id: "673b2e661237deebe4e0fefc",
+  },
+  {
+    defineHabitText: "Write in a journal",
+    getSpecificText: "Before going to bed",
+    identityText: "An introspective person",
+    repeat: "daily",
+    selectedDays: ["Mon", "Wed", "Fri"],
+    _id: "673b2e661237deebe4e0feff",
+  },
+  {
+    defineHabitText: "Exercise for 30 minutes",
+    getSpecificText: "After work",
+    identityText: "A fit person",
+    repeat: "weekly",
+    selectedDays: ["Tue", "Thu", "Sat"],
+    _id: "673b2e661237deebe4e0ff01",
+  },
+  {
+    defineHabitText: "Read for 15 minutes",
+    getSpecificText: "Before breakfast",
+    identityText: "A knowledgeable person",
+    repeat: "daily",
+    selectedDays: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+    _id: "673b2e661237deebe4e0ff03",
+  },
 ];
 
 const guestUserTodayHabits = [

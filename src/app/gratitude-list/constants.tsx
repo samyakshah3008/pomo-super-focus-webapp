@@ -47,6 +47,42 @@ const guestUserGratitudeList = [
     createdAt: "2024-10-28T16:20:47.818Z",
     updatedAt: "2024-10-28T16:20:47.818Z",
   },
+  {
+    title: "Supportive family",
+    description:
+      "Grateful for my family's endless love and support through thick and thin!",
+    dateOfCreation: "15-11-2024",
+    id: "671fb9df97351d93479",
+    createdAt: "2024-11-15T10:15:20.000Z",
+    updatedAt: "2024-11-15T10:15:20.000Z",
+  },
+  {
+    title: "Great friends",
+    description:
+      "Thankful for the amazing friends who lift me up and make life joyful!",
+    dateOfCreation: "12-11-2024",
+    id: "671fb9df97351d93480",
+    createdAt: "2024-11-12T08:30:15.000Z",
+    updatedAt: "2024-11-12T08:30:15.000Z",
+  },
+  {
+    title: "Job opportunity",
+    description:
+      "I feel immense gratitude for landing my dream internship earlier this year.",
+    dateOfCreation: "10-08-2024",
+    id: "671fb9df97351d93481",
+    createdAt: "2024-08-10T14:45:30.000Z",
+    updatedAt: "2024-08-10T14:45:30.000Z",
+  },
+  {
+    title: "Access to learning resources",
+    description:
+      "Thankful for all the online courses and mentors helping me grow every day.",
+    dateOfCreation: "05-09-2024",
+    id: "671fb9df97351d93482",
+    createdAt: "2024-09-05T11:00:50.000Z",
+    updatedAt: "2024-09-05T11:00:50.000Z",
+  },
 ];
 
 const howToModalGratitudeListObj = {

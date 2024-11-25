@@ -68,11 +68,12 @@ const guestUserTasksItems = [
     dueDate: "30-11-2024",
     _id: "672362c7f25befa10fc6b",
   },
+
   {
     title: "Launch PomoSuperFocus on Peerlist!",
     description: "I'll be dividing work in chunks to complete this project!",
     isCompleted: false,
-    priority: "Important but Not Urgent",
+    priority: "Important and Urgent",
     dueDate: "17-11-2024",
     _id: "67236264f25b35410fc5f",
   },
