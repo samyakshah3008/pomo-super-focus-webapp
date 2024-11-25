@@ -401,7 +401,7 @@ const SuperFocusTimer = ({
           } border-solid rounded-3xl w-[300px] lg:w-[400px] xl:w-[500px] h-[360px] p-4`
         )}
       >
-        <div className="flex gap-2 text-sm font-medium">
+        <div className="flex flex-col lg:flex-row gap-2 text-sm font-medium">
           <div
             className={`p-2 cursor-pointer ${
               checkIsActive("study") &&

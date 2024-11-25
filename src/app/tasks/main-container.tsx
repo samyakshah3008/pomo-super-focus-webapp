@@ -96,7 +96,7 @@ const MainContainer = () => {
 
   return (
     <>
-      <div className="w-[80%]">
+      <div className="w-[90%]">
         <EisenhowerMatrix
           eisenMatrixData={eisenMatrixData}
           fetchTaskItems={fetchTaskItems}

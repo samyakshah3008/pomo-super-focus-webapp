@@ -1,7 +1,6 @@
 "use client";
 
 import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti";
-import { DotBackground } from "@/components/common/grid-and-dot-background";
 import HowToModal from "@/components/common/how-to-modal";
 import { Separator } from "@/components/ui/primitives/separator";
 import { IconBulbFilled } from "@tabler/icons-react";
@@ -98,22 +97,20 @@ const WorkingFrameworkLayout = () => {
   ];
 
   return (
-    <>
-      <DotBackground widthFull={true}>
-        {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
+    <div className="flex flex-col gap-4 items-center pb-5">
+      {showExplodingHeart ? <ExplodingHeartConfetti /> : null}
 
-        <div className="flex flex-col w-[80%] gap-10 ">
-          {sections.map((section: any, id: any) => {
-            return (
-              <React.Fragment key={id}>
-                {section}
-                {sections?.length !== id ? <Separator /> : null}
-              </React.Fragment>
-            );
-          })}
-        </div>
-      </DotBackground>
-      <div className="absolute top-10 right-0 lg:right-40">
+      <div className="flex flex-col w-[80%] gap-10 ">
+        {sections.map((section: any, id: any) => {
+          return (
+            <React.Fragment key={id}>
+              {section}
+              {sections?.length !== id ? <Separator /> : null}
+            </React.Fragment>
+          );
+        })}
+      </div>
+      <div className="absolute top-20 lg:top-10 right-7 lg:right-40">
         <IconBulbFilled
           onClick={() => setShowHowToModal(true)}
           className="cursor-pointer text-yellow-400 w-10 h-10 sm:w-16 lg:h-16"
@@ -131,7 +128,7 @@ const WorkingFrameworkLayout = () => {
         setShowExplodingHeart={setShowExplodingHeart}
         {...howToModalWorkingFrameworkObj}
       />
-    </>
+    </div>
   );
 };
 

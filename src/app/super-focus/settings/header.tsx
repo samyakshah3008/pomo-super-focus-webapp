@@ -11,7 +11,7 @@ const Header = () => {
         Configure how you want,
         <span className="text-blue-500"> It's all yours!</span>
       </div>
-      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 w-[800px]">
+      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 lg:w-[800px]">
         Welcome to the Settings page! Customize how you want to use our
         pomodoro!
       </p>

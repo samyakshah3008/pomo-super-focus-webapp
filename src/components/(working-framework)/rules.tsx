@@ -25,7 +25,7 @@ const FrameworkRules: React.FC<FrameworkRulesProps> = ({
   disableLaunch,
 }) => {
   return (
-    <div className="flex flex-col gap-5 w-[500px]">
+    <div className="flex flex-col gap-5 lg:w-[500px]">
       <h2 className="text-xl font-semibold text-center">
         Step 2:{" "}
         {flow === "edit" ? "Update Framework Rules" : "Create Framework Rules"}

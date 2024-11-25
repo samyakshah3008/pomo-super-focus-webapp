@@ -209,7 +209,7 @@ const SideNav = () => {
       <div
         className={cn(
           "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-          "md:h-screen sm:h-8 md:sticky top-0 h-screen"
+          "md:h-screen sm:h-8 md:sticky top-0"
         )}
       >
         <Sidebar open={open} setOpen={setOpen}>

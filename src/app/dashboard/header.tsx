@@ -65,7 +65,7 @@ const Header = () => {
         it! 👀
       </p>
       {currentUser?.pomoSuperUser?.isGuestUser ? (
-        <div className="underline text-red-500 font-bold text-center mt-5 lg:w-[800px] text-sm">
+        <div className="underline text-red-500 font-bold text-center mt-5 lg:w-[800px] text-xs lg:text-sm">
           Please note that since you are a guest user, we are not storing your
           data except account details. All the features will have default
           guest's data which you can check. Though you can check the creation

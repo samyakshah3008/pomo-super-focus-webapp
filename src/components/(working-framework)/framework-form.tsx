@@ -19,7 +19,7 @@ const FrameworkForm: React.FC<FrameworkFormProps> = ({
   onNext,
 }) => {
   return (
-    <div className="flex flex-col gap-5 w-[500px]">
+    <div className="flex flex-col gap-5 lg:w-[500px]">
       <h2 className="text-xl font-semibold text-center">
         Step 1:{" "}
         {flow == "edit" ? "Edit Framework Details" : "Enter Framework Details"}
