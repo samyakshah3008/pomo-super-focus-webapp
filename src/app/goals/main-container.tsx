@@ -39,7 +39,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (!currentUser?._id) return;
-    if (currentUser?.isGuestUser) {
+    if (currentUser?.isGuestUser && !currentUser?.hasBetaAccess) {
       setIsGuestUser(true);
       setGoalItems(goalsGuestUserData);
       setFetchingGoalItems(false);

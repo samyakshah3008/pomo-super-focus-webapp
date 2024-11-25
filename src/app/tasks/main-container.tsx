@@ -53,7 +53,7 @@ const MainContainer = () => {
   };
 
   const fetchTaskItems = async () => {
-    if (currentUser?.isGuestUser) {
+    if (currentUser?.isGuestUser && !currentUser?.hasBetaAccess) {
       setTasks(guestUserTasksItems);
       prepareEisenMatrixData(guestUserTasksItems);
     } else {
@@ -78,7 +78,7 @@ const MainContainer = () => {
 
   useEffect(() => {
     if (!currentUser?._id) return;
-    if (currentUser?.isGuestUser) {
+    if (currentUser?.isGuestUser && !currentUser?.hasBetaAccess) {
       setIsGuestUser(true);
     } else {
       setIsGuestUser(false);
