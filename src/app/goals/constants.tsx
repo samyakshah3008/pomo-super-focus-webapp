@@ -59,11 +59,43 @@ const goalsDummyData: any = [
 const goalsGuestUserData: any = [
   {
     title: "Feed 1000 cats",
-    doAbleActions: "Gonna save money for next 2months",
+    doAbleActions: "Gonna save money for next 2 months",
     category: "career",
     estimatedTimeToComplete: "10-11-2024",
-    status: false,
+    status: true,
     id: "123",
+  },
+  {
+    title: "Run a marathon",
+    doAbleActions: "Start running 5km daily from tomorrow",
+    category: "fitness",
+    estimatedTimeToComplete: "01-03-2025",
+    status: false,
+    id: "124",
+  },
+  {
+    title: "Read 20 books",
+    doAbleActions: "Read one book every two weeks",
+    category: "personal development",
+    estimatedTimeToComplete: "12-31-2024",
+    status: false,
+    id: "125",
+  },
+  {
+    title: "Save $5000",
+    doAbleActions: "Set aside $500 from monthly salary",
+    category: "financial",
+    estimatedTimeToComplete: "06-30-2025",
+    status: false,
+    id: "126",
+  },
+  {
+    title: "Learn to play guitar",
+    doAbleActions: "Practice for 30 minutes daily",
+    category: "hobby",
+    estimatedTimeToComplete: "09-01-2024",
+    status: true,
+    id: "127",
   },
 ];
 

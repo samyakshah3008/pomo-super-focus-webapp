@@ -109,7 +109,7 @@ const MainContainer = () => {
       <Header />
       <div className="flex flex-col gap-4 w-[80%] m-auto">
         {isGuestUser ? (
-          <div className="underline text-red-500 font-bold text-center">
+          <div className="underline text-red-500 font-bold text-center text-sm">
             Please note that since you are a guest user, you cannot edit this
             settings for now!{" "}
           </div>

@@ -10,7 +10,7 @@ const LogoutFlow = ({
   return (
     <>
       <div className="flex flex-col gap-4 border-2 rounded-md p-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col lg:flex-row justify-between items-center">
           <div className="flex flex-col gap-1">
             <div>Do you want to logout??</div>
             <div className="text-slate-500 text-sm">

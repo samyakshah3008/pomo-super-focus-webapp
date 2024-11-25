@@ -79,6 +79,33 @@ const guestUserBucketItems = [
     isCompleted: false,
     id: "671e15d62cd0374307c",
   },
+  {
+    id: "1",
+    title: "Build a remote office",
+    description:
+      "I strongly manifest to build a remote office with setup I always dream for!",
+    isCompleted: false,
+  },
+
+  {
+    id: "3",
+    title: "Earn first income!",
+    description:
+      "I want to get that first pay cheque, it's always a special feeling with own hard work!",
+    isCompleted: true,
+  },
+  {
+    id: "4",
+    title: "Watch RCB winning IPL Trophy!",
+    description: "Dream of every RCBian to see thier team lifting cup, alive!",
+    isCompleted: false,
+  },
+  {
+    id: "5",
+    title: "Selfie with Virat Kohli!",
+    description: "Dream of every VK fan! Been admiring him since my childhood!",
+    isCompleted: false,
+  },
 ];
 
 export { dummyBucketList, guestUserBucketItems, howToModalBucketListObj };

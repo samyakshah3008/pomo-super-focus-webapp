@@ -32,20 +32,12 @@ const howToModalSelfReviewListObj = {
     </>
   ),
   showCats: true,
-  ctaBtnText: "Understood, Thanks and close.",
+  ctaBtnText:
+    "Give a virtual cuddle to cats and close, cats have surprise for you as well!",
 };
 
 const guestUserSelfReviewItems = {
   2024: [
-    {
-      title: "Burn out due to over work at Internship!",
-      description:
-        "Yes, 2024 didn't start that well. I was meeting company's very important deadlines and have to deliver the project to the soonest! I got up health issues due to over work.",
-      date: new Date("2024-01-12T18:30:00.000Z"),
-      _id: "673c7f7581c82945abad85cd",
-      createdAt: new Date("2024-11-19T12:07:17.517Z"),
-      updatedAt: new Date("2024-11-19T12:07:17.517Z"),
-    },
     {
       title: "RCB won WPL 2024!",
       description:
@@ -54,6 +46,34 @@ const guestUserSelfReviewItems = {
       _id: "673b71a31237deebe4e0ff4b",
       createdAt: new Date("2024-11-18T16:56:03.497Z"),
       updatedAt: new Date("2024-11-19T12:04:41.275Z"),
+    },
+    {
+      title: "Graduated with Honors!",
+      description:
+        "After years of hard work and dedication, I finally graduated with honors. It was a proud moment for me and my family.",
+      date: new Date("2024-05-15T18:30:00.000Z"),
+      _id: "673c7f7581c82945abad85cf",
+      createdAt: new Date("2024-11-19T12:07:17.517Z"),
+      updatedAt: new Date("2024-11-19T12:07:17.517Z"),
+    },
+
+    {
+      title: "Lost a job opportunity due to miscommunication.",
+      description:
+        "A tough lesson in career management. I missed out on a great job opportunity because I failed to respond promptly to an important email.",
+      date: new Date("2024-06-25T18:30:00.000Z"),
+      _id: "673b71a31237deebe4e0ff5c",
+      createdAt: new Date("2024-11-19T12:07:17.517Z"),
+      updatedAt: new Date("2024-11-19T12:07:17.517Z"),
+    },
+    {
+      title: "Published my first blog on tech!",
+      description:
+        "Finally overcame my fears and published a blog on medium about my tech journey. Received so much love and appreciation from the community.",
+      date: new Date("2024-08-10T18:30:00.000Z"),
+      _id: "673b71a31237deebe4e0ff4d",
+      createdAt: new Date("2024-11-19T12:07:17.517Z"),
+      updatedAt: new Date("2024-11-19T12:07:17.517Z"),
     },
     {
       title: "Won mechanical keyboard from hackthisfall!!",

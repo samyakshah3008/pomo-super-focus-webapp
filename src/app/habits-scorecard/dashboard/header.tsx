@@ -6,7 +6,7 @@ import AtomicHabits from "../../../../public/james-clear-atomic-habits.webp";
 const Header = () => {
   return (
     <div className="flex flex-col items-center gap-4 mt-10">
-      <div className="w-[400px] m-auto">
+      <div className="w-[250px] lg:w-[400px] m-auto">
         <Image src={AtomicHabits} alt="eisen-hower" className="rounded-md" />
       </div>
       <div>
@@ -14,7 +14,7 @@ const Header = () => {
           Get
           <span className="text-blue-500"> 1% Better</span> everyday!
         </div>
-        <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 w-[800px]">
+        <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 lg:w-[800px]">
           Complaining about not achieving success despite working hard is like
           complaining about an ice cube not melting when you heated it from
           twenty-five to thirty-one degrees. Your work was not wasted; it is

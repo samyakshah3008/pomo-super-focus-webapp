@@ -33,7 +33,7 @@ const YearsGrid = ({ lifeLeftObj, isGuestUser, guestUserLifeSpan }: any) => {
         <div className="mt-4 text-center text-lg uppercase underline text-green-500 font-bold">
           Life of {currentUser?.pomoSuperUser?.firstName}:
         </div>
-        <div className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base w-[700px] text-center ">
+        <div className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base lg:w-[700px] text-center ">
           Time is ticking⏱️ See the visual grid view, where each dot in year
           represents a week, red represents completed, green means - it's
           remaining.

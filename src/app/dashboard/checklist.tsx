@@ -31,11 +31,11 @@ const Checklist = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 align-center justify-center">
+    <div className="flex flex-col gap-5 align-center justify-center w-full">
       <div className="text-2xl font-bold text-center">
         Getting Started with PomoSuperFocus!
       </div>
-      <div className="flex items-center justify-center gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-10">
         <div className="w-[250px]">
           <Lottie animationData={DashboardChecklist} loop={true} width={250} />
         </div>

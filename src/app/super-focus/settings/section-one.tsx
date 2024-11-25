@@ -15,7 +15,7 @@ const SectionOne = ({
 }: any) => {
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md p-4">
-      <div className="flex justify-between">
+      <div className="flex  justify-between">
         <h1 className="text-xl underline">Time(Minutes):</h1>
         {isTimeSectionEditing ? (
           <div>
@@ -43,7 +43,7 @@ const SectionOne = ({
           />
         )}
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-col lg:flex-row gap-2">
         <div className="flex flex-col gap-4 flex-1">
           Study:{" "}
           <Input

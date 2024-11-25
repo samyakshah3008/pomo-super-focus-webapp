@@ -11,7 +11,7 @@ const Header = () => {
         Divide Your Yearly Goals{" "}
         <span className="text-blue-500">In Chunks</span>
       </div>
-      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 w-[800px]">
+      <p className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base text-center mt-3 lg:w-[800px]">
         Break down your big dreams into smaller, actionable goals. Goal should
         have a clear title, description, and progress status. Stay on track and
         celebrate every milestone on your journey.

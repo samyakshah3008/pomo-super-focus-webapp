@@ -4,7 +4,14 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import MyLife from "./my-life";
 
-export default async function LeaderBoardPage() {
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Precious Time Tracker",
+  description: "Time tracker for Pomo Super Focus Users.",
+};
+
+export default async function MyLifePage() {
   const accessToken = getCookie(accessTokenKeyBrowserStorage, { cookies });
   if (!accessToken) {
     redirect("/signin");
