@@ -12,44 +12,90 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import ExitModal from "../(super-focus)/exit-modal";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
 const PomodoroSideNav = () => {
+  const [open, setOpen] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("");
+
+  const pathname = usePathname();
+
   const navData = [
     {
       label: "Super Focus",
       href: "/super-focus",
       icon: (
-        <IconFocus2 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconFocus2
+          className={` ${
+            activeTab == "Super Focus" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "What is Pomodoro?",
       href: "/super-focus/guide",
       icon: (
-        <IconBulb className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconBulb
+          className={` ${
+            activeTab == "What is Pomodoro?"
+              ? "text-blue-500"
+              : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Pomo Super Tasks!",
       href: "/super-focus/tasks",
       icon: (
-        <IconTableSpark className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconTableSpark
+          className={` ${
+            activeTab == "Pomo Super Tasks!"
+              ? "text-blue-500"
+              : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Settings",
       href: "/super-focus/settings",
       icon: (
-        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconSettings
+          className={` ${
+            activeTab == "Settings" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
+    },
+    {
+      label: "Go back to dashboard!",
+      href: "#",
+      icon: (
+        <IconHome className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+      onClick: () => {
+        setShowExitModal(true);
+      },
     },
   ];
 
-  const [open, setOpen] = useState(false);
-  const [showExitModal, setShowExitModal] = useState(false);
+  useEffect(() => {
+    if (pathname == "/super-focus") {
+      setActiveTab("Super Focus");
+    } else if (pathname == "/super-focus/guide") {
+      setActiveTab("What is Pomodoro?");
+    } else if (pathname == "/super-focus/tasks") {
+      setActiveTab("Pomo Super Tasks!");
+    } else if (pathname == "/super-focus/settings") {
+      setActiveTab("Settings");
+    }
+  }, [pathname]);
 
   return (
     <>
@@ -66,7 +112,15 @@ const PomodoroSideNav = () => {
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2">
                 {navData.map((link, idx) => (
-                  <SidebarLink key={idx} link={link} />
+                  <SidebarLink
+                    key={idx}
+                    link={link}
+                    labelTextColor={
+                      link?.label == activeTab
+                        ? "text-blue-500"
+                        : "text-neutral-700"
+                    }
+                  />
                 ))}
               </div>
             </div>
@@ -80,18 +134,6 @@ const PomodoroSideNav = () => {
                   ),
                 }}
                 target="_blank"
-              />
-              <SidebarLink
-                link={{
-                  label: "Go back to dashboard!",
-                  href: "#",
-                  icon: (
-                    <IconHome className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-                  ),
-                  onClick: () => {
-                    setShowExitModal(true);
-                  },
-                }}
               />
             </div>
           </SidebarBody>

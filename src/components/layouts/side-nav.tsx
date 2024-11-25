@@ -19,100 +19,189 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import ConfirmLogoutModal from "../(settings)/confirm-logout-modal";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 
 const SideNav = () => {
+  const [activeTab, setActiveTab] = useState("");
+  const [open, setOpen] = useState(false);
+  const [showConfirmLogoutModal, setShowConfirmLogoutModal] = useState(false);
+
+  const pathname = usePathname();
+
   const navData = [
     {
       label: "My space",
       href: "/dashboard",
       icon: (
-        <IconHome className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconHome
+          className={` ${
+            activeTab == "My space" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Super Focus",
       href: "/super-focus",
       icon: (
-        <IconFocus2 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconFocus2
+          className={` ${
+            activeTab == "Super Focus" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Leaderboard",
       href: "/leaderboard",
       icon: (
-        <IconChartBar className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconChartBar
+          className={` ${
+            activeTab == "Leaderboard" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Goals Review",
       href: "/goals",
       icon: (
-        <IconGolf className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconGolf
+          className={` ${
+            activeTab == "Goals Review" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Tasks",
       href: "/tasks",
       icon: (
-        <IconTableSpark className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconTableSpark
+          className={` ${
+            activeTab == "Tasks" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Working Framework",
       href: "/working-framework",
       icon: (
-        <IconGhostOff className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconGhostOff
+          className={` ${
+            activeTab == "Working Framework"
+              ? "text-blue-500"
+              : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Habits Scorecard",
       href: "/habits-scorecard",
       icon: (
-        <IconChecklist className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconChecklist
+          className={` ${
+            activeTab == "Habits Scorecard"
+              ? "text-blue-500"
+              : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "You vs You",
       href: "/self-review",
       icon: (
-        <IconHeart className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconHeart
+          className={` ${
+            activeTab == "You vs You" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "My gratitude list",
       href: "/gratitude-list",
       icon: (
-        <IconHeartbeat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconHeartbeat
+          className={` ${
+            activeTab == "My gratitude list"
+              ? "text-blue-500"
+              : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "My bucket list",
       href: "/bucket-list",
       icon: (
-        <IconBucket className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconBucket
+          className={` ${
+            activeTab == "My bucket list" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "My life",
       href: "/my-life",
       icon: (
-        <IconCat className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconCat
+          className={` ${
+            activeTab == "My life" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
     {
       label: "Settings",
       href: "/settings",
       icon: (
-        <IconSettingsAutomation className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconSettingsAutomation
+          className={` ${
+            activeTab == "Settings" ? "text-blue-500" : "text-neutral-700"
+          }  dark:text-neutral-200 h-5 w-5 flex-shrink-0`}
+        />
       ),
     },
   ];
 
-  const [open, setOpen] = useState(false);
-  const [showConfirmLogoutModal, setShowConfirmLogoutModal] = useState(false);
+  useEffect(() => {
+    if (pathname == "/dashboard") {
+      setActiveTab("My space");
+    } else if (pathname == "/leaderboard") {
+      setActiveTab("Leaderboard");
+    } else if (pathname == "/goals") {
+      setActiveTab("Goals Review");
+    } else if (pathname == "/tasks") {
+      setActiveTab("Tasks");
+    } else if (pathname == "/working-framework") {
+      setActiveTab("Working Framework");
+    } else if (
+      pathname == "/habits-scorecard" ||
+      pathname == "/habits-scorecard/dashboard"
+    ) {
+      setActiveTab("Habits Scorecard");
+    } else if (pathname == "/self-review") {
+      setActiveTab("You vs You");
+    } else if (pathname == "/gratitude-list") {
+      setActiveTab("My gratitude list");
+    } else if (pathname == "/bucket-list") {
+      setActiveTab("My bucket list");
+    } else if (pathname == "/my-life") {
+      setActiveTab("My life");
+    } else if (pathname == "/settings") {
+      setActiveTab("Settings");
+    } else if (pathname == "/report-bug") {
+      setActiveTab("Report a bug");
+    }
+  }, [pathname]);
 
   return (
     <>
@@ -129,7 +218,15 @@ const SideNav = () => {
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2">
                 {navData.map((link, idx) => (
-                  <SidebarLink key={idx} link={link} />
+                  <SidebarLink
+                    key={idx}
+                    link={link}
+                    labelTextColor={
+                      link?.label == activeTab
+                        ? "text-blue-500"
+                        : "text-neutral-700"
+                    }
+                  />
                 ))}
               </div>
             </div>
