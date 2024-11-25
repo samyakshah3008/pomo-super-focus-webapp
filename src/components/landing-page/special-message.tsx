@@ -14,7 +14,7 @@ const SpecialMessage = () => {
       <div className="text-center text-blue-500 font-bold text-xl underline">
         Special Message from our team!
       </div>
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-0">
         <div className="flex-1 flex items-center justify-center">
           <Image
             className="rounded-xl"

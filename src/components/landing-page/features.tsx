@@ -19,16 +19,16 @@ const Features = () => {
         Sneak Peak to our Features
       </div>
       <div className="flex flex-col gap-10 bg-gray-50 p-5">
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={DashboardImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px] "
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Witchy Dashboard</div>
+            <div className="text-2xl font-bold text-center">
+              Witchy Dashboard
+            </div>
             <div className="text-center w-[90%]">
               Witch lives here, she will daily greet you and let you how many
               days are left before year ends;)
@@ -38,9 +38,11 @@ const Features = () => {
 
         {/* 2nd  */}
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Pomodoro sessions!</div>
+            <div className="text-2xl font-bold text-center">
+              Pomodoro sessions!
+            </div>
             <div className="text-center w-[90%]">
               Theme based highly configurable pomodoro sessions, for now enjoy
               the sessions with{" "}
@@ -52,22 +54,20 @@ const Features = () => {
           <Image
             src={SuperFocusImg}
             alt="super-focus-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={TasksImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Eisenhower Matrix!</div>
+            <div className="text-2xl font-bold text-center">
+              Eisenhower Matrix!
+            </div>
             <div className="text-center w-[90%]">
               The Eisenhower Matrix method used by US President Dwight D.
               Eisenhower is based on the task evaluation using the criteria
@@ -76,9 +76,11 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">PomoSuperLeaders!</div>
+            <div className="text-2xl font-bold text-center">
+              PomoSuperLeaders!
+            </div>
             <div className="text-center w-[90%]">
               We rank leaders currently based on their focus time they give
               using our super timer to boost them!
@@ -88,22 +90,18 @@ const Features = () => {
           <Image
             src={LeaderboardImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={GoalsImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-center">
               Himesh Madan's Goal setting
             </div>
             <div className="text-center w-[90%]">
@@ -114,9 +112,11 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">We want to retain you!</div>
+            <div className="text-2xl font-bold text-center">
+              We want to retain you!
+            </div>
             <div className="text-center w-[90%]">
               Accept the humble request from bunch of cats!
             </div>
@@ -125,22 +125,18 @@ const Features = () => {
           <Image
             src={LogoutImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={HabitsImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-center">
               James Clear's Ultimate Atomic Habits!
             </div>
             <div className="text-center w-[90%]">
@@ -149,9 +145,9 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-center">
               Create your working framework!
             </div>
             <div className="text-center w-[90%]">
@@ -164,22 +160,20 @@ const Features = () => {
           <Image
             src={WorkingFrameworkImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={GratitudeImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Review your Gratitudes!</div>
+            <div className="text-2xl font-bold text-center">
+              Review your Gratitudes!
+            </div>
             <div className="text-center w-[90%]">
               For all the things which you have currently, someone is
               manifesting it to have them, be grateful for what you have. List
@@ -188,9 +182,11 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Your Bucket List!</div>
+            <div className="text-2xl font-bold text-center">
+              Your Bucket List!
+            </div>
             <div className="text-center w-[90%]">
               Turning dreams into reality, one step at a time—whether in life or
               career.
@@ -200,22 +196,20 @@ const Features = () => {
           <Image
             src={BucketListImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 items-center">
           <Image
             src={MyLifeImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">Track your precious time!</div>
+            <div className="text-2xl font-bold text-center">
+              Track your precious time!
+            </div>
             <div className="text-center w-[90%]">
               Life moves very fast, set your personalized life span eg. 50years
               and see visual progress of how much span is left as per your age
@@ -224,9 +218,9 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="flex gap-5 items-center">
+        <div className="flex flex-col-reverse lg:flex-row gap-5 items-center">
           <div className="flex-1 flex flex-col gap-2 justify-center items-center">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-center">
               We promise to fix that Bug{" "}
             </div>
             <div className="text-center w-[90%]">
@@ -237,9 +231,7 @@ const Features = () => {
           <Image
             src={ReportBugImg}
             alt="dashboard-img"
-            width={500}
-            height={500}
-            className="flex-1 rounded-lg"
+            className="flex-1 rounded-lg w-full md:w-[80%] lg:w-[400px] xl:w-[500px]"
           />
         </div>
       </div>

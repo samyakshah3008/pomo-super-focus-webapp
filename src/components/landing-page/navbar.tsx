@@ -14,7 +14,7 @@ export default function Navbar({ isAuthenticated }: any) {
             <IconStairsUp /> PomoSuperFocus
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col lg:flex-row gap-2">
           <Button
             onClick={() => {
               if (!window) return;
@@ -35,6 +35,7 @@ export default function Navbar({ isAuthenticated }: any) {
                 router.push("/signup");
               }
             }}
+            className="hidden lg:block "
           >
             {isAuthenticated ? "Go to Dashboard 🚀" : "Create Account 🚀"}
           </Button>
