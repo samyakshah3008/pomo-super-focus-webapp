@@ -10,7 +10,7 @@ export default function Navbar({ isAuthenticated }: any) {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <div className="flex gap-2">
+          <div className="flex gap-2 font-medium">
             <IconStairsUp /> PomoSuperFocus
           </div>
         </div>
