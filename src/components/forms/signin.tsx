@@ -150,8 +150,8 @@ const SignInForm = ({ className, initialEmail }: SignInFormProps) => {
           <Button
             type="submit"
             size="lg"
-            disabled={true}
-            // disabled={isSubmitting}
+            // disabled={true}
+            disabled={isSubmitting}
             className="dark:hover:opacity-90"
           >
             {isSubmitting ? (
