@@ -15,6 +15,13 @@ const Checklist = () => {
   const currentUser = useSelector((state: any) => state?.user);
   const [isLoading, setIsLoading] = useState(true);
 
+  const getChecklistCount = () => {
+    const count = currentUser?.pomoSuperUser?.checklists?.filter(
+      (item: any) => item?.completed
+    )?.length;
+    return count;
+  };
+
   useEffect(() => {
     if (currentUser) {
       setIsLoading(false);
@@ -43,9 +50,7 @@ const Checklist = () => {
           <ProgressBar
             progress={progress}
             setProgress={setProgress}
-            fetchedChecklistCompletedCount={
-              currentUser?.pomoSuperUser?.checklistCompleteCount
-            }
+            fetchedChecklistCompletedCount={getChecklistCount()}
             totalCount={currentUser?.pomoSuperUser?.checklists?.length}
           />
           <AccordionBlocks

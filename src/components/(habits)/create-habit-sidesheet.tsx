@@ -192,7 +192,13 @@ const CreateHabitSidesheet = ({
                       return (
                         <div
                           key={index}
-                          className="rounded-md border-2 p-2 text-sm"
+                          className="rounded-md border-2 p-2 text-sm cursor-pointer"
+                          onClick={() => {
+                            setHabitObj({
+                              ...habitObj,
+                              defineHabitText: habit,
+                            });
+                          }}
                         >
                           {" "}
                           {habit}{" "}
@@ -239,7 +245,13 @@ const CreateHabitSidesheet = ({
                       return (
                         <div
                           key={index}
-                          className="rounded-md border-2 p-2 text-sm"
+                          className="rounded-md border-2 p-2 text-sm cursor-pointer"
+                          onClick={() => {
+                            setHabitObj({
+                              ...habitObj,
+                              getSpecificText: habit,
+                            });
+                          }}
                         >
                           {" "}
                           {habit}{" "}
@@ -289,7 +301,13 @@ const CreateHabitSidesheet = ({
                       return (
                         <div
                           key={index}
-                          className="rounded-md border-2 p-2 text-sm"
+                          className="rounded-md border-2 p-2 text-sm cursor-pointer"
+                          onClick={() => {
+                            setHabitObj({
+                              ...habitObj,
+                              identityText: habit,
+                            });
+                          }}
                         >
                           {" "}
                           {habit}{" "}

@@ -288,7 +288,7 @@ const SideNav = () => {
       >
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="justify-between gap-10">
-            <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar">
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2">
                 {navData.map((link, idx) => (

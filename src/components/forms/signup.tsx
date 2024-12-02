@@ -190,8 +190,8 @@ const SignUpForm = ({ className }: SignUpFormProps) => {
           <Button
             type="submit"
             size="lg"
-            // disabled={isSubmitting}
-            disabled={true}
+            disabled={isSubmitting}
+            // disabled={true}
             className="dark:hover:opacity-90"
           >
             {isSubmitting ? (

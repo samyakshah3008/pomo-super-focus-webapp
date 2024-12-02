@@ -25,7 +25,7 @@ const Timeline = ({
         {selfReviewItems[selectedYear]?.map((item: any, index: any) => (
           <React.Fragment key={item?._id}>
             <div
-              className="flex gap-6 items-start cursor-pointer"
+              className="flex gap-6 items-start cursor-pointer "
               onClick={() => {
                 if (!isGuestUser) {
                   setSelectedItemObj(item);

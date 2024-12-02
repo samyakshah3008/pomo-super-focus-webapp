@@ -24,6 +24,10 @@ const Header = () => {
         motivation to climb even higher and make the most of the remaining{" "}
         {getDaysUntilYearEnd()} days of {getCurrentYear()}!
       </p>
+      <div className="p-2 border-yellow-500 bg-yellow-200 border-solid border-2 mt-4 rounded-lg">
+        This Feature is under construction, we will soon update you when we
+        launch this. Meanwhile appreciate your patience!{" "}
+      </div>
     </div>
   );
 };

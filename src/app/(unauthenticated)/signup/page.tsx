@@ -23,9 +23,9 @@ export default async function SignUpPage({}) {
         <h1 className="text-2xl font-semibold">Create a new account</h1>
 
         <p className="text-muted-foreground mt-2 text-sm">
-          Create your account and unlock your true potential with deep work
-          sessions, detailed focused work reports, reminder emails about top
-          goals of the year and much more!
+          Create your account and unlock your best version with deep work
+          sessions, goals, daily tasks, habits, gratitudes, life tracker and
+          much more!
         </p>
         <hr className="-mx-6 my-4" />
         <SignUpForm />

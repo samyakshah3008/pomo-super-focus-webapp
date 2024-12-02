@@ -108,7 +108,7 @@ const PomodoroSideNav = () => {
       >
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="justify-between gap-10">
-            <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden hide-scrollbar">
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-8 flex flex-col gap-2">
                 {navData.map((link, idx) => (
@@ -147,7 +147,7 @@ const PomodoroSideNav = () => {
 export const Logo = () => {
   return (
     <Link
-      href="#"
+      href="/"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
       <IconStairsUp className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
