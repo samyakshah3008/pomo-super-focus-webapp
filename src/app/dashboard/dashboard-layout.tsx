@@ -7,7 +7,9 @@ import Confetti from "@/components/common/confetti";
 import ExplodingHeartConfetti from "@/components/common/exploding-heart-confetti";
 import HowToModal from "@/components/common/how-to-modal";
 import { Separator } from "@/components/ui/primitives/separator";
+import { fetchUserData } from "@/lib/store/features/user/userSlice";
 import { IconBulbFilled } from "@tabler/icons-react";
+import { useDispatch } from "react-redux";
 import Checklist from "./checklist";
 import { howToModalDashboardObj } from "./constants";
 import Header from "./header";
@@ -17,6 +19,8 @@ const DashboardLayout = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showHowToModal, setShowHowToModal] = useState(false);
   const [showExplodingHeart, setShowExplodingHeart] = useState(false);
+
+  const dispatch = useDispatch();
 
   const sections = [<Header />, <Checklist />, <QuickStart />];
 
@@ -48,6 +52,10 @@ const DashboardLayout = () => {
       clearTimeout(id);
     };
   }, [showConfetti]);
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 items-center pb-5">

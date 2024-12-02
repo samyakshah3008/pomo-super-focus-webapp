@@ -51,7 +51,7 @@ const quickStartLinks = [
     title: "My life",
     description:
       "Life moves very fast, set your personalized life span eg. 50years and see visual progress of how much span is left as per your age to get awared! 👀",
-    link: "/self-review",
+    link: "/my-life",
   },
 ];
 
