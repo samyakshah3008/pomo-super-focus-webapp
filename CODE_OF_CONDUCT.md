@@ -1,5 +1,5 @@
 # Contributor Code of Conduct
-PomoSuperFocus is a free and open source project aimed at helping people stay focused and productive. While the project currently operates with some technical limitations due to using free-tier hosting services (Render's Free Hobby plan for backend and MongoDB's 500MB free tier for database), we remain committed to providing value to our community through features like Guest Login and Beta access.
+PomoSuperFocus is a free and open source project aimed at helping people stay focused and productive. While the project currently operates with some technical limitations due to using free-tier hosting services (Vercel's Free Hobby plan for backend and MongoDB's 500MB free tier for database), we remain committed to providing value to our community through features like Guest Login and Beta access.
 
 As we grow and evolve, it's essential that we maintain a welcoming and inclusive environment for all contributors. This Code of Conduct outlines our expectations for all those who participate in our community, whether through code contributions, issue discussions, or other forms of engagement. By participating in this project, you agree to abide by these guidelines and help us create a positive experience for everyone.
 
@@ -28,7 +28,6 @@ Examples of unacceptable behavior include:
 * Public or private harassment
 * Publishing others' private information, such as a physical or email address, without their explicit permission
 * Other conduct which could reasonably be considered inappropriate in a professional setting
-* Not feeding stray cats and animals 😿💔
 
 ## Enforcement Responsibilities
 

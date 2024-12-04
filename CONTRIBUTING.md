@@ -20,7 +20,7 @@ Please note that this project is released with a [Contributor Code of Conduct](.
 
 ## How to Contribute
 
-1. **Join the Community**: Join our [Discord server](https://discord.gg/HmprpsBb) to connect with other contributors and discuss ideas.
+1. **Join the Community**: Join our [Discord server](https://discord.gg/CNncC5XD89) to connect with other contributors and discuss ideas.
 2. **Open an Issue**: If you find a bug or have a feature request, please open an issue on [GitHub](https://github.com/samyakshah3008/pomo-super-focus-webapp/issues).
 3. **Work on an Issue**: If you want to work on an issue, please comment on the issue and we will assign it to you. Once you have it assigned, you can start working on it following the [Pull Request Process](#pull-request-process).
 
@@ -51,7 +51,7 @@ Please note that this project is released with a [Contributor Code of Conduct](.
 
 ## Community
 
-- **Discord**: Join our [Discord server](https://discord.gg/HmprpsBb) for real-time discussions.
+- **Discord**: Join our [Discord server](https://discord.gg/CNncC5XD89) for real-time discussions.
 - **GitHub Issues**: Use [GitHub issues](https://github.com/samyakshah3008/pomo-super-focus-webapp/issues) to report bugs and suggest features.
 - **Email**: You can also email me at [samyakshah3008@gmail.com](mailto:samyakshah3008@gmail.com) for any queries.
 
