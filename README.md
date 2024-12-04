@@ -43,7 +43,14 @@ I'll soon come up with the purchase of paid plan and open all the features for e
 ### Want to contribute? Please do so!
 
 Contributors are most welcomed! PomoSuperFocus is in initial phase of development. I am currently the single builder - handling everything end to end.
-Please join the discord community server at - https://discord.gg/CNncC5XD89 or you can also open a ticket at https://github.com/samyakshah3008/pomo-super-focus-webapp/issues
+
+Please check out our [CONTRIBUTING.md](./CONTRIBUTING.md) guide to learn how you can contribute to the project. You can also join the discord community server at - https://discord.gg/CNncC5XD89 or open a ticket at https://github.com/samyakshah3008/pomo-super-focus-webapp/issues
+
+### Code of Conduct
+
+PomoSuperFocus adopts a Code of Conduct that we expect all participants to adhere to. We are committed to providing a welcoming, safe, and positive community for everyone, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, or religion.
+
+Please read our [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) to understand the details about our expectations for everyone participating in our community.
 
 ### FAQs:
 
