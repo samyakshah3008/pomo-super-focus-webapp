@@ -34,7 +34,7 @@ const SpecialMessage = () => {
             improving. If you find any bugs or have feature requests, please do
             so. You can join our{" "}
             <a
-              href="https://discord.gg/HmprpsBb"
+              href="https://discord.gg/CNncC5XD89"
               target="_blank"
               className="text-blue-500"
             >

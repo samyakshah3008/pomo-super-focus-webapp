@@ -7,7 +7,7 @@ const WelcomeContributors = () => {
       <div className="text-center">
         Please join our{" "}
         <a
-          href="https://discord.gg/HmprpsBb"
+          href="https://discord.gg/CNncC5XD89"
           target="_blank"
           className="underline"
         >
