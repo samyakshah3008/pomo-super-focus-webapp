@@ -8,15 +8,13 @@ In our day-to-day lives, people use a variety of tools to stay organized and pro
 
 ### Challenges:
 
-PomoSuperFocus is free to use and open source forever, however - currently I have hosted my backend on Vercel with Free Hobby plan until I make a purchase of a paid plan. Due to this, this Free plan cannot handle heavy traffic and has certain constraints. Along with this, I am using MongoDB for Database which is also on a free plan with a limit of 500mb only. To handle this situation and make a workaround, I came up with a solution - Guest Login and Beta access upon request.
+PomoSuperFocus is free to use and open source forever, however - currently I have hosted my backend on Render with Free Hobby plan until I make a purchase of a paid plan. Due to this, this Free plan cannot handle heavy traffic and has certain constraints. Along with this, I am using MongoDB as Database which is also on a free plan with a limit of 500mb only. To handle this situation and make a workaround, I came up with a solution - Guest Login and Beta access upon request.
 
-Due to this, for now, I have introduced guest login flow. Here the guest user can check all the features with the prefilled guest data upon account creation and check the whole creation flow but we won't be saving this data to our DB. Also please note that requests might take more time than expected due to free plan, but appreciate the patience for the same.
+Due to this, for now, I have disabled verified account creation flow and have introduced guest login flow. Here the guest user can check all the features with the prefilled guest data upon account creation and check the whole creation flow but we won't be saving this data to our DB. Also please note that requests might take more time than expected due to free plan on Render, but appreciate the patience for the same.
 
 But wait, I have opened a couple of features for now which are open for EVERYONE! - They are - Eisen Hower Matrix, Habits Scorecard and precious life time tracker! Hope everyone will love them! Please note that since it is open for everyone and we are running on limited free plan, there are high chances of some potential issues. Appreciate your patience for the same!
 
 Also, if someone wants a full access - please write me at samyakshah3008@gmail.com and I'll try my best to approve to the soonest!
-
-Please note - Until I hit near to limit of FREE plan, PomoSuperFocus is open for everyone to create a verified account. But if you just want to try out the product, feel free to use Guest login and you can check the whole flow!
 
 I'll soon come up with the purchase of paid plan and open all the features for everyone! If you like using this webapp and would like to sponser some amount, I'll be more than grateful for it! I'll use it to get a paid plan and increase the capacity of requests and DB storage. 💝😻🚀
 
@@ -43,17 +41,14 @@ I'll soon come up with the purchase of paid plan and open all the features for e
 ### Want to contribute? Please do so!
 
 Contributors are most welcomed! PomoSuperFocus is in initial phase of development. I am currently the single builder - handling everything end to end.
-Please join the discord community server at - https://discord.gg/CNncC5XD89 or you can also open a ticket at https://github.com/samyakshah3008/pomo-super-focus-webapp/issues
 
-### FAQs:
+Please check out our [CONTRIBUTING.md](./CONTRIBUTING.md) guide to learn how you can contribute to the project. You can also join the discord community server at - https://discord.gg/HmprpsBb or open a ticket at https://github.com/samyakshah3008/pomo-super-focus-webapp/issues
 
-1. Where is backend repository?
+### Code of Conduct
 
-- Please check - https://github.com/samyakshah3008/pomo-super-focus-service
+PomoSuperFocus adopts a Code of Conduct that we expect all participants to adhere to. We are committed to providing a welcoming, safe, and positive community for everyone, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, or religion.
 
-2. Can beginners contribute?
-
-- Please do so. Open source is for everyone. You can always learn while contributing. If you have any questions and you are not sure please feel free to ask on discord community server.
+Please read our [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) to understand the details about our expectations for everyone participating in our community.
 
 ### End notes:
 
