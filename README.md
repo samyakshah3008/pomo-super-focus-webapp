@@ -45,6 +45,16 @@ I'll soon come up with the purchase of paid plan and open all the features for e
 Contributors are most welcomed! PomoSuperFocus is in initial phase of development. I am currently the single builder - handling everything end to end.
 Please join the discord community server at - https://discord.gg/CNncC5XD89 or you can also open a ticket at https://github.com/samyakshah3008/pomo-super-focus-webapp/issues
 
+### FAQs:
+
+1. Where is backend repository?
+
+- Please check - https://github.com/samyakshah3008/pomo-super-focus-service
+
+2. Can beginners contribute?
+
+- Please do so. Open source is for everyone. You can always learn while contributing. If you have any questions and you are not sure please feel free to ask on discord community server.
+
 ### End notes:
 
 PomoSuperFocus will be free and open source forever, however I would like make a small request - next time whenever you see any stray cat or animal, please feed them! That's the only thing I ask for! 😻💖
