@@ -40,7 +40,7 @@ const SpecialMessage = () => {
             >
               discord community server
             </a>{" "}
-            and we would love to here from you! 💝
+            and we would love to hear from you! 💝
           </div>
           <div>
             <div className="flex gap-2 pt-4">

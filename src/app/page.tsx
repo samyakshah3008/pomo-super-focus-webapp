@@ -1,3 +1,4 @@
+import Awards from "@/components/landing-page/awards";
 import Features from "@/components/landing-page/features";
 import Footer from "@/components/landing-page/footer";
 import Hero from "@/components/landing-page/hero";
@@ -19,6 +20,8 @@ export default function Home() {
       <Navbar isAuthenticated={isAuthenticated} />
 
       <Hero isAuthenticated={isAuthenticated} />
+
+      <Awards />
 
       <Features />
 
