@@ -151,14 +151,11 @@ const UpdateGoalSidesheet = ({
           <div className="flex gap-1 items-center">
             <Checkbox
               id="item-completed"
-              checked={goalObj?.status == "achieved" ? true : false}
+              checked={goalObj?.status ? true : false}
               onCheckedChange={() =>
                 setSelectedGoalObj({
                   ...goalObj,
-                  status:
-                    goalObj?.status == "achieved"
-                      ? "yet to achieve"
-                      : "achieved",
+                  status: goalObj?.status ? false : true,
                 })
               }
             />
